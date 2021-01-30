@@ -12,7 +12,7 @@ import {
   CarOutlined,
   UserOutlined,
   SyncOutlined,
-  LogoutOutlined
+  LogoutOutlined,
 } from "@ant-design/icons";
 import Imaged from "./Imaged";
 
@@ -27,15 +27,18 @@ function Admin() {
 
   const logout = () => {
     localStorage.clear();
-  }
+  };
 
   return (
     <div>
-      
-      <Suspense fallback={<div className="icons-list"><SyncOutlined spin/></div>}>
-      
+      <Suspense
+        fallback={
+          <div className="icons-list">
+            <SyncOutlined spin />
+          </div>
+        }
+      >
         <Layout>
-       
           <Sider
             breakpoint="lg"
             collapsedWidth="0"
@@ -48,7 +51,7 @@ function Admin() {
           >
             <div className="logo" />
             <Menu theme="dark" mode="inline" defaultSelectedKeys={[""]}>
-              <Imaged/>
+              <Imaged />
               <Menu.Item
                 key="1"
                 icon={<CarOutlined />}
@@ -72,7 +75,7 @@ function Admin() {
               </Menu.Item>
               <Menu.Item
                 key="4"
-                icon={<UnorderedListOutlined/>}
+                icon={<UnorderedListOutlined />}
                 onClick={() => clickSideBar("4")}
               >
                 Barangay List
@@ -86,18 +89,29 @@ function Admin() {
               </Menu.Item>
             </Menu>
           </Sider>
-          
+
           <Layout>
-          
             <Header
               className="site-layout-sub-header-background"
               style={{ padding: 0, textAlign: "center" }}
             >
-              <h1 style={{ color: "white" }}>Retrack Admin
-              <Button onClick={logout} href="/login" type="danger" icon={<LogoutOutlined />} style={{ borderRadius: "10%" ,margin: "10px" ,float: "right", textAlign: "center" }}></Button>
+              <h1 style={{ color: "white" }}>
+                Retrack Admin
+                <Button
+                  onClick={logout}
+                  href="/login"
+                  type="danger"
+                  icon={<LogoutOutlined />}
+                  style={{
+                    borderRadius: "10%",
+                    margin: "10px",
+                    float: "right",
+                    textAlign: "center",
+                  }}
+                ></Button>
               </h1>
             </Header>
-            
+
             <Content style={{ margin: "24px 16px 0" }}>
               <div
                 className="site-layout-background"
@@ -108,7 +122,7 @@ function Admin() {
                     case "1":
                       return <JeepneyDasboard />;
                     case "2":
-                        return <JeepneysTableListContent />;
+                      return <JeepneysTableListContent />;
                     case "3":
                       return <DriversTableListContent />;
                     case "4":
@@ -124,9 +138,7 @@ function Admin() {
             <Footer style={{ textAlign: "center" }}>
               Ant Design �2018 Created by Ant UED
             </Footer>
-            
           </Layout>
-          
         </Layout>
         ,
       </Suspense>

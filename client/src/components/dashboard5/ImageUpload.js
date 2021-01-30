@@ -60,6 +60,19 @@ function ImageUpload(props) {
       .then((res) => {})
       .catch((error) => console.log(error));
   };
+  const removeImage = (val) => {
+    console.log("Remove image", val);
+    axios
+      .delete("/api/v1/images/delete_folder_image", {
+        params: {
+          filePath: val.response.filePath,
+        },
+      })
+      .then((res) => {
+        console.log("image remove from folder");
+      })
+      .catch((error) => console.log(error));
+  };
 
   const onFinishFailed = (errorInfo) => {
     console.log("fail");
@@ -79,6 +92,7 @@ function ImageUpload(props) {
             <Upload
               action="/api/v1/images/add_image"
               listType="picture"
+              onRemove={removeImage}
               maxCount={1}
               file={file}
               onChange={checking}

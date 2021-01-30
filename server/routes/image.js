@@ -86,6 +86,13 @@ router.post("/add_image", (req, res) => {
   // console.log(file.filePath);
 });
 
+router.delete("/delete_folder_image", (req, res) => {
+  let { filePath } = req.query;
+  console.log(filePath);
+
+  fs.unlinkSync(`public/images/${filePath}`);
+});
+
 router.get("/:fileName", (req, res) => {
   let fileName = req.params.fileName;
   console.log(req.params);

@@ -3,7 +3,6 @@ import { Form, Input, Menu, Modal, Button, Upload, Select } from "antd";
 import { UploadOutlined, DownOutlined, UserOutlined } from "@ant-design/icons";
 import axios from "axios";
 
-
 function AddJeepneyModal(props) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalValue, setModalValue] = useState("");
@@ -15,8 +14,6 @@ function AddJeepneyModal(props) {
   const [uploadedImagePath, setUploadedImagePath] = useState();
   const [barangays, setBarangays] = useState([]);
 
-  
-  
   const showModal = () => {
     setIsModalVisible(true);
     console.log(props.info);
@@ -39,9 +36,6 @@ function AddJeepneyModal(props) {
     setFilename(file);
   };
 
-    
-  
-
   const handleCancel = () => {
     setIfCanceled(true);
     setIsModalVisible(false);
@@ -50,7 +44,6 @@ function AddJeepneyModal(props) {
     if (ifCanceled) {
     } else {
       props.afterClosing();
-      
     }
   };
 
@@ -65,31 +58,29 @@ function AddJeepneyModal(props) {
     }, 2000);
     // setUploadedImagePath(filename.file.response.filePath);
     axios
-    .post("/api/v1/jeepneys/add_jeep", values)
-    .then((res) => {
-      let jeepneysCopy = [...jeepneys];
-      jeepneysCopy = [...jeepneysCopy, res.data];
-      console.log(jeepneysCopy);
-      setJeepneys(jeepneysCopy);
-      // console.log(filename.file.response);
-      Modal.success({
-        content: 'Successfully Added New Jeepney',
-      });
-      
-      axios
-        .post("/api/v1/images/save_image", {
+      .post("/api/v1/jeepneys/add_jeep", values)
+      .then((res) => {
+        let jeepneysCopy = [...jeepneys];
+        jeepneysCopy = [...jeepneysCopy, res.data];
+        console.log(jeepneysCopy);
+        setJeepneys(jeepneysCopy);
+        // console.log(filename.file.response);
+        Modal.success({
+          content: "Successfully Added New Jeepney",
+        });
+
+        axios.post("/api/v1/images/save_image", {
           imageOwnerId: res.data.id,
           imageReferenceId: 3,
           imagePath: uploadedImagePath,
-        }) 
+        });
       })
       .catch((error) => console.log(error));
   };
 
-
   const onFinishFailed = (errorInfo) => {
     Modal.error({
-      content: 'Failure to Add New Jeepney',
+      content: "Failure to Add New Jeepney",
     });
     setTimeout(() => {
       setIsModalVisible(true);
@@ -99,12 +90,16 @@ function AddJeepneyModal(props) {
     console.log("Failed:", errorInfo);
   };
 
+  const handleChange = (value) => {
+    console.log(`selected ${value}`);
+  };
+
   return (
     <div>
       <Button type="primary" onClick={showModal}>
         Add Jeepney
       </Button>
-     
+
       <Modal
         title="Add Jeepney:"
         visible={isModalVisible}
@@ -114,63 +109,76 @@ function AddJeepneyModal(props) {
         afterClose={handleClose}
         destroyOnClose={true}
         footer={[
-        <Button key="back" onClick={handleCancel}>
-          Cancel
-        </Button>,
-        <Button form="myForm" key="submit" htmlType="submit" type="primary" loading={confirmLoading} onClick={onFinish}>
-          Add
-        </Button>
-          ]}
+          <Button key="back" onClick={handleCancel}>
+            Cancel
+          </Button>,
+          <Button
+            form="myForm"
+            key="submit"
+            htmlType="submit"
+            type="primary"
+            loading={confirmLoading}
+            onClick={onFinish}
+          >
+            Add
+          </Button>,
+        ]}
       >
         <Form
-            name="basic"
-            initialValues={{ remember: true }}
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
-            id="myForm"
+          name="basic"
+          initialValues={{ remember: true }}
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+          id="myForm"
         >
-     
-         
-     <Form.Item
-          label="Barangay Id"
-          name="barangayId"
-          rules={[{ required: true, message: "Please input Barangay Id!" }]}
-        >
-          {/* <Select defaultValue="Select Barangay">
-          {barangays.map((barangays, index) => (
-            <Option key= {index} value={barangays.barangayName}>{barangays.barangayName}</Option>
-          ))}
-          </Select> */}
-          <Input />
-      </Form.Item>
-
-        <Form.Item
-          label="Plate Number"
-          name="plateNumber"
-          rules={[{ required: true, message: "Please input the Plate Number!" }]}
-        >
-          <Input />
-        </Form.Item>
-
-        <Form.Item
-          label="Jeep Capacity"
-          name="jeepCapacity"
-          rules={[{ required: true, message: "Please input the Jeep Capacity!" }]}
-        >
-          <Input />
-        </Form.Item>
-        <Upload
-              action="/api/v1/images/add_image"
-              listType="picture"
-              maxCount={1}
-              file={file}
-              onChange={checking}
+          <Form.Item
+            label="Barangay"
+            name="barangayId"
+            rules={[
+              { required: true, message: "Please input the Barangay's ID!" },
+            ]}
+          >
+            <Select
+              defaultValue="-Select-"
+              style={{ width: 120 }}
+              onChange={handleChange}
             >
-          <Button icon={<UploadOutlined />}>Upload Image (Max: 1)</Button>
-        </Upload>
+              {barangays.map((barangay, index) => (
+                <Option value={barangay.id}>{barangay.barangayName}</Option>
+              ))}
+            </Select>
+          </Form.Item>
+
+          <Form.Item
+            label="Plate Number"
+            name="plateNumber"
+            rules={[
+              { required: true, message: "Please input the Plate Number!" },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            label="Jeep Capacity"
+            name="jeepCapacity"
+            rules={[
+              { required: true, message: "Please input the Jeep Capacity!" },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Upload
+            action="/api/v1/images/add_image"
+            listType="picture"
+            maxCount={1}
+            file={file}
+            onChange={checking}
+          >
+            <Button icon={<UploadOutlined />}>Upload Image (Max: 1)</Button>
+          </Upload>
         </Form>
       </Modal>
-      
     </div>
   );
 }
