@@ -6,14 +6,13 @@ const JeepneyDriver = require("../models/JeepneyDriver");
 const Driver = require("../models/Driver");
 const Barangay = require("../models/Barangay");
 
+Jeepney.hasMany(JeepneyDriver, { foreignKey: "jeepneyId" });
+JeepneyDriver.belongsTo(Jeepney, { foreignKey: "jeepneyId" });
+Driver.hasMany(JeepneyDriver, { foreignKey: "driverId" });
+JeepneyDriver.belongsTo(Driver, { foreignKey: "driverId" });
+Barangay.hasMany(Jeepney, { foreignKey: "barangayId" });
+Jeepney.belongsTo(Barangay, { foreignKey: "barangayId" });
 router.get("/", (req, res) => {
-  Jeepney.hasMany(JeepneyDriver, { foreignKey: "jeepneyId" });
-  JeepneyDriver.belongsTo(Jeepney, { foreignKey: "jeepneyId" });
-  Driver.hasMany(JeepneyDriver, { foreignKey: "driverId" });
-  JeepneyDriver.belongsTo(Driver, { foreignKey: "driverId" });
-  Barangay.hasMany(Jeepney, { foreignKey: "barangayId" });
-  Jeepney.belongsTo(Barangay, { foreignKey: "barangayId" });
-
   //SELECT * FROM users
   Jeepney.findAll({
     include: [
@@ -66,6 +65,21 @@ router.post("/search_jeepneys", (req, res) => {
         },
       ],
     },
+    include: [
+      {
+        model: JeepneyDriver,
+        include: [
+          {
+            model: Driver,
+            attributes: { exclude: ["generatePassword"] },
+            required: false,
+          },
+        ],
+      },
+      {
+        model: Barangay,
+      },
+    ],
   })
     .then((_res) => {
       res.json(_res);

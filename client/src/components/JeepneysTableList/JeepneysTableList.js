@@ -19,10 +19,9 @@ function JeepneysTableList() {
 
         let data = res.data;
         data = data.map((d) => {
-          console.log("test", d);
           return { ...d, barangayName: d.barangay.barangayName };
         });
-        console.log("test2", data);
+
         setJeepneys(data);
       })
       .catch((error) => console.log(error));
@@ -34,6 +33,10 @@ function JeepneysTableList() {
       .then((_res) => {
         console.log(_res);
         let data = _res.data;
+        data = data.map((d) => {
+          return { ...d, barangayName: d.barangay.barangayName };
+        });
+
         setJeepneys(data);
         console.log("success");
       });
