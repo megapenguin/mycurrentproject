@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useState} from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { Table, Tag, Space, Input, Row, Col, Button, Divider } from "antd";
 import axios from "axios";
 import Column from "antd/lib/table/Column";
@@ -36,20 +36,16 @@ function BarangaysTableList() {
     console.log(value);
   };
 
-
   const modalClosed = () => {
     console.log("Passed data from modal", dataFromModal);
-    axios
-    .get("/api/v1/barangays/search_all_barangays")
-    .then((res) => {
+    axios.get("/api/v1/barangays/search_all_barangays").then((res) => {
       console.log(res);
       let data = res.data;
       setBarangays(data);
-    })
+    });
   };
 
   return (
-    
     <div>
       <Row justify="space-between">
         <Col span={4}>
@@ -63,11 +59,11 @@ function BarangaysTableList() {
           </Space>
         </Col>
         <Col span={4}>
-            <AddBarangayModal
-                  info={""}
-                  passedData={setDataFromModal}
-                  afterClosing={modalClosed}
-                />
+          <AddBarangayModal
+            info={""}
+            passedData={setDataFromModal}
+            afterClosing={modalClosed}
+          />
         </Col>
       </Row>
       <Divider orientation="center">List of Barangays</Divider>
@@ -75,7 +71,11 @@ function BarangaysTableList() {
         <Table dataSource={barangays} scroll={{ x: 1000, y: 500 }} sticky>
           {/* <ColumnGroup title="Id" dataIndex="id" key="id"></ColumnGroup> */}
           {/* <ColumnGroup title="Name" key="name"> */}
-            <Column title="Barangay Name" dataIndex="barangayName" key="barangayName"></Column>
+          <Column
+            title="Barangay Name"
+            dataIndex="barangayName"
+            key="barangayName"
+          ></Column>
           {/* </ColumnGroup> */}
           <ColumnGroup
             title="Location"
@@ -103,7 +103,6 @@ function BarangaysTableList() {
           ></ColumnGroup>
         </Table>
       </Row>
-      
     </div>
   );
 }
