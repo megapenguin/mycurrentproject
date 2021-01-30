@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useState} from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { Table, Tag, Space, Input, Row, Col, Button, Divider } from "antd";
 import axios from "axios";
 import Column from "antd/lib/table/Column";
@@ -13,11 +13,16 @@ function JeepneysTableList() {
 
   useEffect(() => {
     axios
-      .get("/api/v1/jeepneys/search_all_jeepneys")
+      .get("/api/v1/jeepneys/")
       .then((res) => {
         console.log(res);
 
         let data = res.data;
+        data = data.map((d) => {
+          console.log("test", d);
+          return { ...d, barangayName: d.barangay.barangayName };
+        });
+        console.log("test2", data);
         setJeepneys(data);
       })
       .catch((error) => console.log(error));
@@ -36,20 +41,16 @@ function JeepneysTableList() {
     console.log(value);
   };
 
-
   const modalClosed = () => {
     console.log("Passed data from modal", dataFromModal);
-    axios
-    .get("/api/v1/jeepneys/search_all_jeepneys")
-    .then((res) => {
+    axios.get("/api/v1/jeepneys/search_all_jeepneys").then((res) => {
       console.log(res);
       let data = res.data;
       setJeepneys(data);
-    })
+    });
   };
 
   return (
-    
     <div>
       <Row justify="space-between">
         <Col span={4}>
@@ -63,17 +64,21 @@ function JeepneysTableList() {
           </Space>
         </Col>
         <Col span={4}>
-            <AddJeepneyModal
-                  info={""}
-                  passedData={setDataFromModal}
-                  afterClosing={modalClosed}
-                />
+          <AddJeepneyModal
+            info={""}
+            passedData={setDataFromModal}
+            afterClosing={modalClosed}
+          />
         </Col>
       </Row>
       <Divider orientation="center">List of Jeepneys</Divider>
       <Row>
         <Table dataSource={jeepneys} scroll={{ x: 1000, y: 500 }} sticky>
-          <Column title="Barangay Id" dataIndex="barangayId" key="barangayId"></Column>
+          <Column
+            title="Barangay"
+            dataIndex="barangayName"
+            key="barangayId"
+          ></Column>
           <ColumnGroup
             title="Plate Number"
             dataIndex="plateNumber"
@@ -105,7 +110,6 @@ function JeepneysTableList() {
           ></ColumnGroup>
         </Table>
       </Row>
-      
     </div>
   );
 }

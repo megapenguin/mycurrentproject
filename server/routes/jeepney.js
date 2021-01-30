@@ -4,12 +4,15 @@ const Op = Sequelize.Op;
 const Jeepney = require("../models/Jeepney");
 const JeepneyDriver = require("../models/JeepneyDriver");
 const Driver = require("../models/Driver");
+const Barangay = require("../models/Barangay");
 
 router.get("/", (req, res) => {
   Jeepney.hasMany(JeepneyDriver, { foreignKey: "jeepneyId" });
   JeepneyDriver.belongsTo(Jeepney, { foreignKey: "jeepneyId" });
   Driver.hasMany(JeepneyDriver, { foreignKey: "driverId" });
   JeepneyDriver.belongsTo(Driver, { foreignKey: "driverId" });
+  Barangay.hasMany(Jeepney, { foreignKey: "barangayId" });
+  Jeepney.belongsTo(Barangay, { foreignKey: "barangayId" });
 
   //SELECT * FROM users
   Jeepney.findAll({
@@ -23,6 +26,9 @@ router.get("/", (req, res) => {
             required: false,
           },
         ],
+      },
+      {
+        model: Barangay,
       },
     ],
   })
