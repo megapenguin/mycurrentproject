@@ -12,6 +12,7 @@ Driver.hasMany(JeepneyDriver, { foreignKey: "driverId" });
 JeepneyDriver.belongsTo(Driver, { foreignKey: "driverId" });
 Barangay.hasMany(Jeepney, { foreignKey: "barangayId" });
 Jeepney.belongsTo(Barangay, { foreignKey: "barangayId" });
+
 router.get("/", (req, res) => {
   //SELECT * FROM users
   Jeepney.findAll({
@@ -114,6 +115,16 @@ router.delete("/delete_jeep", (req, res) => {
   Jeepney.destroy({ where: { id } })
     .then((response) => {
       res.json({ success: true, msg: "Succefully deleted jeepney" });
+    })
+    .catch((error) => console.log(error));
+});
+router.post("/update_jeepney", (req, res) => {
+  let { id, plateNumber, jeepCapacity } = req.body;
+  console.log(req.body);
+
+  Jeepney.update({ plateNumber, jeepCapacity }, { where: { id } })
+    .then((_res) => {
+      res.json(_res);
     })
     .catch((error) => console.log(error));
 });

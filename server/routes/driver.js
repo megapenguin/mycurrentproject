@@ -145,4 +145,26 @@ router.delete("/delete_driver", (req, res) => {
     .catch((error) => console.log(error));
 });
 
+router.post("/update_driver", (req, res) => {
+  let {
+    id,
+    firstName,
+    middleName,
+    lastName,
+    address,
+    contactNumber,
+    email,
+  } = req.body;
+  console.log(req.body);
+
+  Driver.update(
+    { firstName, middleName, lastName, address, contactNumber, email },
+    { where: { id } }
+  )
+    .then((_res) => {
+      res.json(_res);
+    })
+    .catch((error) => console.log(error));
+});
+
 module.exports = router;

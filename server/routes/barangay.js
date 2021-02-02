@@ -87,4 +87,18 @@ router.delete("/delete_barangay", (req, res) => {
     .catch((error) => console.log(error));
 });
 
+router.post("/update_barangay", (req, res) => {
+  let { id, barangayName, location, barangayDescription } = req.body;
+  console.log(req.body);
+
+  Barangay.update(
+    { barangayName, location, barangayDescription },
+    { where: { id } }
+  )
+    .then((_res) => {
+      res.json(_res);
+    })
+    .catch((error) => console.log(error));
+});
+
 module.exports = router;

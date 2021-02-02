@@ -1,25 +1,28 @@
-import React, { useState } from "react";
-import { Form, Input, Modal, Button, Upload } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
+import React, { useState, useEffect } from "react";
+import { Modal, Button, Form, Input } from "antd";
 import axios from "axios";
 
-function AddBarangayModal(props) {
+function EditBarangayModal(props) {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [modalValue, setModalValue] = useState("");
+  const [form] = Form.useForm();
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [ifCanceled, setIfCanceled] = useState(false);
+  const [ifChanged, setIfChanged] = useState();
   const [barangays, setBarangays] = useState([]);
-  const [file, setFile] = useState({});
-  const [filename, setFilename] = useState("Choose file");
-  const [uploadedImagePath, setUploadedImagePath] = useState();
 
   const showModal = () => {
+    form.setFieldsValue({
+      id: props.info.id,
+      barangayName: props.info.barangayName,
+      location: props.info.location,
+      barangayDescription: props.info.barangayDescription,
+    });
     setIsModalVisible(true);
-    console.log(props.info);
+    setIfChanged(false);
   };
 
-  const checking = (file) => {
-    setFilename(file);
+  const handleOk = () => {
+    setIsModalVisible(false);
   };
 
   const handleCancel = () => {
@@ -34,57 +37,62 @@ function AddBarangayModal(props) {
   };
 
   const onFinish = (values) => {
-    console.log(values);
-    props.passedData(props.info);
+    console.log(ifChanged);
     setConfirmLoading(true);
     setIfCanceled(false);
-    setTimeout(() => {
-      setIsModalVisible(false);
-      setConfirmLoading(false);
-    }, 2000);
-    // setUploadedImagePath(filename.file.response.filePath);
-    axios
-      .post("/api/v1/barangays/add_barangay", values)
-      .then((res) => {
-        let barangaysCopy = [...barangays];
-        barangaysCopy = [...barangaysCopy, res.data];
-        console.log(barangaysCopy);
-        setBarangays(barangaysCopy);
-        Modal.success({
-          content: "Successfully Added New Barangay",
-        });
+    props.passedData(props.info);
 
-        axios.post("/api/v1/images/save_image", {
-          imageOwnerId: res.data.id,
-          imageReferenceId: 2,
-          imagePath: uploadedImagePath,
-        });
+    axios
+      .post("/api/v1/barangays/update_barangay", {
+        id: values.id,
+        barangayName: values.barangayName,
+        location: values.location,
+        barangayDescription: values.barangayDescription,
+      })
+      .then((res) => {
+        setTimeout(() => {
+          setIsModalVisible(false);
+          setConfirmLoading(false);
+        }, 2000);
+        {
+          ifChanged
+            ? Modal.success({
+                content: "Successfully Updated Barangay",
+              })
+            : Modal.success({
+                content: "Barangay Info is up to date",
+              });
+        }
       })
       .catch((error) => console.log(error));
+
+    console.log(ifChanged);
   };
 
   const onFinishFailed = (errorInfo) => {
     Modal.error({
-      content: "Failure to Add New Barangay",
+      content: "Failure to Update Barangay Info",
     });
     setTimeout(() => {
       setIsModalVisible(true);
       setConfirmLoading(false);
     }, 2000);
-    console.log("fail");
     console.log("Failed:", errorInfo);
+  };
+  const onValuesChange = (changedValues, allValues) => {
+    console.log("Changed", allValues, changedValues);
+    setIfChanged(true);
   };
 
   return (
     <div>
       <Button type="primary" onClick={showModal}>
-        Add Barangay
+        Edit
       </Button>
-
       <Modal
-        title="Add Barangay:"
-        visible={isModalVisible}
+        title="Update Barangay Info"
         confirmLoading={confirmLoading}
+        visible={isModalVisible}
         onOk={onFinish}
         onCancel={handleCancel}
         afterClose={handleClose}
@@ -93,25 +101,23 @@ function AddBarangayModal(props) {
           <Button key="back" onClick={handleCancel}>
             Cancel
           </Button>,
-          <Button
-            form="myForm"
-            key="submit"
-            htmlType="submit"
-            type="primary"
-            loading={confirmLoading}
-            onClick={onFinish}
-          >
-            Add
+          <Button form="myForm" htmlType="submit" type="primary">
+            Update
           </Button>,
         ]}
       >
         <Form
           name="basic"
+          form={form}
           initialValues={{ remember: true }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
+          onValuesChange={onValuesChange}
           id="myForm"
         >
+          <Form.Item label="Barangay Id" name="id">
+            <Input disabled={true} bordered={false} />
+          </Form.Item>
           <Form.Item
             label="Barangay Name"
             name="barangayName"
@@ -142,21 +148,12 @@ function AddBarangayModal(props) {
               },
             ]}
           >
-            <Input />
+            <Input.TextArea />
           </Form.Item>
-          <Upload
-            action="/api/v1/images/add_image"
-            listType="picture"
-            maxCount={1}
-            file={file}
-            onChange={checking}
-          >
-            <Button icon={<UploadOutlined />}>Upload Image (Max: 1)</Button>
-          </Upload>
         </Form>
       </Modal>
     </div>
   );
 }
 
-export default AddBarangayModal;
+export default EditBarangayModal;
