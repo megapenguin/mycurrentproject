@@ -10,27 +10,31 @@ function BarangaysInfoModal(props) {
   const [barangays, setBarangays] = useState([]);
   const [images, setImages] = useState([]);
   const [imagePath, setImagePath] = useState([]);
-  
-  useEffect(() => {
-    axios
-    .get("/api/v1/images/")
-    .then((res) => {
-      let data = res.data;
-      setImages(data);
-    })
-    .catch((error) => console.log(error));
-  }, []);
+
+  // useEffect(() => {
+  //   axios
+  //     .get("/api/v1/images/")
+  //     .then((res) => {
+  //       let data = res.data;
+  //       setImages(data);
+  //     })
+  //     .catch((error) => console.log(error));
+  // }, []);
 
   const showModal = () => {
     setIsModalVisible(true);
     axios
-    .get("/api/v1/images/")
-    .then((res) => {
-      let imagesCopy = [...images];
-      imagesCopy = imagesCopy.find((imagesCopy) => imagesCopy.imageOwnerId === props.info.id && imagesCopy.imageReferenceId === 2);
-      setImagePath(imagesCopy.imagePath);
-    })
-    .catch((error) => console.log(error)); 
+      .get("/api/v1/images/")
+      .then((res) => {
+        let imagesCopy = [...images];
+        imagesCopy = imagesCopy.find(
+          (imagesCopy) =>
+            imagesCopy.imageOwnerId === props.info.id &&
+            imagesCopy.imageReferenceId === 2
+        );
+        setImagePath(imagesCopy.imagePath);
+      })
+      .catch((error) => console.log(error));
   };
 
   const handleOk = () => {
@@ -51,38 +55,40 @@ function BarangaysInfoModal(props) {
       setConfirmLoading(false);
     }, 2000);
     axios
-    .delete("/api/v1/images/delete_image", {
-      params: {
-        id,
-        referenceId: 2,
-      },
-    })
-    .then((res) => {
-      let imagesCopy = [...images];
-      imagesCopy = imagesCopy.filter((imagesCopy) => imagesCopy.imageOwnerId !== id && imagesCopy.imageReferenceId === 2);
-      setImages(imagesCopy);
-      console.log(imagesCopy);
-      
-    })
-    .catch((error) => console.log(error));
+      .delete("/api/v1/images/delete_image", {
+        params: {
+          id,
+          referenceId: 2,
+        },
+      })
+      .then((res) => {
+        let imagesCopy = [...images];
+        imagesCopy = imagesCopy.filter(
+          (imagesCopy) =>
+            imagesCopy.imageOwnerId !== id && imagesCopy.imageReferenceId === 2
+        );
+        setImages(imagesCopy);
+        console.log(imagesCopy);
+      })
+      .catch((error) => console.log(error));
 
     axios
-    .delete("/api/v1/barangays/delete_barangay", {
-      params: {
-        id,
-      },
-    })
-    .then((res) => {
-      let barangaysCopy = [...barangays];
+      .delete("/api/v1/barangays/delete_barangay", {
+        params: {
+          id,
+        },
+      })
+      .then((res) => {
+        let barangaysCopy = [...barangays];
 
-      barangaysCopy = barangaysCopy.filter((barangay) => barangay.id !== id);
-     setBarangays(barangaysCopy);
-      console.log(barangaysCopy);
-      Modal.success({
-        content: 'Barangay has been Removed',
-      });
-    })
-    .catch((error) => console.log(error));
+        barangaysCopy = barangaysCopy.filter((barangay) => barangay.id !== id);
+        setBarangays(barangaysCopy);
+        console.log(barangaysCopy);
+        Modal.success({
+          content: "Barangay has been Removed",
+        });
+      })
+      .catch((error) => console.log(error));
   };
 
   const handleCancel = () => {
@@ -107,11 +113,16 @@ function BarangaysInfoModal(props) {
         onOk={handleOk}
         onCancel={handleCancel}
         afterClose={handleClose}
+        destroyOnClose={true}
         footer={[
-          <Button loading={confirmLoading} onClick={() => handleDelete(props.info.id)} danger>
-              Remove
-            </Button>
-          ]}
+          <Button
+            loading={confirmLoading}
+            onClick={() => handleDelete(props.info.id)}
+            danger
+          >
+            Remove
+          </Button>,
+        ]}
       >
         <p>
           <h3>Bargangay ID:</h3>
@@ -130,14 +141,15 @@ function BarangaysInfoModal(props) {
           {props.info.barangayDescription}
         </p>
         <h3>Uploaded Images: </h3>
-          <Card className="shadow-sm">
-              <Image
-                height={100}
-                src={`/api/v1/images/${imagePath}`}
-                style={{ borderColor: "white", border: "10px" }}
-              />
-
-          </Card>
+        <Card className="shadow-sm">
+          <Image
+            height={100}
+            src={`/api/v1/images/${
+              imagePath === undefined ? imagePath : "logo.png"
+            }`}
+            style={{ borderColor: "white", border: "10px" }}
+          />
+        </Card>
       </Modal>
     </div>
   );

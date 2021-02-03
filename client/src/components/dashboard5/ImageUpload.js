@@ -25,7 +25,7 @@ function ImageUpload(props) {
 
   useEffect(() => {
     axios
-      .get("/api/v1/images/search_all_images")
+      .get("/api/v1/images/")
       .then((res) => {
         console.log(res);
 
@@ -72,6 +72,7 @@ function ImageUpload(props) {
         console.log("image remove from folder");
       })
       .catch((error) => console.log(error));
+    console.log(file);
   };
 
   const onFinishFailed = (errorInfo) => {

@@ -6,6 +6,7 @@ import ColumnGroup from "antd/lib/table/ColumnGroup";
 import BarangaysInfoModal from "./BarangaysInfoModal";
 import AddBarangayModal from "./AddBarangayModal";
 import EditBarangayModal from "./EditBarangayModal";
+import AddBarangayImageModal from "./AddBarangayImageModal";
 
 function BarangaysTableList() {
   const [barangays, setBarangays] = useState([]);
@@ -103,7 +104,8 @@ function BarangaysTableList() {
                   info={value}
                   passedData={setDataFromModal}
                   afterClosing={modalClosed}
-                ></EditBarangayModal>
+                />
+                <AddBarangayImageModal info={value} />
               </Space>
             )}
           ></ColumnGroup>

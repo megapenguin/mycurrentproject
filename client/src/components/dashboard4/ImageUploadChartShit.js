@@ -20,7 +20,7 @@ function ImageUploadChartShit() {
 
   useEffect(() => {
     axios
-      .get("/api/v1/images/search_all_images")
+      .get("/api/v1/images/")
       .then((res) => {
         //console.log(res);
 

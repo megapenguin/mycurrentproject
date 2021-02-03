@@ -5,13 +5,12 @@ const Barangay = require("../models/Barangay");
 const Jeepney = require("../models/Jeepney");
 const Image = require("../models/Image");
 
-router.get("/", (req, res) => {
-  Barangay.hasMany(Jeepney, { foreignKey: "barangayId" });
-  Jeepney.belongsTo(Barangay, { foreignKey: "barangayId" });
-  Jeepney.hasMany(Image, { foreignKey: "imageOwnerId" });
-  Image.belongsTo(Jeepney, { foreignKey: "imageOwnerId" });
+Barangay.hasMany(Jeepney, { foreignKey: "barangayId" });
+Jeepney.belongsTo(Barangay, { foreignKey: "barangayId" });
+Jeepney.hasMany(Image, { foreignKey: "imageOwnerId" });
+Image.belongsTo(Jeepney, { foreignKey: "imageOwnerId" });
 
-  //SELECT * FROM users
+router.get("/", (req, res) => {
   Barangay.findAll({
     include: [
       {
@@ -59,6 +58,14 @@ router.post("/search_barangays", (req, res) => {
         },
       ],
     },
+    include: [
+      {
+        model: Jeepney,
+        include: [
+          { model: Image, where: { imageReferenceId: 3 }, required: false },
+        ],
+      },
+    ],
   })
     .then((_res) => {
       res.json(_res);
