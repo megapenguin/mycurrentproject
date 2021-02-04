@@ -3,6 +3,8 @@ const Image = require("../models/Image");
 const randomString = require("randomstring");
 const path = require("path");
 const fs = require("fs");
+const Sequelize = require("sequelize");
+const Op = Sequelize.Op;
 
 router.get("/", (req, res) => {
   Image.findAll()

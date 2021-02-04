@@ -52,41 +52,41 @@ function Admin() {
             <div className="logo" />
             <Menu theme="dark" mode="inline" defaultSelectedKeys={[""]}>
               <Imaged />
-              <Menu.Item
+              {/* <Menu.Item
                 key="1"
                 icon={<CarOutlined />}
                 onClick={() => clickSideBar("1")}
               >
                 Jeepneys
-              </Menu.Item>
+              </Menu.Item> */}
               <Menu.Item
-                key="2"
+                key="1"
                 icon={<CarOutlined />}
-                onClick={() => clickSideBar("2")}
+                onClick={() => clickSideBar("1")}
               >
                 Jeepney List
               </Menu.Item>
               <Menu.Item
-                key="3"
+                key="2"
                 icon={<UserOutlined />}
-                onClick={() => clickSideBar("3")}
+                onClick={() => clickSideBar("2")}
               >
                 Driver List
               </Menu.Item>
               <Menu.Item
-                key="4"
+                key="3"
                 icon={<UnorderedListOutlined />}
-                onClick={() => clickSideBar("4")}
+                onClick={() => clickSideBar("3")}
               >
                 Barangay List
               </Menu.Item>
-              <Menu.Item
-                key="5"
+              {/* <Menu.Item
+                key="4"
                 icon={<UserOutlined />}
-                onClick={() => clickSideBar("5")}
+                onClick={() => clickSideBar("4")}
               >
                 Image Upload
-              </Menu.Item>
+              </Menu.Item> */}
             </Menu>
           </Sider>
 
@@ -120,15 +120,11 @@ function Admin() {
                 {(() => {
                   switch (selected) {
                     case "1":
-                      return <JeepneyDasboard />;
-                    case "2":
                       return <JeepneysTableListContent />;
-                    case "3":
+                    case "2":
                       return <DriversTableListContent />;
-                    case "4":
+                    case "3":
                       return <BarangaysTableListContent />;
-                    case "5":
-                      return <UploadDashboard />;
                     case "":
                       return "Welcome";
                   }

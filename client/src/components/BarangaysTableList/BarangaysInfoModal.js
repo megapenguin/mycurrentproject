@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Button, Card, Image } from "antd";
+import { Modal, Button, Card, Image, Col, Row } from "antd";
 import axios from "axios";
 
 function BarangaysInfoModal(props) {
@@ -24,15 +24,21 @@ function BarangaysInfoModal(props) {
   const showModal = () => {
     setIsModalVisible(true);
     axios
-      .get("/api/v1/images/")
+      .post("/api/v1/images/search_images", {
+        imageOwnerId: props.info.id,
+        imageReferenceId: 1,
+      })
       .then((res) => {
-        let imagesCopy = [...images];
-        imagesCopy = imagesCopy.find(
-          (imagesCopy) =>
-            imagesCopy.imageOwnerId === props.info.id &&
-            imagesCopy.imageReferenceId === 2
-        );
-        setImagePath(imagesCopy.imagePath);
+        let data = res.data;
+        setImages(data);
+        console.log("images", images);
+        // let imagesCopy = [...images];
+        // imagesCopy = imagesCopy.find(
+        //   (imagesCopy) =>
+        //     imagesCopy.imageOwnerId === props.info.id &&
+        //     imagesCopy.imageReferenceId === 1
+        // );
+        //setImagePath(imagesCopy.imagePath);
       })
       .catch((error) => console.log(error));
   };
@@ -47,6 +53,24 @@ function BarangaysInfoModal(props) {
     }, 2000);
   };
 
+  const handleDeleteImage = (id) => {
+    axios
+      .delete("/api/v1/images/delete_image", {
+        params: {
+          id,
+          referenceId: 1,
+        },
+      })
+      .then((res) => {
+        let imagesCopy = [...images];
+        imagesCopy = imagesCopy.filter((image) => image.id !== id);
+        setImages(imagesCopy);
+        Modal.success({
+          content: "Barangay image has been removed",
+        });
+      })
+      .catch((error) => console.log(error));
+  };
   const handleDelete = (id) => {
     setConfirmLoading(true);
     setIfCanceled(false);
@@ -54,41 +78,22 @@ function BarangaysInfoModal(props) {
       setIsModalVisible(false);
       setConfirmLoading(false);
     }, 2000);
-    axios
-      .delete("/api/v1/images/delete_image", {
-        params: {
-          id,
-          referenceId: 2,
-        },
-      })
-      .then((res) => {
-        let imagesCopy = [...images];
-        imagesCopy = imagesCopy.filter(
-          (imagesCopy) =>
-            imagesCopy.imageOwnerId !== id && imagesCopy.imageReferenceId === 2
-        );
-        setImages(imagesCopy);
-        console.log(imagesCopy);
-      })
-      .catch((error) => console.log(error));
+    Modal.success({
+      content: "Still in development",
+    });
 
-    axios
-      .delete("/api/v1/barangays/delete_barangay", {
-        params: {
-          id,
-        },
-      })
-      .then((res) => {
-        let barangaysCopy = [...barangays];
-
-        barangaysCopy = barangaysCopy.filter((barangay) => barangay.id !== id);
-        setBarangays(barangaysCopy);
-        console.log(barangaysCopy);
-        Modal.success({
-          content: "Barangay has been Removed",
-        });
-      })
-      .catch((error) => console.log(error));
+    // axios
+    //   .delete("/api/v1/barangays/delete_barangay", {
+    //     params: {
+    //       id,
+    //     },
+    //   })
+    //   .then((res) => {
+    //     Modal.success({
+    //       content: "Barangay has been Removed",
+    //     });
+    //   })
+    //   .catch((error) => console.log(error));
   };
 
   const handleCancel = () => {
@@ -120,7 +125,7 @@ function BarangaysInfoModal(props) {
             onClick={() => handleDelete(props.info.id)}
             danger
           >
-            Remove
+            Remove Barangay
           </Button>,
         ]}
       >
@@ -142,13 +147,22 @@ function BarangaysInfoModal(props) {
         </p>
         <h3>Uploaded Images: </h3>
         <Card className="shadow-sm">
-          <Image
-            height={100}
-            src={`/api/v1/images/${
-              imagePath === undefined ? imagePath : "logo.png"
-            }`}
-            style={{ borderColor: "white", border: "10px" }}
-          />
+          {images.map((image, index) => (
+            <Col key={index} md={{ span: 6 }}>
+              <Row>
+                <Image
+                  height={100}
+                  src={`/api/v1/images/${
+                    image.imagePath ? image.imagePath : "logo.png"
+                  }`}
+                  style={{ borderColor: "white", border: "10px" }}
+                />
+                <Button onClick={() => handleDeleteImage(image.id)} danger>
+                  Delete
+                </Button>
+              </Row>
+            </Col>
+          ))}
         </Card>
       </Modal>
     </div>
