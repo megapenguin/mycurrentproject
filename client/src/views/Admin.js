@@ -1,7 +1,5 @@
-import React, { Suspense, useState, useEffect } from "react";
+import React, { Suspense, useState } from "react";
 import "../App.css";
-import JeepneyDasboard from "./JeepneyDasboard";
-import UploadDashboard from "./UploadDashboard";
 import DriversTableListContent from "./DriversTableListContent";
 import BarangaysTableListContent from "./BarangaysTableListContent";
 import JeepneysTableListContent from "./JeepneysTableListContent";
@@ -52,13 +50,6 @@ function Admin() {
             <div className="logo" />
             <Menu theme="dark" mode="inline" defaultSelectedKeys={[""]}>
               <Imaged />
-              {/* <Menu.Item
-                key="1"
-                icon={<CarOutlined />}
-                onClick={() => clickSideBar("1")}
-              >
-                Jeepneys
-              </Menu.Item> */}
               <Menu.Item
                 key="1"
                 icon={<CarOutlined />}
@@ -80,13 +71,6 @@ function Admin() {
               >
                 Barangay List
               </Menu.Item>
-              {/* <Menu.Item
-                key="4"
-                icon={<UserOutlined />}
-                onClick={() => clickSideBar("4")}
-              >
-                Image Upload
-              </Menu.Item> */}
             </Menu>
           </Sider>
 
@@ -127,6 +111,7 @@ function Admin() {
                       return <BarangaysTableListContent />;
                     case "":
                       return "Welcome";
+                    default:
                   }
                 })()}
               </div>

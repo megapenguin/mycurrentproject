@@ -1,5 +1,5 @@
-import React, { Suspense, useEffect, useState } from "react";
-import { Table, Tag, Space, Input, Row, Col, Button, Divider } from "antd";
+import React, { useEffect, useState } from "react";
+import { Table, Space, Input, Row, Col, Divider } from "antd";
 import axios from "axios";
 import Column from "antd/lib/table/Column";
 import ColumnGroup from "antd/lib/table/ColumnGroup";
@@ -15,7 +15,6 @@ function JeepneysTableList() {
     axios
       .get("/api/v1/jeepneys/")
       .then((res) => {
-        console.log(res);
 
         let data = res.data;
         data = data.map((d) => {
@@ -23,7 +22,6 @@ function JeepneysTableList() {
         });
 
         setJeepneys(data);
-        console.log(data);
       })
       .catch((error) => console.log(error));
   }, []);
@@ -47,11 +45,17 @@ function JeepneysTableList() {
 
   const modalClosed = () => {
     console.log("Passed data from modal", dataFromModal);
-    axios.get("/api/v1/jeepneys/search_all_jeepneys").then((res) => {
-      console.log(res);
-      let data = res.data;
-      setJeepneys(data);
-    });
+    axios
+      .get("/api/v1/jeepneys/")
+      .then((res) => {
+
+        let data = res.data;
+        data = data.map((d) => {
+          return { ...d, barangayName: d.barangay.barangayName };
+        });
+
+        setJeepneys(data);
+      })
   };
 
   return (

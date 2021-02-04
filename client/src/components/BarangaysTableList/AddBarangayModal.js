@@ -106,6 +106,7 @@ function AddBarangayModal(props) {
         ]}
       >
         <Form
+          layout="vertical"
           name="basic"
           initialValues={{ remember: true }}
           onFinish={onFinish}
@@ -142,7 +143,7 @@ function AddBarangayModal(props) {
               },
             ]}
           >
-            <Input />
+            <Input.TextArea />
           </Form.Item>
           <Upload
             action="/api/v1/images/add_image"

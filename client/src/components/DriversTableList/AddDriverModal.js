@@ -6,7 +6,6 @@ import axios from "axios";
 
 function AddDriverModal(props) {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [modalValue, setModalValue] = useState("");
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [ifCanceled, setIfCanceled] = useState(false);
   const [drivers, setDrivers] = useState([]);
@@ -119,6 +118,7 @@ function AddDriverModal(props) {
           ]}
       >
         <Form
+            layout="vertical"
             name="basic"
             initialValues={{ remember: true }}
             onFinish={onFinish}

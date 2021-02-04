@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from "react";
 import {
   Row,
   Col,
@@ -7,14 +6,11 @@ import {
   Form,
   Input,
   Button,
-  Checkbox,
 } from "antd";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
-import { Content } from "antd/lib/layout/layout";
-import Imaged from "./Imaged";
 
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 function Register({ history }) {
   const onFinish = (values) => {
@@ -33,30 +29,24 @@ function Register({ history }) {
     console.log("Failed:", errorInfo);
   };
 
-  const checking = () => {
-    console.log("check");
-  };
-
   return (
     <div className="registerCard">
       <Row
         type="flex"
         justify="center"
-        align="middle"
-        style={{ minHeight: "90vh" }}
       >
         <Col>
-          <Card title="Retrack ADMIN" className="loginCardStyle">
-            <Imaged />
+          <Card title={<Title level={2}>Retrack ADMIN</Title>} className="registerCardStyle">
             <Form
+              layout="vertical"
               name="basic"
               initialValues={{ remember: true }}
               onFinish={onFinish}
               onFinishFailed={onFinishFailed}
             >
-              <h4>Admin Account Registration</h4>
+              <h3><b>Admin Account Registration</b></h3>
               <Form.Item
-                label="First Name"
+                label="First Name:"
                 name="firstName"
                 rules={[
                   { required: true, message: "Please input your First Name!" },
@@ -66,7 +56,7 @@ function Register({ history }) {
               </Form.Item>
 
               <Form.Item
-                label="Last Name"
+                label="Last Name:"
                 name="lastName"
                 rules={[
                   {
@@ -79,7 +69,7 @@ function Register({ history }) {
               </Form.Item>
 
               <Form.Item
-                label="Email"
+                label="Email:"
                 name="email"
                 rules={[
                   {
@@ -94,7 +84,7 @@ function Register({ history }) {
 
               <Form.Item
                 name="password"
-                label="Password"
+                label="Password:"
                 rules={[
                   {
                     required: true,
@@ -108,7 +98,7 @@ function Register({ history }) {
 
               <Form.Item
                 name="confirm"
-                label="Confirm Password"
+                label="Confirm Password:"
                 dependencies={["password"]}
                 hasFeedback
                 rules={[

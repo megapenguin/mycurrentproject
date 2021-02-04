@@ -2,7 +2,6 @@ import React from "react";
 import { Route, Redirect, withRouter } from "react-router-dom";
 
 function MainProtectedRoutes({ component: Component, Auth, history, res }) {
-  console.log(Auth);
   return (
     <Route
       {...res}

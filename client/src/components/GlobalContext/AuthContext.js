@@ -10,7 +10,7 @@ let initialState = {
   userData: {},
   isLoading: true,
 }
-console.log(initialState)
+// console.log(initialState)
 function AuthContextProvider({ children }) {
   let [state, dispatch] = useReducer(AuthReducer, initialState)
 
@@ -32,7 +32,6 @@ function AuthContextProvider({ children }) {
         localStorage.removeItem("token")
       })
 
-    console.log(res)
 
     if (res) {
       dispatch({
@@ -49,7 +48,6 @@ function AuthContextProvider({ children }) {
   }, [])
 
   const authenticate = async (userInfo) => {
-    console.log(userInfo)
     let res = await axios
       .post("/api/v1/auths/auth_login", {
         ...userInfo,

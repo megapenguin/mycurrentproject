@@ -1,25 +1,14 @@
-import React, { useState, useContext } from "react";
-import { Form, Input, Button, Checkbox, Card, Row, Col } from "antd";
-
+import React, {  useContext } from "react";
+import { Form, Input, Button, Card, Row, Col, Typography  } from "antd";
 import { withRouter } from "react-router-dom";
 import { AuthContext } from ".././components/GlobalContext/AuthContext";
 import Imaged from "./Imaged";
-
-const layout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
-};
-const tailLayout = {
-  wrapperCol: { offset: 8, span: 16 },
-};
+const { Title } = Typography;
 
 function Login({ history }) {
   let Auth = useContext(AuthContext);
 
   const onFinish = async (values) => {
-    console.log("Success:", values);
-
-    console.log(values);
     let { success, errorMessage } = await Auth.authenticate(values);
     console.log(success);
   };
@@ -32,21 +21,18 @@ function Login({ history }) {
     <div className = "loginCard">
        <Row type="flex" justify="center" align="middle" style={{minHeight: '80vh'}}>
         <Col>
-        
-          <Card title="Retrack ADMIN" className="loginCardStyle"
-          >
-            
+            <Card title={<Title level={2}>Retrack ADMIN</Title>} className="loginCardStyle">
             <cardBody>
             <Imaged/>
               <Form
-                {...layout}
+                layout="vertical"
                 name="basic"
                 initialValues={{ remember: true }}
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
               >
                 <Form.Item
-                  label="Email"
+                  label="Email:"
                   name="email"
                   rules={[
                     {
@@ -58,36 +44,22 @@ function Login({ history }) {
                 >
                   <Input />
                 </Form.Item>
-
                 <Form.Item
-                  label="Password"
+                  label="Password:"
                   name="password"
                   rules={[
                     { required: true, message: "Please input your password!" },
                   ]}
                 >
                   <Input.Password />
-                  
-                </Form.Item>
-                <a  style={{ float: 'right' }} href="/register">Need Account?</a>
-                
-
-                {/* <Form.Item
-                  {...tailLayout}
-                  name="remember"
-                  valuePropName="checked"
-                >
-                  <Checkbox>Remember me</Checkbox>
-                </Form.Item> */}
-
-                  <Form.Item {...tailLayout}>
+                  </Form.Item>
+                  <Form.Item>
+                  <a  style={{ float: 'right' }} href="/register">Create an Account?</a>
+                  </Form.Item>
                     <Button type="primary" htmlType="submit" shape="round"  className="form-button">
                       LOGIN
                     </Button>
-                     
-                  </Form.Item>
               </Form>
-             
             </cardBody>
           </Card>
         </Col>

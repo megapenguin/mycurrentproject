@@ -4,7 +4,6 @@ import axios from "axios";
 
 function JeepneysInfoModal(props) {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [modalValue, setModalValue] = useState("");
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [ifCanceled, setIfCanceled] = useState(false);
   const [jeepneys, setJeepneys] = useState([]);

@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Form, Input, Menu, Modal, Button, Upload, Select } from "antd";
-import { UploadOutlined, DownOutlined, UserOutlined } from "@ant-design/icons";
+import { Form, Input, Modal, Button, Upload, Select } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
 import axios from "axios";
 
 function AddJeepneyModal(props) {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [modalValue, setModalValue] = useState("");
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [ifCanceled, setIfCanceled] = useState(false);
   const [jeepneys, setJeepneys] = useState([]);
@@ -23,7 +22,6 @@ function AddJeepneyModal(props) {
     axios
       .get("/api/v1/barangays/search_all_barangays")
       .then((res) => {
-        console.log(res);
 
         let data = res.data;
         setBarangays(data);
@@ -125,6 +123,7 @@ function AddJeepneyModal(props) {
         ]}
       >
         <Form
+          layout="vertical"
           name="basic"
           initialValues={{ remember: true }}
           onFinish={onFinish}
@@ -132,15 +131,15 @@ function AddJeepneyModal(props) {
           id="myForm"
         >
           <Form.Item
-            label="Barangay"
+            label="Barangay:"
             name="barangayId"
             rules={[
               { required: true, message: "Please input the Barangay's ID!" },
             ]}
           >
             <Select
-              defaultValue="-Select-"
-              style={{ width: 120 }}
+              placeholder="Select Barangay"
+              style={{ width: '100%' }}
               onChange={handleChange}
             >
               {barangays.map((barangay, index) => (
@@ -150,7 +149,7 @@ function AddJeepneyModal(props) {
           </Form.Item>
 
           <Form.Item
-            label="Plate Number"
+            label="Plate Number:"
             name="plateNumber"
             rules={[
               { required: true, message: "Please input the Plate Number!" },
@@ -160,7 +159,7 @@ function AddJeepneyModal(props) {
           </Form.Item>
 
           <Form.Item
-            label="Jeep Capacity"
+            label="Jeep Capacity:"
             name="jeepCapacity"
             rules={[
               { required: true, message: "Please input the Jeep Capacity!" },
