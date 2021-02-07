@@ -1,14 +1,15 @@
 import React, { Suspense } from "react";
+import { UsersTableList } from "../components/UsersTableList";
 import { SyncOutlined } from '@ant-design/icons';
-import { Dashboard } from "../components/Dashboard";
-function AdminDashboard() {
+
+function UsersTableListContent() {
   return (
     <div>
       <Suspense fallback={<div className="icons-list"><SyncOutlined spin/></div>}>
-        <Dashboard />
+        <UsersTableList />
       </Suspense>
     </div>
   );
 }
 
-export default AdminDashboard;
+export default UsersTableListContent;

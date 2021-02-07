@@ -3,20 +3,22 @@ import { Modal, Button, Form, Input } from "antd";
 import axios from "axios";
 import { EditOutlined  } from "@ant-design/icons";
 
-function EditBarangayModal(props) {
+function EditDriverModal(props) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [form] = Form.useForm();
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [ifCanceled, setIfCanceled] = useState(false);
   const [ifChanged, setIfChanged] = useState();
-  const [barangays, setBarangays] = useState([]);
 
   const showModal = () => {
     form.setFieldsValue({
       id: props.info.id,
-      barangayName: props.info.barangayName,
-      location: props.info.location,
-      barangayDescription: props.info.barangayDescription,
+      firstName: props.info.firstName,
+      middleName: props.info.middleName,
+      lastName: props.info.lastName,
+      address: props.info.address,
+      contactNumber: props.info.contactNumber,
+      email: props.info.email,
     });
     setIsModalVisible(true);
     setIfChanged(false);
@@ -44,11 +46,14 @@ function EditBarangayModal(props) {
     props.passedData(props.info);
 
     axios
-      .post("/api/v1/barangays/update_barangay", {
+      .post("/api/v1/drivers/update_driver", {
         id: values.id,
-        barangayName: values.barangayName,
-        location: values.location,
-        barangayDescription: values.barangayDescription,
+        firstName: values.firstName,
+        middleName: values.middleName,
+        lastName: values.lastName,
+        address: values.address,
+        contactNumber: values.contactNumber,
+        email: values.email,
       })
       .then((res) => {
         setTimeout(() => {
@@ -58,10 +63,10 @@ function EditBarangayModal(props) {
         {
           ifChanged
             ? Modal.success({
-                content: "Successfully Updated Barangay",
+                content: "Successfully Updated Driver Info",
               })
             : Modal.success({
-                content: "Barangay Info is up to date",
+                content: "Driver Info is up to date",
               });
         }
       })
@@ -72,7 +77,7 @@ function EditBarangayModal(props) {
 
   const onFinishFailed = (errorInfo) => {
     Modal.error({
-      content: "Failure to Update Barangay Info",
+      content: "Failure to Update Driver Info",
     });
     setTimeout(() => {
       setIsModalVisible(true);
@@ -92,7 +97,7 @@ function EditBarangayModal(props) {
         <span className="mobile-view"><EditOutlined /></span>
       </Button>
       <Modal
-        title="Update Barangay Info"
+        title="Update Driver Info"
         confirmLoading={confirmLoading}
         visible={isModalVisible}
         onOk={onFinish}
@@ -118,40 +123,63 @@ function EditBarangayModal(props) {
           onValuesChange={onValuesChange}
           id="myForm"
         >
-          <Form.Item label="Barangay ID:" name="id">
+          <Form.Item label="Driver ID:" name="id">
             <Input disabled={true} bordered={false} />
           </Form.Item>
           <Form.Item
-            label="Barangay Name:"
-            name="barangayName"
+            label="Firstname:"
+            name="firstName"
             rules={[
-              { required: true, message: "Please input the Barangay's Name!" },
+              { required: true, message: "Please input Firstname!" },
             ]}
           >
             <Input />
           </Form.Item>
 
           <Form.Item
-            label="Location:"
-            name="location"
+            label="Middlename:"
+            name="middleName"
             rules={[
-              { required: true, message: "Please input Barangay's Location!" },
+              { required: true, message: "Please input Middlename!" },
             ]}
           >
             <Input />
           </Form.Item>
           <Form.Item
-            label="Barangay Description:"
-            name="barangayDescription"
-            
+            label="Lastname:"
+            name="lastName"
             rules={[
-              {
-                required: true,
-                message: "Please input the Barangay's Description!",
-              },
+              { required: true, message: "Please input Lastname!" },
             ]}
           >
-            <Input.TextArea />
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Contact:"
+            name="contactNumber"
+            rules={[
+              { required: true, message: "Please input Contact Number!" },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Address:"
+            name="address"
+            rules={[
+              { required: true, message: "Please input the Address!" },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Email:"
+            name="email"
+            rules={[
+              { required: true, message: "Please input Email!" },
+            ]}
+          >
+            <Input />
           </Form.Item>
         </Form>
       </Modal>
@@ -159,4 +187,4 @@ function EditBarangayModal(props) {
   );
 }
 
-export default EditBarangayModal;
+export default EditDriverModal;

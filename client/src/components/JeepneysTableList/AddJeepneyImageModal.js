@@ -16,7 +16,7 @@ import { UploadOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { Content } from "antd/lib/layout/layout";
 
-function AddBarangayImageModal(props) {
+function AddJeepneyImageModal(props) {
   const [file, setFile] = useState({});
   const [imageStatus, setImageStatus] = useState(false);
   const [filename, setFilename] = useState("Choose file");
@@ -33,7 +33,7 @@ function AddBarangayImageModal(props) {
   const showModal = () => {
     form.setFieldsValue({
       imageOwnerId: props.info.id,
-      imageReferenceId: 1,
+      imageReferenceId: 3,
     });
     setUploadedImagePath();
     setUploadImageStatus("removed");
@@ -88,7 +88,7 @@ function AddBarangayImageModal(props) {
       axios
         .post("/api/v1/images/save_image", {
           imageOwnerId: props.info.id,
-          imageReferenceId: 1,
+          imageReferenceId: 3,
           imagePath: uploadedImagePath,
         })
         .then((res) => {
@@ -135,7 +135,7 @@ function AddBarangayImageModal(props) {
     headers: {
       authorization: "authorization-text",
     },
-    data: { imageOwnerId: props.info.id, imageReferenceId: 1 },
+    data: { imageOwnerId: props.info.id, imageReferenceId: 3 },
     onChange(info) {
       if (info.file.status !== "uploading") {
         console.log("uploading", info.file, info.fileList);
@@ -157,7 +157,7 @@ function AddBarangayImageModal(props) {
         <span className="mobile-view"><UploadOutlined /></span>
       </Button>
       <Modal
-        title="Barangay Image Upload"
+        title="Jeepney Image Upload"
         confirmLoading={confirmLoading}
         visible={isModalVisible}
         onOk={onFinish}
@@ -172,16 +172,12 @@ function AddBarangayImageModal(props) {
       >
         <List itemLayout="vertical">
           <List.Item>
-          <h4>Image Barangay ID: </h4>
-          {props.info.id}
-          </List.Item>
-          <List.Item>
-          <h4>Image Barangay Name: </h4>
-          {props.info.barangayName}
+          <h4>Plate Number: </h4>
+          {props.info.plateNumber}
           </List.Item>
           <List.Item>
           <h4>Image Reference Name: </h4>
-          Barangay
+          Jeepney
           </List.Item>
         </List>
         <Row>
@@ -222,4 +218,4 @@ function AddBarangayImageModal(props) {
   );
 }
 
-export default AddBarangayImageModal;
+export default AddJeepneyImageModal;

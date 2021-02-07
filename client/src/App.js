@@ -23,6 +23,7 @@ import AdminDashboard from "./views/AdminDashboard";
 import BarangaysTableListContent from "./views/BarangaysTableListContent";
 import DriversTableListContent from "./views/DriversTableListContent";
 import JeepneysTableListContent from "./views/JeepneysTableListContent";
+import UsersTableListContent from "./views/UsersTableListContent";
 
 function App() {
   let Auth = useContext(AuthContext);
@@ -63,6 +64,13 @@ function App() {
               layout={AdminLayout}
               path="/jeepney-list"
               component={JeepneysTableListContent}
+              exact
+            />
+            <MainProtectedRoutes
+              Auth={Auth}
+              layout={AdminLayout}
+              path="/users-list"
+              component={UsersTableListContent}
               exact
             />
             <LoginProtectedRoutes

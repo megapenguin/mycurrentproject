@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Form, Input, Modal, Button, Upload } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
+import { PlusOutlined } from "@ant-design/icons";
 import axios from "axios";
 
 function AddBarangayModal(props) {
@@ -77,8 +77,9 @@ function AddBarangayModal(props) {
 
   return (
     <div>
-      <Button type="primary" onClick={showModal}>
-        Add Barangay
+      <Button type="primary" className="modal-button-add" onClick={showModal}>
+        <span className="desktop-view"><PlusOutlined /> Add Barangay</span>
+        <span className="mobile-view"><PlusOutlined /></span>
       </Button>
 
       <Modal
@@ -90,7 +91,7 @@ function AddBarangayModal(props) {
         afterClose={handleClose}
         destroyOnClose={true}
         footer={[
-          <Button key="back" onClick={handleCancel}>
+          <Button key="back" className="modal-button" onClick={handleCancel}>
             Cancel
           </Button>,
           <Button
@@ -100,6 +101,7 @@ function AddBarangayModal(props) {
             type="primary"
             loading={confirmLoading}
             onClick={onFinish}
+            className="modal-button"
           >
             Add
           </Button>,
@@ -145,15 +147,6 @@ function AddBarangayModal(props) {
           >
             <Input.TextArea />
           </Form.Item>
-          {/* <Upload
-            action="/api/v1/images/add_image"
-            listType="picture"
-            maxCount={1}
-            file={file}
-            onChange={checking}
-          >
-            <Button icon={<UploadOutlined />}>Upload Image (Max: 1)</Button>
-          </Upload> */}
         </Form>
       </Modal>
     </div>

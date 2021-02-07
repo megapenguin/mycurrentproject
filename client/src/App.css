@@ -9,6 +9,7 @@ body,
   font-family: "Roboto";
 }
 
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -81,3 +82,29 @@ Button.form-button {
   border-color: #55c596;
 }
 
+
+div
+Button.modal-button {
+  border-radius: 20px; 
+}
+
+div
+Button.modal-button-add {
+  border-radius: 20px;
+  background-color: #55c596;
+  border-color: #55c596;
+}
+
+Button span.mobile-view {
+  display: none;
+}
+
+@media screen and (max-width: 768px) {
+  Button span.desktop-view{
+    display: none;
+  }
+  Button span.mobile-view {
+    display: inline-block;
+  }
+
+}

@@ -5,6 +5,8 @@ import Column from "antd/lib/table/Column";
 import ColumnGroup from "antd/lib/table/ColumnGroup";
 import DriversInfoModal from "./DriversInfoModal";
 import AddDriverModal from "./AddDriverModal";
+import AddDriverImageModal from "./AddDriverImageModal";
+import EditDriverModal from "./EditDriverModal";
 
 function DriversTableList() {
   const [drivers, setDrivers] = useState([]);
@@ -102,6 +104,7 @@ function DriversTableList() {
             title="Actions"
             key="actions"
             fixed="right"
+            width="35vh"
             render={(value) => (
               <Space>
                 <DriversInfoModal
@@ -109,6 +112,12 @@ function DriversTableList() {
                   passedData={setDataFromModal}
                   afterClosing={modalClosed}
                 />
+                <EditDriverModal
+                  info={value}
+                  passedData={setDataFromModal}
+                  afterClosing={modalClosed}
+                />
+                <AddDriverImageModal info={value} />
               </Space>
             )}
           ></ColumnGroup>

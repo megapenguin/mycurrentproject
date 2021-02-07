@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Form, Input, Modal, Button, Upload, Space } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
+import { PlusOutlined } from "@ant-design/icons";
 import axios from "axios";
 
 function AddDriverModal(props) {
@@ -89,8 +89,9 @@ function AddDriverModal(props) {
 
   return (
     <div>
-      <Button type="primary" onClick={showModal}>
-        Add Driver
+      <Button type="primary" className="modal-button-add" onClick={showModal}>
+        <span className="desktop-view"><PlusOutlined /> Add Driver</span>
+        <span className="mobile-view"><PlusOutlined /></span>
       </Button>
 
       <Modal
@@ -102,7 +103,7 @@ function AddDriverModal(props) {
         afterClose={handleClose}
         destroyOnClose={true}
         footer={[
-          <Button key="back" onClick={handleCancel}>
+          <Button key="back" className="modal-button"  onClick={handleCancel}>
             Cancel
           </Button>,
           <Button
@@ -110,6 +111,7 @@ function AddDriverModal(props) {
             key="submit"
             htmlType="submit"
             type="primary"
+            className="modal-button" 
             loading={confirmLoading}
             onClick={onFinish}
           >

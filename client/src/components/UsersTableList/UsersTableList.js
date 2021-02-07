@@ -3,12 +3,12 @@ import { Table, Tag, Space, Input, Row, Col, Button, Divider } from "antd";
 import axios from "axios";
 import Column from "antd/lib/table/Column";
 import ColumnGroup from "antd/lib/table/ColumnGroup";
-import BarangaysInfoModal from "./BarangaysInfoModal";
-import AddBarangayModal from "./AddBarangayModal";
-import EditBarangayModal from "./EditBarangayModal";
-import AddBarangayImageModal from "./AddBarangayImageModal";
+// import BarangaysInfoModal from "./BarangaysInfoModal";
+// import AddBarangayModal from "./AddBarangayModal";
+// import EditBarangayModal from "./EditBarangayModal";
+// import AddBarangayImageModal from "./AddBarangayImageModal";
 
-function BarangaysTableList() {
+function UsersTableList() {
   const [barangays, setBarangays] = useState([]);
   const { Search } = Input;
   const [dataFromModal, setDataFromModal] = useState("");
@@ -60,32 +60,25 @@ function BarangaysTableList() {
             />
           </Space>
         </Col>
-        <Col span={4}>
-          <AddBarangayModal
-            info={""}
-            passedData={setDataFromModal}
-            afterClosing={modalClosed}
-          />
-        </Col>
       </Row>
-      <Divider orientation="center">List of Barangays</Divider>
+      <Divider orientation="center">List of Users</Divider>
       <Row>
         <Table dataSource={barangays} scroll={{ x: 1000, y: 500 }} sticky>
           {/* <ColumnGroup title="Id" dataIndex="id" key="id"></ColumnGroup> */}
           {/* <ColumnGroup title="Name" key="name"> */}
           <Column
-            title="Barangay Name"
+            title="Name"
             dataIndex="barangayName"
             key="barangayName"
           ></Column>
           {/* </ColumnGroup> */}
           <ColumnGroup
-            title="Location"
+            title="Email"
             dataIndex="location"
             key="location"
           ></ColumnGroup>
           <ColumnGroup
-            title="Barangay Description"
+            title="Provider"
             dataIndex="barangayDescription"
             key="barangayDescription"
           ></ColumnGroup>
@@ -96,17 +89,7 @@ function BarangaysTableList() {
             width="35vh"
             render={(value) => (
               <Space>
-                <BarangaysInfoModal
-                  info={value}
-                  passedData={setDataFromModal}
-                  afterClosing={modalClosed}
-                />
-                <EditBarangayModal
-                  info={value}
-                  passedData={setDataFromModal}
-                  afterClosing={modalClosed}
-                />
-                <AddBarangayImageModal info={value} />
+                  ACTION BUTTONS
               </Space>
             )}
           ></ColumnGroup>
@@ -116,4 +99,4 @@ function BarangaysTableList() {
   );
 }
 
-export default BarangaysTableList;
+export default UsersTableList;

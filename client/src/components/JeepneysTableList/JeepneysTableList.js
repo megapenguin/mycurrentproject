@@ -5,6 +5,8 @@ import Column from "antd/lib/table/Column";
 import ColumnGroup from "antd/lib/table/ColumnGroup";
 import JeepneysInfoModal from "./JeepneysInfoModal";
 import AddJeepneyModal from "./AddJeepneyModal";
+import EditJeepneyModal from "./EditJeepneyModal";
+import AddJeepneyImageModal from "./AddJeepneyImageModal";
 
 function JeepneysTableList() {
   const [jeepneys, setJeepneys] = useState([]);
@@ -106,6 +108,7 @@ function JeepneysTableList() {
             title="Actions"
             key="actions"
             fixed="right"
+            width="35vh"
             render={(value) => (
               <Space>
                 <JeepneysInfoModal
@@ -113,6 +116,12 @@ function JeepneysTableList() {
                   passedData={setDataFromModal}
                   afterClosing={modalClosed}
                 />
+                 <EditJeepneyModal
+                  info={value}
+                  passedData={setDataFromModal}
+                  afterClosing={modalClosed}
+                />
+                <AddJeepneyImageModal info={value} />
               </Space>
             )}
           ></ColumnGroup>

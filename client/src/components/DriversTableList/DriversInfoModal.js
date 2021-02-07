@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Modal, Button, Image, Card, Col, Row } from "antd";
+import { UnorderedListOutlined  } from "@ant-design/icons";
 import axios from "axios";
 
 function DriversInfoModal(props) {
@@ -11,28 +12,25 @@ function DriversInfoModal(props) {
   const [images, setImages] = useState([]);
   const [imagePath, setImagePath] = useState([]);
 
-  // useEffect(() => {
-  //   axios
-  //     .get("/api/v1/images/")
-  //     .then((res) => {
-  //       let data = res.data;
-  //       setImages(data);
-  //     })
-  //     .catch((error) => console.log(error));
-  // }, []);
 
   const showModal = () => {
     setIsModalVisible(true);
     axios
-      .get("/api/v1/images/")
+      .post("/api/v1/images/search_images", {
+        imageOwnerId: props.info.id,
+        imageReferenceId: 2,
+      })
       .then((res) => {
-        let imagesCopy = [...images];
-        imagesCopy = imagesCopy.find(
-          (imagesCopy) =>
-            imagesCopy.imageOwnerId === props.info.id &&
-            imagesCopy.imageReferenceId === 2
-        );
-        setImagePath(imagesCopy.imagePath);
+        let data = res.data;
+        setImages(data);
+        //console.log("images", images);
+        // let imagesCopy = [...images];
+        // imagesCopy = imagesCopy.find(
+        //   (imagesCopy) =>
+        //     imagesCopy.imageOwnerId === props.info.id &&
+        //     imagesCopy.imageReferenceId === 1
+        // );
+        //setImagePath(imagesCopy.imagePath);
       })
       .catch((error) => console.log(error));
   };
@@ -124,8 +122,9 @@ function DriversInfoModal(props) {
   };
   return (
     <div>
-      <Button type="primary" onClick={showModal}>
-        View
+      <Button type="primary" className="modal-button" onClick={showModal}>
+        <span className="desktop-view"><UnorderedListOutlined/> View</span>
+        <span className="mobile-view"><UnorderedListOutlined/></span>
       </Button>
       <Modal
         title="Driver Information"
@@ -136,6 +135,7 @@ function DriversInfoModal(props) {
         afterClose={handleClose}
         footer={[
           <Button
+            className="modal-button" 
             loading={confirmLoading}
             onClick={() => handleDelete(props.info.id)}
             danger
@@ -145,43 +145,48 @@ function DriversInfoModal(props) {
         ]}
       >
         <p>
-          <h3>ID:</h3>
+          <h4>ID:</h4>
           {props.info.id}
         </p>
         <p>
-          <h3>Name:</h3>
+          <h4>Name:</h4>
           {props.info.firstName} {props.info.middleName} {props.info.lastName}
         </p>
         <p>
-          <h3>Contact Number:</h3>
+          <h4>Contact Number:</h4>
           {props.info.contactNumber}
         </p>
         <p>
-          <h3>Address: </h3>
+          <h4>Address: </h4>
           {props.info.address}
         </p>
         <p>
-          <h3>Email Address: </h3>
+          <h4>Email Address: </h4>
           {props.info.email}
         </p>
-        <h3>Uploaded Images: </h3>
+        <h4>Uploaded Images: </h4>
         <Card className="shadow-sm">
-          {images.map((image, index) => (
-            <Col key={index} md={{ span: 6 }}>
-              <Row>
-                <Image
-                  height={100}
-                  src={`/api/v1/images/${
-                    image.imagePath ? image.imagePath : "logo.png"
-                  }`}
-                  style={{ borderColor: "white", border: "10px" }}
-                />
-                <Button onClick={() => handleDeleteImage(image.id)} danger>
-                  Delete
-                </Button>
-              </Row>
-            </Col>
-          ))}
+          <Row>
+              {images.map((image, index) => (
+                <Col key={index} md={{ span: 6 }}>
+                  
+                   <br></br>
+                      <Image
+                        height={100}
+                        width={100}
+                        src={`/api/v1/images/${
+                          image.imagePath ? image.imagePath : "logo.png"
+                        }`}
+                      />
+                      <Row>
+                      <br></br>
+                      <Button onClick={() => handleDeleteImage(image.id)} danger>
+                        Delete
+                      </Button>
+                      </Row>
+                </Col>
+              ))}
+          </Row>
         </Card>
       </Modal>
     </div>

@@ -46,6 +46,9 @@ function AdminLayout({ children }) {
           <Menu.Item key="4" icon={<UploadOutlined />}>
             <Link to="/barangay-list"> Barangay List</Link>
           </Menu.Item>
+          <Menu.Item key="5" icon={<UserOutlined />}>
+            <Link to="/users-list"> Users List</Link>
+          </Menu.Item>
         </Menu>
       </Sider>
       <Layout>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Form, Input, Modal, Button, Upload, Select } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
+import { UploadOutlined,PlusOutlined } from "@ant-design/icons";
 import axios from "axios";
 
 function AddJeepneyModal(props) {
@@ -94,8 +94,9 @@ function AddJeepneyModal(props) {
 
   return (
     <div>
-      <Button type="primary" onClick={showModal}>
-        Add Jeepney
+      <Button type="primary" className="modal-button-add" onClick={showModal}>
+        <span className="desktop-view"><PlusOutlined /> Add Jeepney</span>
+        <span className="mobile-view"><PlusOutlined /></span>
       </Button>
 
       <Modal
@@ -107,11 +108,12 @@ function AddJeepneyModal(props) {
         afterClose={handleClose}
         destroyOnClose={true}
         footer={[
-          <Button key="back" onClick={handleCancel}>
+          <Button key="back" className="modal-button"  onClick={handleCancel}>
             Cancel
           </Button>,
           <Button
             form="myForm"
+            className="modal-button" 
             key="submit"
             htmlType="submit"
             type="primary"

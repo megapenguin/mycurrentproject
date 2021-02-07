@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Button, Form, Input } from "antd";
+import { Modal, Button, Form, Input, Select } from "antd";
 import axios from "axios";
 import { EditOutlined  } from "@ant-design/icons";
 
-function EditBarangayModal(props) {
+function EditJeepneyModal(props) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [form] = Form.useForm();
   const [confirmLoading, setConfirmLoading] = useState(false);
@@ -11,12 +11,29 @@ function EditBarangayModal(props) {
   const [ifChanged, setIfChanged] = useState();
   const [barangays, setBarangays] = useState([]);
 
+  useEffect(() => {
+    axios
+      .get("/api/v1/barangays/search_all_barangays")
+      .then((res) => {
+
+        let data = res.data;
+        setBarangays(data);
+      })
+      .catch((error) => console.log(error));
+  }, []);
+  const { Option } = Select;
+
+  const handleChange = (value) => {
+    console.log(`selected ${value}`);
+  };
+
+
   const showModal = () => {
     form.setFieldsValue({
       id: props.info.id,
-      barangayName: props.info.barangayName,
-      location: props.info.location,
-      barangayDescription: props.info.barangayDescription,
+      barangayId: props.info.barangayId,
+      plateNumber: props.info.plateNumber,
+      jeepCapacity: props.info.jeepCapacity,
     });
     setIsModalVisible(true);
     setIfChanged(false);
@@ -42,26 +59,26 @@ function EditBarangayModal(props) {
     setConfirmLoading(true);
     setIfCanceled(false);
     props.passedData(props.info);
-
-    axios
-      .post("/api/v1/barangays/update_barangay", {
-        id: values.id,
-        barangayName: values.barangayName,
-        location: values.location,
-        barangayDescription: values.barangayDescription,
+     axios
+      .post("/api/v1/jeepneys/update_jeepney", {
+        id: props.info.id,
+        barangayId: values.barangayId,
+        plateNumber: values.plateNumber,
+        jeepCapacity: values.jeepCapacity,
       })
       .then((res) => {
         setTimeout(() => {
           setIsModalVisible(false);
           setConfirmLoading(false);
+          
         }, 2000);
         {
           ifChanged
             ? Modal.success({
-                content: "Successfully Updated Barangay",
+                content: "Successfully Updated Jeepney",
               })
             : Modal.success({
-                content: "Barangay Info is up to date",
+                content: "Jeepney Info is up to date",
               });
         }
       })
@@ -72,7 +89,7 @@ function EditBarangayModal(props) {
 
   const onFinishFailed = (errorInfo) => {
     Modal.error({
-      content: "Failure to Update Barangay Info",
+      content: "Failure to Update Jeepney Info",
     });
     setTimeout(() => {
       setIsModalVisible(true);
@@ -81,7 +98,7 @@ function EditBarangayModal(props) {
     // console.log("Failed:", errorInfo);
   };
   const onValuesChange = (changedValues, allValues) => {
-    //console.log("Changed", allValues, changedValues);
+  console.log("Changed", allValues, changedValues);
     setIfChanged(true);
   };
 
@@ -92,7 +109,7 @@ function EditBarangayModal(props) {
         <span className="mobile-view"><EditOutlined /></span>
       </Button>
       <Modal
-        title="Update Barangay Info"
+        title="Update Jeepney Info"
         confirmLoading={confirmLoading}
         visible={isModalVisible}
         onOk={onFinish}
@@ -118,40 +135,44 @@ function EditBarangayModal(props) {
           onValuesChange={onValuesChange}
           id="myForm"
         >
-          <Form.Item label="Barangay ID:" name="id">
+          {/* <Form.Item label="Barangay ID:" name="barangayId">
             <Input disabled={true} bordered={false} />
+          </Form.Item> */}
+          <Form.Item
+            label="Barangay:"
+            name="barangayId"
+            rules={[
+              { required: true, message: "Please input the Barangay's ID!" },
+            ]}
+          >
+            <Select
+              placeholder="Select Barangay"
+              style={{ width: '100%' }}
+              onChange={handleChange}
+            >
+              {barangays.map((barangay, index) => (
+                <Option value={barangay.id}>{barangay.barangayName}</Option>
+              ))}
+            </Select>
           </Form.Item>
           <Form.Item
-            label="Barangay Name:"
-            name="barangayName"
+            label="Plate Number:"
+            name="plateNumber"
             rules={[
-              { required: true, message: "Please input the Barangay's Name!" },
+              { required: true, message: "Please input the Plate Number!" },
             ]}
           >
             <Input />
           </Form.Item>
 
           <Form.Item
-            label="Location:"
-            name="location"
+            label="Jeep Capacity:"
+            name="jeepCapacity"
             rules={[
-              { required: true, message: "Please input Barangay's Location!" },
+              { required: true, message: "Please input Jeep Capacity!" },
             ]}
           >
             <Input />
-          </Form.Item>
-          <Form.Item
-            label="Barangay Description:"
-            name="barangayDescription"
-            
-            rules={[
-              {
-                required: true,
-                message: "Please input the Barangay's Description!",
-              },
-            ]}
-          >
-            <Input.TextArea />
           </Form.Item>
         </Form>
       </Modal>
@@ -159,4 +180,4 @@ function EditBarangayModal(props) {
   );
 }
 
-export default EditBarangayModal;
+export default EditJeepneyModal;

@@ -32,10 +32,10 @@ function ModalImageUpload(props) {
       >
         <h1>{props.userType}</h1>
         <p>
-          <h3>ID:</h3> {props.info.id}
+          <h4>ID:</h4> {props.info.id}
         </p>
         <p>
-          <h3>Name:</h3>
+          <h4>Name:</h4>
           {props.info.firstName} {props.info.middleName} {props.info.lastName}
         </p>
         <ImageUpload />
