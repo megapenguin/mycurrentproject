@@ -31,7 +31,7 @@ function BarangaysInfoModal(props) {
       .then((res) => {
         let data = res.data;
         setImages(data);
-        console.log("images", images);
+        //console.log("images", images);
         // let imagesCopy = [...images];
         // imagesCopy = imagesCopy.find(
         //   (imagesCopy) =>

@@ -37,7 +37,7 @@ function EditBarangayModal(props) {
   };
 
   const onFinish = (values) => {
-    console.log(ifChanged);
+    //console.log(ifChanged);
     setConfirmLoading(true);
     setIfCanceled(false);
     props.passedData(props.info);
@@ -66,7 +66,7 @@ function EditBarangayModal(props) {
       })
       .catch((error) => console.log(error));
 
-    console.log(ifChanged);
+    //console.log(ifChanged);
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -77,10 +77,10 @@ function EditBarangayModal(props) {
       setIsModalVisible(true);
       setConfirmLoading(false);
     }, 2000);
-    console.log("Failed:", errorInfo);
+    // console.log("Failed:", errorInfo);
   };
   const onValuesChange = (changedValues, allValues) => {
-    console.log("Changed", allValues, changedValues);
+    //console.log("Changed", allValues, changedValues);
     setIfChanged(true);
   };
 

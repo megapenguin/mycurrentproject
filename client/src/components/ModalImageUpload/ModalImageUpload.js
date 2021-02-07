@@ -9,7 +9,7 @@ function ModalImageUpload(props) {
   const showModal = () => {
     setIsModalVisible(true);
 
-    console.log(props.info);
+    //console.log(props.info);
   };
 
   const handleOk = () => {

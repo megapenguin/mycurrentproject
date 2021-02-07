@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useState} from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { Table, Tag, Space, Input, Row, Col, Button, Divider } from "antd";
 import axios from "axios";
 import Column from "antd/lib/table/Column";
@@ -15,14 +15,12 @@ function DriversTableList() {
     axios
       .get("/api/v1/drivers/")
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         let data = res.data;
         setDrivers(data);
       })
       .catch((error) => console.log(error));
   }, []);
-
-
 
   const onSearch = (value) => {
     axios
@@ -31,33 +29,28 @@ function DriversTableList() {
         console.log(_res);
         let data = _res.data;
         setDrivers(data);
-        console.log("success");
+        //console.log("success");
       });
 
-    console.log(value);
+    //console.log(value);
   };
 
   const modalClosed = () => {
     console.log("Passed data from modal", dataFromModal);
-    axios
-    .get("/api/v1/drivers/")
-    .then((res) => {
-      console.log(res);
-     
+    axios.get("/api/v1/drivers/").then((res) => {
+      //console.log(res);
+
       let data = res.data;
       setDrivers(data);
-    })
-    
-    
+    });
   };
 
   return (
-    
     <div>
       <Row justify="space-between">
         <Col span={4}>
           <Space direction="vertical">
-          <Search
+            <Search
               placeholder="Search Drivers"
               onSearch={onSearch}
               allowClear={true}
@@ -66,11 +59,11 @@ function DriversTableList() {
           </Space>
         </Col>
         <Col span={4}>
-            <AddDriverModal
-                  info={""}
-                  passedData={setDataFromModal}
-                  afterClosing={modalClosed}
-                />
+          <AddDriverModal
+            info={""}
+            passedData={setDataFromModal}
+            afterClosing={modalClosed}
+          />
         </Col>
       </Row>
       <Divider orientation="center">List of Drivers</Divider>
@@ -78,9 +71,17 @@ function DriversTableList() {
         <Table dataSource={drivers} scroll={{ x: 1000, y: 500 }} sticky>
           {/* <ColumnGroup title="Id" dataIndex="id" key="id"></ColumnGroup> */}
           {/* <ColumnGroup title="Name" key="name"> */}
-            <Column title="Firstname" dataIndex="firstName" key="firstName"></Column>
-            <Column title="Middlename" dataIndex="middleName" key="middleName"></Column>
-            <Column title="Lastname" dataIndex="lastName" key="lastName"></Column>
+          <Column
+            title="Firstname"
+            dataIndex="firstName"
+            key="firstName"
+          ></Column>
+          <Column
+            title="Middlename"
+            dataIndex="middleName"
+            key="middleName"
+          ></Column>
+          <Column title="Lastname" dataIndex="lastName" key="lastName"></Column>
           {/* </ColumnGroup> */}
           <ColumnGroup
             title="Contact"
@@ -113,7 +114,6 @@ function DriversTableList() {
           ></ColumnGroup>
         </Table>
       </Row>
-      
     </div>
   );
 }

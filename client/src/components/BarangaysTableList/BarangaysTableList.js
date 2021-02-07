@@ -17,7 +17,7 @@ function BarangaysTableList() {
     axios
       .get("/api/v1/barangays/search_all_barangays")
       .then((res) => {
-        console.log(res);
+        // console.log(res);
 
         let data = res.data;
         setBarangays(data);
@@ -35,13 +35,13 @@ function BarangaysTableList() {
         console.log("success");
       });
 
-    console.log(value);
+    //console.log(value);
   };
 
   const modalClosed = () => {
     console.log("Passed data from modal", dataFromModal);
     axios.get("/api/v1/barangays/search_all_barangays").then((res) => {
-      console.log(res);
+      //console.log(res);
       let data = res.data;
       setBarangays(data);
     });

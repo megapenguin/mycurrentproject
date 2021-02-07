@@ -25,6 +25,7 @@ app.use("/api/v1/jeepneys", require("./routes/jeepney"));
 app.use("/api/v1/barangays", require("./routes/barangay"));
 app.use("/api/v1/images", require("./routes/image"));
 app.use("/api/v1/users", require("./routes/user"));
+app.use("/api/v1/admins", require("./routes/admin"));
 app.use("/api/v1/jeepneydrivers", require("./routes/jeepneydriver"));
 
 if (process.env.NODE_ENV === "production") {

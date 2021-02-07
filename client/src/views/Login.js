@@ -1,5 +1,5 @@
-import React, {  useContext } from "react";
-import { Form, Input, Button, Card, Row, Col, Typography  } from "antd";
+import React, { useContext } from "react";
+import { Form, Input, Button, Card, Row, Col, Typography } from "antd";
 import { withRouter } from "react-router-dom";
 import { AuthContext } from ".././components/GlobalContext/AuthContext";
 import Imaged from "./Imaged";
@@ -18,12 +18,20 @@ function Login({ history }) {
   };
 
   return (
-    <div className = "loginCard">
-       <Row type="flex" justify="center" align="middle" style={{minHeight: '80vh'}}>
+    <div className="loginCard">
+      <Row
+        type="flex"
+        justify="center"
+        align="middle"
+        style={{ minHeight: "80vh" }}
+      >
         <Col>
-            <Card title={<Title level={2}>Retrack ADMIN</Title>} className="loginCardStyle">
+          <Card
+            title={<Title level={2}>Retrack ADMIN</Title>}
+            className="loginCardStyle"
+          >
             <cardBody>
-            <Imaged/>
+              <Imaged />
               <Form
                 layout="vertical"
                 name="basic"
@@ -52,13 +60,20 @@ function Login({ history }) {
                   ]}
                 >
                   <Input.Password />
-                  </Form.Item>
-                  <Form.Item>
-                  <a  style={{ float: 'right' }} href="/register">Create an Account?</a>
-                  </Form.Item>
-                    <Button type="primary" htmlType="submit" shape="round"  className="form-button">
-                      LOGIN
-                    </Button>
+                </Form.Item>
+                <Form.Item>
+                  <a style={{ float: "right" }} href="/register">
+                    Create an Account?
+                  </a>
+                </Form.Item>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  shape="round"
+                  className="form-button"
+                >
+                  LOGIN
+                </Button>
               </Form>
             </cardBody>
           </Card>

@@ -111,11 +111,12 @@ function AddBarangayImageModal(props) {
   };
 
   const removeImage = (val) => {
-    // console.log("Remove image", val);
+    //console.log("Removed image", val.response.filePath);
     axios
       .delete("/api/v1/images/delete_folder_image", {
         params: {
-          filePath: val.response.filePath,
+          fileName: val.response.imagePath,
+          fileId: val.response.id,
         },
       })
       .then((res) => {
@@ -132,6 +133,7 @@ function AddBarangayImageModal(props) {
     headers: {
       authorization: "authorization-text",
     },
+    data: { imageOwnerId: props.info.id, imageReferenceId: 1 },
     onChange(info) {
       if (info.file.status !== "uploading") {
         console.log("uploading", info.file, info.fileList);
@@ -171,7 +173,7 @@ function AddBarangayImageModal(props) {
               {...uploadFile}
               onRemove={removeImage}
               listType="picture"
-              maxCount={1}
+              maxCount={3}
             >
               <Button icon={<UploadOutlined />}>Upload Image(Max: 1)</Button>
             </Upload>

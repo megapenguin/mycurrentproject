@@ -46,19 +46,19 @@ function AddBarangayModal(props) {
     axios
       .post("/api/v1/barangays/add_barangay", values)
       .then((res) => {
-        let barangaysCopy = [...barangays];
-        barangaysCopy = [...barangaysCopy, res.data];
-        console.log(barangaysCopy);
-        setBarangays(barangaysCopy);
+        // let barangaysCopy = [...barangays];
+        // barangaysCopy = [...barangaysCopy, res.data];
+        // //console.log(barangaysCopy);
+        // setBarangays(barangaysCopy);
         Modal.success({
           content: "Successfully Added New Barangay",
         });
 
-        axios.post("/api/v1/images/save_image", {
-          imageOwnerId: res.data.id,
-          imageReferenceId: 2,
-          imagePath: uploadedImagePath,
-        });
+        // axios.post("/api/v1/images/save_image", {
+        //   imageOwnerId: res.data.id,
+        //   imageReferenceId: 2,
+        //   imagePath: uploadedImagePath,
+        // });
       })
       .catch((error) => console.log(error));
   };
@@ -71,8 +71,8 @@ function AddBarangayModal(props) {
       setIsModalVisible(true);
       setConfirmLoading(false);
     }, 2000);
-    console.log("fail");
-    console.log("Failed:", errorInfo);
+    //console.log("fail");
+    //console.log("Failed:", errorInfo);
   };
 
   return (
@@ -145,7 +145,7 @@ function AddBarangayModal(props) {
           >
             <Input.TextArea />
           </Form.Item>
-          <Upload
+          {/* <Upload
             action="/api/v1/images/add_image"
             listType="picture"
             maxCount={1}
@@ -153,7 +153,7 @@ function AddBarangayModal(props) {
             onChange={checking}
           >
             <Button icon={<UploadOutlined />}>Upload Image (Max: 1)</Button>
-          </Upload>
+          </Upload> */}
         </Form>
       </Modal>
     </div>

@@ -1,14 +1,22 @@
 import React from "react";
 import { Route, Redirect, withRouter } from "react-router-dom";
 
-function MainProtectedRoutes({ component: Component, Auth, history, res }) {
+function MainProtectedRoutes({
+  layout: Layout,
+  component: Component,
+  Auth,
+  history,
+  res,
+}) {
   return (
     <Route
       {...res}
       render={(props) =>
         Auth.state.isAuthenticated &&
         Auth.state.userData.myStatus == "admin" ? (
-          <Component />
+          <Layout>
+            <Component />
+          </Layout>
         ) : (
           <Redirect
             to={{

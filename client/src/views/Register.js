@@ -1,12 +1,4 @@
-import {
-  Row,
-  Col,
-  Card,
-  Typography,
-  Form,
-  Input,
-  Button,
-} from "antd";
+import { Row, Col, Card, Typography, Form, Input, Button } from "antd";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
 
@@ -14,10 +6,11 @@ const { Title } = Typography;
 
 function Register({ history }) {
   const onFinish = (values) => {
+    values["provider"] = "ADMIN";
     console.log(values);
     console.log(values);
     axios
-      .post("/api/v1/users/register", values)
+      .post("/api/v1/admins/register_admin", values)
       .then((res) => {
         history.push("/login");
       })
@@ -31,12 +24,12 @@ function Register({ history }) {
 
   return (
     <div className="registerCard">
-      <Row
-        type="flex"
-        justify="center"
-      >
+      <Row type="flex" justify="center">
         <Col>
-          <Card title={<Title level={2}>Retrack ADMIN</Title>} className="registerCardStyle">
+          <Card
+            title={<Title level={2}>Retrack ADMIN</Title>}
+            className="registerCardStyle"
+          >
             <Form
               layout="vertical"
               name="basic"
@@ -44,7 +37,9 @@ function Register({ history }) {
               onFinish={onFinish}
               onFinishFailed={onFinishFailed}
             >
-              <h3><b>Admin Account Registration</b></h3>
+              <h3>
+                <b>Admin Account Registration</b>
+              </h3>
               <Form.Item
                 label="First Name:"
                 name="firstName"

@@ -1,12 +1,16 @@
-import React, { useContext } from "react";
+import React, { useState, useEffect, useContext, Component } from "react";
+import logo from "./logo.svg";
 import "./App.css";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
+  ProtectedRoute,
+  Link,
 } from "react-router-dom";
 
 import LoginProtectedRoutes from "./components/ProtectedRoutes/LoginProtectedRoutes";
+import AdminProtectedRoutes from "./components/ProtectedRoutes/AdminProtectedRoutes";
 import MainProtectedRoutes from "./components/ProtectedRoutes/MainProtectedRoutes";
 
 import { AuthContext } from "./components/GlobalContext/AuthContext";
@@ -14,6 +18,11 @@ import { AuthContext } from "./components/GlobalContext/AuthContext";
 import { Admin } from "./views";
 import Login from "./views/Login";
 import Register from "./views/Register";
+import AdminLayout from "./components/Layout/AdminLayout";
+import AdminDashboard from "./views/AdminDashboard";
+import BarangaysTableListContent from "./views/BarangaysTableListContent";
+import DriversTableListContent from "./views/DriversTableListContent";
+import JeepneysTableListContent from "./views/JeepneysTableListContent";
 
 function App() {
   let Auth = useContext(AuthContext);
@@ -28,7 +37,34 @@ function App() {
               component={Login}
               exact
             />
-            <MainProtectedRoutes Auth={Auth} path="/" component={Admin} exact />
+            <MainProtectedRoutes
+              Auth={Auth}
+              path="/"
+              layout={AdminLayout}
+              component={AdminDashboard}
+              exact
+            />
+            <MainProtectedRoutes
+              Auth={Auth}
+              layout={AdminLayout}
+              path="/barangay-list"
+              component={BarangaysTableListContent}
+              exact
+            />
+            <MainProtectedRoutes
+              Auth={Auth}
+              layout={AdminLayout}
+              path="/driver-list"
+              component={DriversTableListContent}
+              exact
+            />
+            <MainProtectedRoutes
+              Auth={Auth}
+              layout={AdminLayout}
+              path="/jeepney-list"
+              component={JeepneysTableListContent}
+              exact
+            />
             <LoginProtectedRoutes
               Auth={Auth}
               path="/register"

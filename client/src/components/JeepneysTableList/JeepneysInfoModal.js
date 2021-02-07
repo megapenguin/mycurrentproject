@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Button, Card, Image, Space } from "antd";
+import { Modal, Button, Card, Image, Space, Col, Row } from "antd";
 import axios from "axios";
 
 function JeepneysInfoModal(props) {
@@ -10,26 +10,30 @@ function JeepneysInfoModal(props) {
   const [images, setImages] = useState([]);
   const [imagePath, setImagePath] = useState([]);
 
-  useEffect(() => {
-    axios
-    .get("/api/v1/images/")
-    .then((res) => {
-      let data = res.data;
-      setImages(data);
-    })
-    .catch((error) => console.log(error));
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //   .get("/api/v1/images/")
+  //   .then((res) => {
+  //     let data = res.data;
+  //     setImages(data);
+  //   })
+  //   .catch((error) => console.log(error));
+  // }, []);
 
   const showModal = () => {
     setIsModalVisible(true);
     axios
-    .get("/api/v1/images/")
-    .then((res) => {
-      let imagesCopy = [...images];
-      imagesCopy = imagesCopy.find((imagesCopy) => imagesCopy.imageOwnerId === props.info.id && imagesCopy.imageReferenceId === 3);
-      setImagePath(imagesCopy.imagePath);
-    })
-    .catch((error) => console.log(error)); 
+      .get("/api/v1/images/")
+      .then((res) => {
+        let imagesCopy = [...images];
+        imagesCopy = imagesCopy.find(
+          (imagesCopy) =>
+            imagesCopy.imageOwnerId === props.info.id &&
+            imagesCopy.imageReferenceId === 3
+        );
+        setImagePath(imagesCopy.imagePath);
+      })
+      .catch((error) => console.log(error));
   };
 
   const handleOk = () => {
@@ -50,20 +54,22 @@ function JeepneysInfoModal(props) {
       setConfirmLoading(false);
     }, 2000);
     axios
-    .delete("/api/v1/images/delete_image", {
-      params: {
-        id,
-        referenceId: 3,
-      },
-    })
-    .then((res) => {
-      let imagesCopy = [...images];
-      imagesCopy = imagesCopy.filter((imagesCopy) => imagesCopy.imageOwnerId !== id && imagesCopy.imageReferenceId === 3);
-      setImages(imagesCopy);
-      console.log(imagesCopy);
-      
-    })
-    .catch((error) => console.log(error));
+      .delete("/api/v1/images/delete_image", {
+        params: {
+          id,
+          referenceId: 3,
+        },
+      })
+      .then((res) => {
+        let imagesCopy = [...images];
+        imagesCopy = imagesCopy.filter(
+          (imagesCopy) =>
+            imagesCopy.imageOwnerId !== id && imagesCopy.imageReferenceId === 3
+        );
+        setImages(imagesCopy);
+        console.log(imagesCopy);
+      })
+      .catch((error) => console.log(error));
 
     axios
       .delete("/api/v1/jeepneys/delete_jeep", {
@@ -79,7 +85,7 @@ function JeepneysInfoModal(props) {
 
         console.log(jeepneysCopy);
         Modal.success({
-          content: 'Jeepney has been Removed',
+          content: "Jeepney has been Removed",
         });
       })
       .catch((error) => console.log(error));
@@ -95,14 +101,33 @@ function JeepneysInfoModal(props) {
       props.afterClosing();
     }
   };
+
+  const handleDeleteImage = (id) => {
+    axios
+      .delete("/api/v1/images/delete_image", {
+        params: {
+          id,
+          referenceId: 1,
+        },
+      })
+      .then((res) => {
+        let imagesCopy = [...images];
+        imagesCopy = imagesCopy.filter((image) => image.id !== id);
+        setImages(imagesCopy);
+        Modal.success({
+          content: "Barangay image has been removed",
+        });
+      })
+      .catch((error) => console.log(error));
+  };
   return (
     <div>
       <Space>
-      <Button type="primary" onClick={showModal}>
-        View
-      </Button>
-      
-      {/* <Button type="default" onClick={showModal}>
+        <Button type="primary" onClick={showModal}>
+          View
+        </Button>
+
+        {/* <Button type="default" onClick={showModal}>
         Assign Driver
       </Button> */}
       </Space>
@@ -114,10 +139,14 @@ function JeepneysInfoModal(props) {
         onCancel={handleCancel}
         afterClose={handleClose}
         footer={[
-          <Button loading={confirmLoading} onClick={() => handleDelete(props.info.id)} danger>
-              Remove
-            </Button>
-          ]}
+          <Button
+            loading={confirmLoading}
+            onClick={() => handleDelete(props.info.id)}
+            danger
+          >
+            Remove
+          </Button>,
+        ]}
       >
         <p>
           <h3>Barangay Id:</h3>
@@ -132,14 +161,24 @@ function JeepneysInfoModal(props) {
           {props.info.jeepCapacity}
         </p>
         <h3>Uploaded Images: </h3>
-          <Card className="shadow-sm">
-              <Image
-                height={100}
-                src={`/api/v1/images/${imagePath}`}
-                style={{ borderColor: "white", border: "10px" }}
-              />
-
-          </Card>
+        <Card className="shadow-sm">
+          {images.map((image, index) => (
+            <Col key={index} md={{ span: 6 }}>
+              <Row>
+                <Image
+                  height={100}
+                  src={`/api/v1/images/${
+                    image.imagePath ? image.imagePath : "logo.png"
+                  }`}
+                  style={{ borderColor: "white", border: "10px" }}
+                />
+                <Button onClick={() => handleDeleteImage(image.id)} danger>
+                  Delete
+                </Button>
+              </Row>
+            </Col>
+          ))}
+        </Card>
       </Modal>
     </div>
   );
