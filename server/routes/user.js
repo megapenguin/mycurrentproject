@@ -1,13 +1,29 @@
 const router = require("express").Router();
+const Sequelize = require("sequelize");
+const Op = Sequelize.Op;
 
 const User = require("../models/User");
+const Image = require("../models/Image");
+
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const someOtherPlaintextPassword = "not_bacon";
 
+User.hasMany(Image, { foreignKey: "imageOwnerId" });
+Image.belongsTo(User, { foreignKey: "imageOwnerId" });
+
 router.get("/", (req, res) => {
   //SELECT * FROM users
-  User.findAll({ attributes: { exclude: ["password"] } })
+  User.findAll({
+    attributes: { exclude: ["password"] },
+    include: [
+      {
+        model: Image,
+        where: { imageReferenceId: 4 },
+        required: false,
+      },
+    ],
+  })
     .then((response) => {
       res.json(response);
     })
@@ -84,6 +100,53 @@ router.post("/register", (req, res) => {
       });
     });
   }
+});
+
+router.post("/search_user", (req, res) => {
+  let { value } = req.body;
+
+  User.findAll({
+    where: {
+      [Op.or]: [
+        {
+          id: {
+            [Op.like]: value,
+          },
+        },
+        {
+          firstName: {
+            [Op.like]: "%" + value + "%",
+          },
+        },
+        {
+          lastName: {
+            [Op.like]: "%" + value + "%",
+          },
+        },
+        {
+          email: {
+            [Op.like]: "%" + value + "%",
+          },
+        },
+        {
+          provider: {
+            [Op.like]: "%" + value + "%",
+          },
+        },
+      ],
+    },
+    include: [
+      {
+        model: Image,
+        where: { imageReferenceId: 4 },
+        required: false,
+      },
+    ],
+  })
+    .then((_res) => {
+      res.json(_res);
+    })
+    .catch((error) => console.log(error));
 });
 
 router.delete("/delete_user", (req, res) => {

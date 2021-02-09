@@ -7,8 +7,13 @@ const Image = require("../models/Image");
 
 Barangay.hasMany(Jeepney, { foreignKey: "barangayId" });
 Jeepney.belongsTo(Barangay, { foreignKey: "barangayId" });
+Barangay.hasMany(Image, { foreignKey: "imageOwnerId" });
+Image.belongsTo(Barangay, { foreignKey: "imageOwnerId" });
 Jeepney.hasMany(Image, { foreignKey: "imageOwnerId" });
 Image.belongsTo(Jeepney, { foreignKey: "imageOwnerId" });
+
+const JEEP_REF = 3;
+const BAR_REF = 1;
 
 router.get("/", (req, res) => {
   Barangay.findAll({
@@ -16,8 +21,17 @@ router.get("/", (req, res) => {
       {
         model: Jeepney,
         include: [
-          { model: Image, where: { imageReferenceId: 3 }, required: false },
+          {
+            model: Image,
+            where: { imageReferenceId: JEEP_REF },
+            required: false,
+          },
         ],
+      },
+      {
+        model: Image,
+        where: { imageReferenceId: BAR_REF },
+        required: false,
       },
     ],
   })
@@ -58,14 +72,6 @@ router.post("/search_barangays", (req, res) => {
         },
       ],
     },
-    include: [
-      {
-        model: Jeepney,
-        include: [
-          { model: Image, where: { imageReferenceId: 3 }, required: false },
-        ],
-      },
-    ],
   })
     .then((_res) => {
       res.json(_res);
@@ -90,20 +96,6 @@ router.delete("/delete_barangay", (req, res) => {
   Barangay.destroy({ where: { id } })
     .then((response) => {
       res.json({ success: true, msg: "Succefully deleted Barangay" });
-    })
-    .catch((error) => console.log(error));
-});
-
-router.post("/update_barangay", (req, res) => {
-  let { id, barangayName, location, barangayDescription } = req.body;
-  console.log(req.body);
-
-  Barangay.update(
-    { barangayName, location, barangayDescription },
-    { where: { id } }
-  )
-    .then((_res) => {
-      res.json(_res);
     })
     .catch((error) => console.log(error));
 });
