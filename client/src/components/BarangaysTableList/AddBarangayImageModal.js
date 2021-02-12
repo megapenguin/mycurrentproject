@@ -1,17 +1,5 @@
 import React, { useState } from "react";
-import {
-  Modal,
-  Upload,
-  Button,
-  Space,
-  Row,
-  Col,
-  List,
-  Form,
-  Radio,
-  Input,
-  message,
-} from "antd";
+import { Modal, Upload, Button, Space, Row, List, Form, message } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { Content } from "antd/lib/layout/layout";
@@ -153,8 +141,12 @@ function AddBarangayImageModal(props) {
   return (
     <div>
       <Button type="primary" className="modal-button" onClick={showModal}>
-        <span className="desktop-view"><UploadOutlined /> Upload</span>
-        <span className="mobile-view"><UploadOutlined /></span>
+        <span className="desktop-view">
+          <UploadOutlined /> Upload
+        </span>
+        <span className="mobile-view">
+          <UploadOutlined />
+        </span>
       </Button>
       <Modal
         title="Barangay Image Upload"
@@ -165,23 +157,28 @@ function AddBarangayImageModal(props) {
         afterClose={handleClose}
         destroyOnClose={true}
         footer={[
-          <Button key="back" className="modal-button"  type="danger" onClick={handleCancel}>
+          <Button
+            key="back"
+            className="modal-button"
+            type="danger"
+            onClick={handleCancel}
+          >
             Close
           </Button>,
         ]}
       >
         <List itemLayout="vertical">
           <List.Item>
-          <h4>Image Barangay ID: </h4>
-          {props.info.id}
+            <h4>Image Barangay ID: </h4>
+            {props.info.id}
           </List.Item>
           <List.Item>
-          <h4>Image Barangay Name: </h4>
-          {props.info.barangayName}
+            <h4>Image Barangay Name: </h4>
+            {props.info.barangayName}
           </List.Item>
           <List.Item>
-          <h4>Image Reference Name: </h4>
-          Barangay
+            <h4>Image Reference Name: </h4>
+            Barangay
           </List.Item>
         </List>
         <Row>
@@ -190,13 +187,13 @@ function AddBarangayImageModal(props) {
               {...uploadFile}
               onRemove={removeImage}
               listType="picture-card"
-              showUploadList={{showPreviewIcon:false}}
+              showUploadList={{ showPreviewIcon: false }}
               maxCount={5}
             >
-                <Space>
-                  <UploadOutlined/>
-               Upload
-               </Space>
+              <Space>
+                <UploadOutlined />
+                Upload
+              </Space>
             </Upload>
           </Space>
         </Row>

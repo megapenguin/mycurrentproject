@@ -3,14 +3,13 @@ import { Layout, Menu, Button } from "antd";
 import {
   UploadOutlined,
   UserOutlined,
-  UnorderedListOutlined,
   CarOutlined,
-  SyncOutlined,
   LogoutOutlined,
   HomeOutlined,
 } from "@ant-design/icons";
 import Imaged from "../../views/Imaged";
 import { Link } from "react-router-dom";
+import SubMenu from "antd/lib/menu/SubMenu";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -31,8 +30,14 @@ function AdminLayout({ children }) {
         }}
       >
         <div className="logo" />
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={[""]}>
+        <Menu
+          className="sidebar"
+          theme="dark"
+          mode="inline"
+          defaultSelectedKeys={[""]}
+        >
           <Imaged />
+
           <Menu.Item key="1" icon={<HomeOutlined />}>
             <Link to="/">Dashboard</Link>
           </Menu.Item>
@@ -40,13 +45,19 @@ function AdminLayout({ children }) {
           <Menu.Item key="2" icon={<UserOutlined />}>
             <Link to="/driver-list"> Driver List</Link>
           </Menu.Item>
-          <Menu.Item key="3" icon={<CarOutlined />}>
-            <Link to="/jeepney-list"> Jeepney List</Link>
-          </Menu.Item>
-          <Menu.Item key="4" icon={<UploadOutlined />}>
+          <SubMenu key="sub1" icon={<CarOutlined />} title="Jeepneys">
+            <Menu.Item key="3">
+              <Link to="/jeepney-list"> Jeepney List</Link>
+            </Menu.Item>
+            <Menu.Item key="4">
+              <Link to="/assigned-driver">Assign Drivers</Link>
+            </Menu.Item>
+          </SubMenu>
+
+          <Menu.Item key="5" icon={<UploadOutlined />}>
             <Link to="/barangay-list"> Barangay List</Link>
           </Menu.Item>
-          <Menu.Item key="5" icon={<UserOutlined />}>
+          <Menu.Item key="6" icon={<UserOutlined />}>
             <Link to="/users-list"> Users List</Link>
           </Menu.Item>
         </Menu>

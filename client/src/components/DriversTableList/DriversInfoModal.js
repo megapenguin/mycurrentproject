@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Modal, Button, Image, Card, Col, Row } from "antd";
-import { UnorderedListOutlined  } from "@ant-design/icons";
+import { UnorderedListOutlined } from "@ant-design/icons";
 import axios from "axios";
 
 function DriversInfoModal(props) {
@@ -11,7 +11,6 @@ function DriversInfoModal(props) {
   const [drivers, setDrivers] = useState([]);
   const [images, setImages] = useState([]);
   const [imagePath, setImagePath] = useState([]);
-
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -123,8 +122,12 @@ function DriversInfoModal(props) {
   return (
     <div>
       <Button type="primary" className="modal-button" onClick={showModal}>
-        <span className="desktop-view"><UnorderedListOutlined/> View</span>
-        <span className="mobile-view"><UnorderedListOutlined/></span>
+        <span className="desktop-view">
+          <UnorderedListOutlined /> View
+        </span>
+        <span className="mobile-view">
+          <UnorderedListOutlined />
+        </span>
       </Button>
       <Modal
         title="Driver Information"
@@ -135,7 +138,7 @@ function DriversInfoModal(props) {
         afterClose={handleClose}
         footer={[
           <Button
-            className="modal-button" 
+            className="modal-button"
             loading={confirmLoading}
             onClick={() => handleDelete(props.info.id)}
             danger
@@ -167,25 +170,24 @@ function DriversInfoModal(props) {
         <h4>Uploaded Images: </h4>
         <Card className="shadow-sm">
           <Row>
-              {images.map((image, index) => (
-                <Col key={index} md={{ span: 6 }}>
-                  
-                   <br></br>
-                      <Image
-                        height={100}
-                        width={100}
-                        src={`/api/v1/images/${
-                          image.imagePath ? image.imagePath : "logo.png"
-                        }`}
-                      />
-                      <Row>
-                      <br></br>
-                      <Button onClick={() => handleDeleteImage(image.id)} danger>
-                        Delete
-                      </Button>
-                      </Row>
-                </Col>
-              ))}
+            {images.map((image, index) => (
+              <Col key={index} md={{ span: 6 }}>
+                <br></br>
+                <Image
+                  height={100}
+                  width={100}
+                  src={`/api/v1/images/${
+                    image.imagePath ? image.imagePath : "logo.png"
+                  }`}
+                />
+                <Row>
+                  <br></br>
+                  <Button onClick={() => handleDeleteImage(image.id)} danger>
+                    Delete
+                  </Button>
+                </Row>
+              </Col>
+            ))}
           </Row>
         </Card>
       </Modal>

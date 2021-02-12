@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Form, Input, Button, Card, Row, Col, Typography } from "antd";
+import { Form, Input, Button, Card, Row, Col, Typography, Modal } from "antd";
 import { withRouter } from "react-router-dom";
 import { AuthContext } from ".././components/GlobalContext/AuthContext";
 import Imaged from "./Imaged";
@@ -10,7 +10,15 @@ function Login({ history }) {
 
   const onFinish = async (values) => {
     let { success, errorMessage } = await Auth.authenticate(values);
-    console.log(success);
+    {
+      success
+        ? Modal.success({
+            content: "Successfully Log in!",
+          })
+        : Modal.error({
+            content: "Email or Password is incorrect!",
+          });
+    }
   };
 
   const onFinishFailed = (errorInfo) => {

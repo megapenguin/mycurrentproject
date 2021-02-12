@@ -1,5 +1,11 @@
 const router = require("express").Router();
+const Sequelize = require("sequelize");
+const Op = Sequelize.Op;
+const Driver = require("../models/Driver");
 const JeepneyDriver = require("../models/JeepneyDriver");
+
+Driver.hasMany(JeepneyDriver, { foreignKey: "driverId" });
+JeepneyDriver.belongsTo(Driver, { foreignKey: "driverId" });
 
 router.get("/search_all_jeepneydrivers", (req, res) => {
   //SELECT * FROM users
@@ -7,6 +13,33 @@ router.get("/search_all_jeepneydrivers", (req, res) => {
     .then((response) => {
       console.log(response);
       res.json(response);
+    })
+    .catch((error) => console.log(error));
+});
+
+router.post("/search_jeepneydrivers", (req, res) => {
+  let { value } = req.body;
+
+  JeepneyDriver.findAll({
+    where: {
+      [Op.or]: [
+        {
+          jeepneyId: {
+            [Op.like]: value,
+          },
+        },
+      ],
+    },
+
+    include: [
+      {
+        model: Driver,
+        attributes: { exclude: ["generatePassword"] },
+      },
+    ],
+  })
+    .then((_res) => {
+      res.json(_res);
     })
     .catch((error) => console.log(error));
 });
@@ -23,9 +56,10 @@ router.post("/add_jeepney_driver", (req, res) => {
 });
 
 router.delete("/delete_jeepney_driver", (req, res) => {
-  let { id } = req.query;
+  let { driverId } = req.query;
+  console.log(driverId);
 
-  JeepneyDriver.destroy({ where: { id } })
+  JeepneyDriver.destroy({ where: { driverId: driverId } })
     .then((response) => {
       res.json({ success: true, msg: "Succefully deleted jeepney" });
     })

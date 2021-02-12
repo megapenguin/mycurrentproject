@@ -1,5 +1,5 @@
-import React, { Suspense, useEffect, useState } from "react";
-import { Table, Tag, Space, Input, Row, Col, Button, Divider } from "antd";
+import React, { useEffect, useState } from "react";
+import { Table, Space, Input, Row, Col, Divider } from "antd";
 import axios from "axios";
 import Column from "antd/lib/table/Column";
 import ColumnGroup from "antd/lib/table/ColumnGroup";

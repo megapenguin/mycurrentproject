@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
 html,
 body,
 #root,
@@ -8,7 +8,6 @@ body,
   width: 100%;
   font-family: "Roboto";
 }
-
 
 .App-logo {
   height: 40vmin;
@@ -60,14 +59,13 @@ body,
 
 div.loginCardStyle {
   border-radius: 20px;
-  box-shadow: rgba(0,0,0,0.1) 0 0 6px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 0 6px;
   text-align: center;
   width: 360px;
-  
 }
 div.registerCardStyle {
   border-radius: 20px;
-  box-shadow: rgba(0,0,0,0.1) 0 0 6px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 0 6px;
   width: 360px;
   height: 620px;
 }
@@ -77,19 +75,16 @@ div.icons-list {
   font-size: 40px;
 }
 
-Button.form-button { 
+Button.form-button {
   background-color: #55c596;
   border-color: #55c596;
 }
 
-
-div
-Button.modal-button {
-  border-radius: 20px; 
+div Button.modal-button {
+  border-radius: 20px;
 }
 
-div
-Button.modal-button-add {
+div Button.modal-button-add {
   border-radius: 20px;
   background-color: #55c596;
   border-color: #55c596;
@@ -100,11 +95,14 @@ Button span.mobile-view {
 }
 
 @media screen and (max-width: 768px) {
-  Button span.desktop-view{
+  Button span.desktop-view {
     display: none;
   }
   Button span.mobile-view {
     display: inline-block;
   }
+}
 
+.sidebar {
+  height: 100%;
 }

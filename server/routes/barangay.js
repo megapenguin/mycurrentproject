@@ -72,6 +72,23 @@ router.post("/search_barangays", (req, res) => {
         },
       ],
     },
+    include: [
+      {
+        model: Jeepney,
+        include: [
+          {
+            model: Image,
+            where: { imageReferenceId: JEEP_REF },
+            required: false,
+          },
+        ],
+      },
+      {
+        model: Image,
+        where: { imageReferenceId: BAR_REF },
+        required: false,
+      },
+    ],
   })
     .then((_res) => {
       res.json(_res);

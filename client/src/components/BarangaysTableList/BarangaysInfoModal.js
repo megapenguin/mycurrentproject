@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { Modal, Button, Card, Image, Col, Row, List } from "antd";
+import React, { useState } from "react";
+import { Modal, Button, Card, Image, Col, Row } from "antd";
 import axios from "axios";
-import { UnorderedListOutlined  } from "@ant-design/icons";
+import { UnorderedListOutlined } from "@ant-design/icons";
 
 function BarangaysInfoModal(props) {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -110,8 +110,12 @@ function BarangaysInfoModal(props) {
   return (
     <div>
       <Button type="primary" className="modal-button" onClick={showModal}>
-        <span className="desktop-view"><UnorderedListOutlined/> View</span>
-        <span className="mobile-view"><UnorderedListOutlined/></span>
+        <span className="desktop-view">
+          <UnorderedListOutlined /> View
+        </span>
+        <span className="mobile-view">
+          <UnorderedListOutlined />
+        </span>
       </Button>
       <Modal
         title="Barangay Information"
@@ -151,25 +155,24 @@ function BarangaysInfoModal(props) {
         <h4>Uploaded Images: </h4>
         <Card className="shadow-sm">
           <Row>
-              {images.map((image, index) => (
-                <Col key={index} md={{ span: 6 }}>
-                  
-                   <br></br>
-                      <Image
-                        height={100}
-                        width={100}
-                        src={`/api/v1/images/${
-                          image.imagePath ? image.imagePath : "logo.png"
-                        }`}
-                      />
-                      <Row>
-                      <br></br>
-                      <Button onClick={() => handleDeleteImage(image.id)} danger>
-                        Delete
-                      </Button>
-                      </Row>
-                </Col>
-              ))}
+            {images.map((image, index) => (
+              <Col key={index} md={{ span: 6 }}>
+                <br></br>
+                <Image
+                  height={100}
+                  width={100}
+                  src={`/api/v1/images/${
+                    image.imagePath ? image.imagePath : "logo.png"
+                  }`}
+                />
+                <Row>
+                  <br></br>
+                  <Button onClick={() => handleDeleteImage(image.id)} danger>
+                    Delete
+                  </Button>
+                </Row>
+              </Col>
+            ))}
           </Row>
         </Card>
       </Modal>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Form, Input, Modal, Button, Upload, Select } from "antd";
-import { UploadOutlined,PlusOutlined } from "@ant-design/icons";
+import { UploadOutlined, PlusOutlined } from "@ant-design/icons";
 import axios from "axios";
 
 function AddJeepneyModal(props) {
@@ -22,7 +22,6 @@ function AddJeepneyModal(props) {
     axios
       .get("/api/v1/barangays/search_all_barangays")
       .then((res) => {
-
         let data = res.data;
         setBarangays(data);
       })
@@ -95,8 +94,12 @@ function AddJeepneyModal(props) {
   return (
     <div>
       <Button type="primary" className="modal-button-add" onClick={showModal}>
-        <span className="desktop-view"><PlusOutlined /> Add Jeepney</span>
-        <span className="mobile-view"><PlusOutlined /></span>
+        <span className="desktop-view">
+          <PlusOutlined /> Add Jeepney
+        </span>
+        <span className="mobile-view">
+          <PlusOutlined />
+        </span>
       </Button>
 
       <Modal
@@ -108,12 +111,12 @@ function AddJeepneyModal(props) {
         afterClose={handleClose}
         destroyOnClose={true}
         footer={[
-          <Button key="back" className="modal-button"  onClick={handleCancel}>
+          <Button key="back" className="modal-button" onClick={handleCancel}>
             Cancel
           </Button>,
           <Button
             form="myForm"
-            className="modal-button" 
+            className="modal-button"
             key="submit"
             htmlType="submit"
             type="primary"
@@ -141,7 +144,7 @@ function AddJeepneyModal(props) {
           >
             <Select
               placeholder="Select Barangay"
-              style={{ width: '100%' }}
+              style={{ width: "100%" }}
               onChange={handleChange}
             >
               {barangays.map((barangay, index) => (
@@ -169,7 +172,7 @@ function AddJeepneyModal(props) {
           >
             <Input />
           </Form.Item>
-          <Upload
+          {/* <Upload
             action="/api/v1/images/add_image"
             listType="picture"
             maxCount={1}
@@ -177,7 +180,7 @@ function AddJeepneyModal(props) {
             onChange={checking}
           >
             <Button icon={<UploadOutlined />}>Upload Image (Max: 1)</Button>
-          </Upload>
+          </Upload> */}
         </Form>
       </Modal>
     </div>

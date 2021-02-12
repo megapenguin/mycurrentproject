@@ -17,7 +17,6 @@ function JeepneysTableList() {
     axios
       .get("/api/v1/jeepneys/")
       .then((res) => {
-
         let data = res.data;
         data = data.map((d) => {
           return { ...d, barangayName: d.barangay.barangayName };
@@ -47,17 +46,14 @@ function JeepneysTableList() {
 
   const modalClosed = () => {
     console.log("Passed data from modal", dataFromModal);
-    axios
-      .get("/api/v1/jeepneys/")
-      .then((res) => {
+    axios.get("/api/v1/jeepneys/").then((res) => {
+      let data = res.data;
+      data = data.map((d) => {
+        return { ...d, barangayName: d.barangay.barangayName };
+      });
 
-        let data = res.data;
-        data = data.map((d) => {
-          return { ...d, barangayName: d.barangay.barangayName };
-        });
-
-        setJeepneys(data);
-      })
+      setJeepneys(data);
+    });
   };
 
   return (
@@ -116,7 +112,7 @@ function JeepneysTableList() {
                   passedData={setDataFromModal}
                   afterClosing={modalClosed}
                 />
-                 <EditJeepneyModal
+                <EditJeepneyModal
                   info={value}
                   passedData={setDataFromModal}
                   afterClosing={modalClosed}
