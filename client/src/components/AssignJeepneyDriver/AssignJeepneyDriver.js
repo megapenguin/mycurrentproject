@@ -13,6 +13,7 @@ import {
   Modal,
 } from "antd";
 import axios from "axios";
+import { triggerFocus } from "antd/lib/input/Input";
 
 function AssignJeepneyDriver() {
   const [jeepneys, setJeepneys] = useState([]);
@@ -136,6 +137,8 @@ function AssignJeepneyDriver() {
       // );
     },
 
+    hideSelectAll: true,
+
     onSelect: (record, selected, selectedRows) => {
       // console.log("selectedRows: ", record.id);
       setSelectedKey(record.key);
@@ -211,10 +214,12 @@ function AssignJeepneyDriver() {
   return (
     <div>
       <Row align="top" gutter={32}>
-        <Divider>Assign Drivers</Divider>
+        <Divider>
+          <Title level={2}>Assign Drivers</Title>
+        </Divider>
         <Col flex="300px">
-          <Card>
-            <Title level={4}>Select Jeepney</Title>
+          <Card bordered={false}>
+            <Title level={5}>Select Jeepney</Title>
             <Table
               rowSelection={rowSelection}
               columns={plateColumns}
@@ -224,7 +229,7 @@ function AssignJeepneyDriver() {
           </Card>
         </Col>
         <Col flex="auto">
-          <Card title="Jeepney Info">
+          <Card title="Jeepney Info" bordered={false}>
             <Form layout="vertical">
               <Text strong>ID:</Text>
               <p>{info.id}</p>
@@ -240,7 +245,7 @@ function AssignJeepneyDriver() {
       <Divider>Drivers</Divider>
       <Row gutter={16}>
         <Col>
-          <Card>
+          <Card bordered={false}>
             <Table
               columns={driverColumns}
               dataSource={driverData}
