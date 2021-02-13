@@ -109,7 +109,7 @@ router.post("/auth_driver_login", (req, res) => {
 // }
 
 router.post("/auth_login", (req, res) => {
-  let { provider, email, password } = req.body;
+  let { provider, email, password, firstName, lastName } = req.body;
 
   // let where = hasProvider ? {where: {email, provider}} : {where: {email}}
   // let where =
@@ -128,8 +128,58 @@ router.post("/auth_login", (req, res) => {
       ],
     }).then((user) => {
       console.log("auth part");
-      if (user === null) return res.sendStatus(422);
-      // console.log(user)
+
+      if (user === null) {
+        console.log("new user");
+        User.create({
+          provider,
+          firstName,
+          lastName,
+          email,
+          password: "",
+        }).then((user) => {
+          console.log("created user", user);
+          User.findOne({
+            where: { email, provider },
+            include: [
+              {
+                model: Image,
+                where: { imageReferenceId: 4 },
+                required: false,
+              },
+            ],
+          }).then((user) => {
+            //console.log("check user", user);
+            let userPayload = {
+              id: user.id,
+              provider: user.provider,
+              firstName: user.firstName,
+              lastName: user.lastName,
+              email: user.email,
+              myStatus: "user",
+              image: user.images,
+            };
+            //console.log(userPayload)
+            let token = jwt.sign(userPayload, process.env.PUBLIC_KEY, {
+              expiresIn: "8h",
+            });
+            jwt.verify(token, process.env.PUBLIC_KEY, (error, decode) => {
+              if (error) {
+                console.log(error);
+                return res.sendStatus(403);
+              }
+
+              let secureToken = jwt.sign({ decode }, process.env.PRIVATE_KEY, {
+                expiresIn: "15m",
+                algorithm: "HS256",
+              });
+              res.json({ token, userData: userPayload, secureToken });
+            });
+          });
+        });
+      }
+
+      console.log("check user", user);
       let userPayload = {
         id: user.id,
         provider: user.provider,
