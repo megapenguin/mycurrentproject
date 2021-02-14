@@ -11,7 +11,10 @@ import {
   Button,
   Form,
   Modal,
+  Tag,
+  Radio,
 } from "antd";
+import { CloseOutlined, CheckOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { triggerFocus } from "antd/lib/input/Input";
 
@@ -31,9 +34,9 @@ function AssignJeepneyDriver() {
   useEffect(() => {
     axios.get("/api/v1/jeepneys/").then((res) => {
       let data = res.data;
-      // data = data.map((d) => {
-      //   return { ...d, barangayName: d.barangay.barangayName };
-      // });
+      data = data.map((d) => {
+        return { ...d, barangayName: d.barangay.barangayName };
+      });
 
       setJeepneys(data);
     });
@@ -47,12 +50,16 @@ function AssignJeepneyDriver() {
           return {
             ...d,
             jeepId: d.jeepneydrivers.map((jeepneyId) => {
-              if (jeepneyId.jeepneyId) {
-                return jeepneyId.jeepneyId;
-              } else {
-                return "none";
-              }
-              //console.log("jeepneyID", jeepneyId.jeepneyId);
+              return jeepneyId.jeepneyId;
+            }),
+          };
+        });
+        data = data.map((d) => {
+          return {
+            ...d,
+            plateNumber: d.jeepneydrivers.map((jeep) => {
+              //console.log("first", jeep.jeepney.plateNumber);
+              return jeep.jeepney.plateNumber;
             }),
           };
         });
@@ -67,6 +74,41 @@ function AssignJeepneyDriver() {
       title: "Plate Number",
       dataIndex: "plateNumber",
     },
+    {
+      title: "Status",
+      // filters: [
+      //   {
+      //     text: "Available",
+      //     value: 1,
+      //   },
+
+      //   {
+      //     text: "Not Available",
+      //     value: 2,
+      //   },
+      // ],
+      // onFilter: (value, record) => value,
+      render: (record, tag) => (
+        <>
+          {/* {tags.map((tag) => {
+            let color = tag.length > 5 ? "geekblue" : "green";
+            if (tag === "loser") {
+              color = "volcano";
+            }
+            return (
+              <Tag color={color} key={tag}>
+                {tag.toUpperCase()}
+              </Tag>
+            );
+          })} */}
+          {record.jeepneyDriver.length !== 0 ? (
+            <Tag color={"volcano"}>Not Available</Tag>
+          ) : (
+            <Tag color={"blue"}>Available</Tag>
+          )}
+        </>
+      ),
+    },
   ];
 
   const driverColumns = [
@@ -80,6 +122,7 @@ function AssignJeepneyDriver() {
       dataIndex: "middleName",
     },
     { title: "Lastname", dataIndex: "lastName" },
+    { title: "Jeep", dataIndex: "plateNumber" },
     {
       title: "Actions",
       key: "action",
@@ -91,7 +134,8 @@ function AssignJeepneyDriver() {
               type="primary"
               className="modal-button"
             >
-              Assign
+              <CheckOutlined />
+              Assign Driver
             </Button>
           ) : (
             <Button
@@ -99,7 +143,8 @@ function AssignJeepneyDriver() {
               type="danger"
               className="modal-button"
             >
-              Remove
+              <CloseOutlined />
+              Remove Driver
             </Button>
           )}
         </Space>
@@ -112,6 +157,8 @@ function AssignJeepneyDriver() {
       id: jeepney.id,
       plateNumber: jeepney.plateNumber,
       jeepCapacity: jeepney.jeepCapacity,
+      jeepneyDriver: jeepney.jeepneydrivers,
+      barangayName: jeepney.barangayName,
     };
   });
   const driverData = drivers.map((driver, index) => {
@@ -125,8 +172,104 @@ function AssignJeepneyDriver() {
       email: driver.email,
       address: driver.address,
       contactNumber: driver.contactNumber,
+      plateNumber: driver.plateNumber,
     };
   });
+
+  const assignDriver = (jeepId, id) => {
+    if (ifSelected === true) {
+      axios
+        .post("/api/v1/jeepneydrivers/add_jeepney_driver", {
+          driverId: id,
+          jeepneyId: jeepId,
+        })
+        .then((res) => {
+          axios.get("/api/v1/drivers/").then((res) => {
+            let data = res.data;
+            data = data.map((d) => {
+              return {
+                ...d,
+                jeepId: d.jeepneydrivers.map((jeepneyId) => {
+                  return jeepneyId.jeepneyId;
+                }),
+              };
+            });
+            data = data.map((d) => {
+              return {
+                ...d,
+                plateNumber: d.jeepneydrivers.map((jeep) => {
+                  //console.log("first", jeep.jeepney.plateNumber);
+                  return jeep.jeepney.plateNumber;
+                }),
+              };
+            });
+            setIfSelected(false);
+            setDrivers(data);
+            Modal.success({
+              content: "Successfully Assigned Driver",
+            });
+          });
+          axios.get("/api/v1/jeepneys/").then((res) => {
+            let data = res.data;
+            data = data.map((d) => {
+              return { ...d, barangayName: d.barangay.barangayName };
+            });
+
+            setJeepneys(data);
+          });
+        })
+        .catch((error) => console.log(error));
+    } else {
+      Modal.error({
+        content: "Select from available jeepneys",
+      });
+    }
+  };
+
+  const removeDriver = (id) => {
+    axios
+      .delete("/api/v1/jeepneydrivers/delete_jeepney_driver", {
+        params: {
+          driverId: id,
+        },
+      })
+      .then((res) => {
+        axios.get("/api/v1/drivers/").then((res) => {
+          let data = res.data;
+          data = data.map((d) => {
+            return {
+              ...d,
+              jeepId: d.jeepneydrivers.map((jeepneyId) => {
+                return jeepneyId.jeepneyId;
+              }),
+            };
+          });
+          data = data.map((d) => {
+            return {
+              ...d,
+              plateNumber: d.jeepneydrivers.map((jeep) => {
+                //console.log("first", jeep.jeepney.plateNumber);
+                return jeep.jeepney.plateNumber;
+              }),
+            };
+          });
+          setIfSelected(true);
+          setDrivers(data);
+          Modal.success({
+            content: "Successfully Removed Driver from Assigned Jeepney",
+          });
+        });
+        axios.get("/api/v1/jeepneys/").then((res) => {
+          let data = res.data;
+          data = data.map((d) => {
+            return { ...d, barangayName: d.barangay.barangayName };
+          });
+
+          setJeepneys(data);
+        });
+      })
+      .catch((error) => console.log(error));
+  };
 
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
@@ -147,69 +290,10 @@ function AssignJeepneyDriver() {
       setInfo(record);
     },
     getCheckboxProps: (record) => ({
-      disabled: record.key !== selectedKey && ifSelected === true, // Column configuration not to be checked
+      disabled:
+        //(record.key !== selectedKey && ifSelected === true) ||
+        record.jeepneyDriver.length !== 0, // Column configuration not to be checked
     }),
-  };
-
-  const assignDriver = (jeepId, id) => {
-    if (ifSelected === true) {
-      axios
-        .post("/api/v1/jeepneydrivers/add_jeepney_driver", {
-          driverId: id,
-          jeepneyId: jeepId,
-        })
-        .then((res) => {
-          axios.get("/api/v1/drivers/").then((res) => {
-            let data = res.data;
-            data = data.map((d) => {
-              return {
-                ...d,
-                jeepId: d.jeepneydrivers.map((jeepneyId) => {
-                  return jeepneyId.jeepneyId;
-                  //console.log("jeepneyID", jeepneyId.jeepneyId);
-                }),
-              };
-            });
-            setDrivers(data);
-            Modal.success({
-              content: "Successfully Assigned Driver",
-            });
-          });
-        })
-        .catch((error) => console.log(error));
-    } else {
-      Modal.error({
-        content: "Select a jeepney",
-      });
-    }
-  };
-
-  const removeDriver = (id) => {
-    axios
-      .delete("/api/v1/jeepneydrivers/delete_jeepney_driver", {
-        params: {
-          driverId: id,
-        },
-      })
-      .then((res) => {
-        axios.get("/api/v1/drivers/").then((res) => {
-          let data = res.data;
-          data = data.map((d) => {
-            return {
-              ...d,
-              jeepId: d.jeepneydrivers.map((jeepneyId) => {
-                return jeepneyId.jeepneyId;
-                //console.log("jeepneyID", jeepneyId.jeepneyId);
-              }),
-            };
-          });
-          setDrivers(data);
-          Modal.success({
-            content: "Successfully Removed Driver from Assigned Jeepney",
-          });
-        });
-      })
-      .catch((error) => console.log(error));
   };
   return (
     <div>
@@ -219,9 +303,13 @@ function AssignJeepneyDriver() {
         </Divider>
         <Col flex="300px">
           <Card bordered={false}>
-            <Title level={5}>Select Jeepney</Title>
+            <Title level={5}>Availabe Jeepneys</Title>
             <Table
-              rowSelection={rowSelection}
+              bordered={true}
+              rowSelection={{
+                type: "radio",
+                ...rowSelection,
+              }}
               columns={plateColumns}
               dataSource={jeepData}
               scroll={{ x: 300, y: 500 }}
@@ -229,11 +317,14 @@ function AssignJeepneyDriver() {
           </Card>
         </Col>
         <Col flex="auto">
-          <Card title="Jeepney Info" bordered={false}>
+          <Card>
+            <Title level={5}>Jeepney Info</Title>
+            <Divider></Divider>
             <Form layout="vertical">
               <Text strong>ID:</Text>
               <p>{info.id}</p>
-
+              <Text strong>Barangay:</Text>
+              <p>{info.barangayName}</p>
               <Text strong>Plate Number:</Text>
               <p>{info.plateNumber}</p>
               <Text strong>Jeep Capacity:</Text>
@@ -247,6 +338,7 @@ function AssignJeepneyDriver() {
         <Col>
           <Card bordered={false}>
             <Table
+              bordered={true}
               columns={driverColumns}
               dataSource={driverData}
               scroll={{ y: 500 }}

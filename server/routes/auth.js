@@ -9,6 +9,7 @@ const Op = Sequelize.Op;
 const Image = require("../models/Image");
 const Driver = require("../models/Driver");
 const Jeepney = require("../models/Jeepney");
+const Barangay = require("../models/Barangay");
 const JeepneyDriver = require("../models/JeepneyDriver");
 
 User.hasMany(Image, { foreignKey: "imageOwnerId" });
@@ -29,6 +30,8 @@ router.post("/auth_driver_login", (req, res) => {
   JeepneyDriver.belongsTo(Driver, { foreignKey: "driverId" });
   Jeepney.hasMany(JeepneyDriver, { foreignKey: "jeepneyId" });
   JeepneyDriver.belongsTo(Jeepney, { foreignKey: "jeepneyId" });
+  Barangay.hasMany(Jeepney, { foreignKey: "barangayId" });
+  Jeepney.belongsTo(Barangay, { foreignKey: "barangayId" });
 
   let { email, generatePassword } = req.body;
   console.log("auth part driver");
@@ -38,7 +41,17 @@ router.post("/auth_driver_login", (req, res) => {
       {
         model: JeepneyDriver,
         required: false,
-        include: [{ model: Jeepney, required: false }],
+        include: [
+          {
+            model: Jeepney,
+            required: false,
+            include: [
+              {
+                model: Barangay,
+              },
+            ],
+          },
+        ],
       },
     ],
   }).then((user) => {
