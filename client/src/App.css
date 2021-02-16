@@ -8,6 +8,18 @@ body,
   width: 100%;
   font-family: "Roboto";
 }
+.ant-layout, .site-layout-background {
+  height: 100%;
+  width: 100%;
+}
+
+.ant-table-body  {
+  height: 220px;
+}
+
+
+
+
 
 .App-logo {
   height: 40vmin;

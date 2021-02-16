@@ -65,7 +65,7 @@ function AdminLayout({ children }) {
       <Layout>
         <Header
           className="site-layout-sub-header-background"
-          style={{ padding: 0, textAlign: "center" }}
+          style={{ padding: 0, textAlign: "center" ,backgroundColor: "rgb(2, 19, 46)"}}
         >
           <h1 style={{ color: "white" }}>
             Retrack Admin
@@ -96,6 +96,7 @@ function AdminLayout({ children }) {
         </Footer>
       </Layout>
     </Layout>
+     
   );
 }
 

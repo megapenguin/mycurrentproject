@@ -48,7 +48,8 @@ function DriversTableList() {
   };
 
   return (
-    <div>
+    <div class="drivers-table">
+
       <Row justify="space-between">
         <Col span={4}>
           <Space direction="vertical">
@@ -69,6 +70,7 @@ function DriversTableList() {
         </Col>
       </Row>
       <Divider orientation="center">List of Drivers</Divider>
+      
       <Row>
         <Table dataSource={drivers} scroll={{ x: 1000, y: 500 }} sticky>
           {/* <ColumnGroup title="Id" dataIndex="id" key="id"></ColumnGroup> */}
@@ -104,7 +106,7 @@ function DriversTableList() {
             title="Actions"
             key="actions"
             fixed="right"
-            width="35vh"
+            width="30vh"
             render={(value) => (
               <Space>
                 <DriversInfoModal
