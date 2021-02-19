@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Table, Space, Input, Row, Col, Divider } from "antd";
+import { Table, Space, Input, Row, Col, Divider, Typography } from "antd";
 import axios from "axios";
 import Column from "antd/lib/table/Column";
 import ColumnGroup from "antd/lib/table/ColumnGroup";
@@ -12,6 +12,7 @@ function DriversTableList() {
   const [drivers, setDrivers] = useState([]);
   const { Search } = Input;
   const [dataFromModal, setDataFromModal] = useState("");
+  const { Title } = Typography;
 
   useEffect(() => {
     axios
@@ -69,7 +70,10 @@ function DriversTableList() {
           />
         </Col>
       </Row>
-      <Divider orientation="center">List of Drivers</Divider>
+      <Divider>
+        <Title level={4}>List of Drivers</Title>
+      </Divider>
+
       
       <Row>
         <Table dataSource={drivers} scroll={{ x: 1000, y: 500 }} sticky>

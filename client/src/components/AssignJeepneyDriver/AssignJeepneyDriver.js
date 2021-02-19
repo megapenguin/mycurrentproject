@@ -9,7 +9,6 @@ import {
   Card,
   Typography,
   Button,
-  Form,
   Modal,
   Tag,
   Radio,
@@ -69,40 +68,28 @@ function AssignJeepneyDriver() {
       .catch((error) => console.log(error));
   }, []);
 
+  
   const plateColumns = [
     {
       title: "Plate Number",
       dataIndex: "plateNumber",
     },
     {
+      title: "Barangay",
+      dataIndex: "barangayName",
+      
+    },
+    {
+      title: "Jeep Capacity",
+      dataIndex: "jeepCapacity",
+     
+    },
+    {
       title: "Status",
-      // filters: [
-      //   {
-      //     text: "Available",
-      //     value: 1,
-      //   },
-
-      //   {
-      //     text: "Not Available",
-      //     value: 2,
-      //   },
-      // ],
-      // onFilter: (value, record) => value,
       render: (record, tag) => (
         <>
-          {/* {tags.map((tag) => {
-            let color = tag.length > 5 ? "geekblue" : "green";
-            if (tag === "loser") {
-              color = "volcano";
-            }
-            return (
-              <Tag color={color} key={tag}>
-                {tag.toUpperCase()}
-              </Tag>
-            );
-          })} */}
           {record.jeepneyDriver.length !== 0 ? (
-            <Tag color={"volcano"}>Not Available</Tag>
+            <Tag color={"volcano"}>Unavailable</Tag>
           ) : (
             <Tag color={"blue"}>Available</Tag>
           )}
@@ -122,7 +109,10 @@ function AssignJeepneyDriver() {
       dataIndex: "middleName",
     },
     { title: "Lastname", dataIndex: "lastName" },
-    { title: "Jeep", dataIndex: "plateNumber" },
+    { 
+      title: "Jeep",
+      dataIndex: "plateNumber",
+    },
     {
       title: "Actions",
       key: "action",
@@ -132,10 +122,14 @@ function AssignJeepneyDriver() {
             <Button
               onClick={() => assignDriver(jeepId, record.id)}
               type="primary"
-              className="modal-button"
+              className="modal-button-view"
             >
+              <span className="desktop-view">
+              <CheckOutlined /> Assign Driver
+              </span>
+              <span className="mobile-view">
               <CheckOutlined />
-              Assign Driver
+              </span>
             </Button>
           ) : (
             <Button
@@ -143,8 +137,12 @@ function AssignJeepneyDriver() {
               type="danger"
               className="modal-button"
             >
+              <span className="desktop-view">
+              <CloseOutlined />  Remove Driver
+              </span>
+              <span className="mobile-view">
               <CloseOutlined />
-              Remove Driver
+              </span>
             </Button>
           )}
         </Space>
@@ -299,24 +297,25 @@ function AssignJeepneyDriver() {
     <div>
       <Row align="top" gutter={32}>
         <Divider>
-          <Title level={2}>Assign Drivers</Title>
+          <Title level={4}>Assign Drivers</Title>
         </Divider>
-        <Col flex="300px">
-          <Card bordered={false}>
-            <Title level={5}>Availabe Jeepneys</Title>
-            <Table
-              bordered={true}
-              rowSelection={{
-                type: "radio",
-                ...rowSelection,
-              }}
-              columns={plateColumns}
-              dataSource={jeepData}
-              scroll={{ x: 300, y: 500 }}
-            />
-          </Card>
-        </Col>
         <Col flex="auto">
+            <Card bordered={false}>
+              <Title level={5}>Availabe Jeepneys</Title>
+              <Table
+                bordered={true}
+                rowSelection={{
+                  type: "radio",
+                  ...rowSelection,
+                }}
+                columns={plateColumns}
+                dataSource={jeepData}
+                scroll={{ x: 300, y: 500 }}
+              />
+              
+            </Card>
+        </Col>
+        {/* <Col flex="auto">
           <Card>
             <Title level={5}>Jeepney Info</Title>
             <Divider></Divider>
@@ -331,9 +330,9 @@ function AssignJeepneyDriver() {
               <p>{info.jeepCapacity}</p>
             </Form>
           </Card>
-        </Col>
+        </Col> */}
       </Row>
-      <Divider>Drivers</Divider>
+      <Title level={5}>Drivers</Title>
       <Row gutter={16}>
         <Col>
           <Card bordered={false}>
@@ -346,6 +345,7 @@ function AssignJeepneyDriver() {
           </Card>
         </Col>
       </Row>
+     
     </div>
   );
 }

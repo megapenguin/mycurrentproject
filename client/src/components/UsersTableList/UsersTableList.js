@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Table, Space, Input, Row, Col, Divider } from "antd";
+import { Table, Space, Input, Row, Col, Divider, Typography } from "antd";
 import axios from "axios";
 import Column from "antd/lib/table/Column";
 import ColumnGroup from "antd/lib/table/ColumnGroup";
@@ -13,6 +13,7 @@ function UsersTableList() {
   const [users, setUsers] = useState([]);
   const { Search } = Input;
   const [dataFromModal, setDataFromModal] = useState("");
+  const { Title } = Typography;
 
   useEffect(() => {
     axios
@@ -60,7 +61,9 @@ function UsersTableList() {
           </Space>
         </Col>
       </Row>
-      <Divider orientation="center">List of Users</Divider>
+      <Divider>
+        <Title level={4}>List of Users</Title>
+      </Divider>
       <Row>
         <Table dataSource={users} scroll={{ x: 1000, y: 500 }} sticky>
           {/* <ColumnGroup title="Id" dataIndex="id" key="id"></ColumnGroup> */}

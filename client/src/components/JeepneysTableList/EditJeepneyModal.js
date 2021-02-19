@@ -104,7 +104,7 @@ function EditJeepneyModal(props) {
 
   return (
     <div>
-      <Button type="primary" className="modal-button" onClick={showModal}>
+      <Button type="primary" className="modal-button-edit" onClick={showModal}>
         <span className="desktop-view"><EditOutlined /> Edit</span>
         <span className="mobile-view"><EditOutlined /></span>
       </Button>

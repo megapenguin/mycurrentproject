@@ -67,7 +67,7 @@ function AdminLayout({ children }) {
           className="site-layout-sub-header-background"
           style={{ padding: 0, textAlign: "center" ,backgroundColor: "rgb(2, 19, 46)"}}
         >
-          <h1 style={{ color: "white" }}>
+          <h1 style={{ color: "white" , backgroundColor: "#001529"}}>
             Retrack Admin
             <Button
               onClick={logout}

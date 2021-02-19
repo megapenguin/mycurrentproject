@@ -152,7 +152,7 @@ function AddJeepneyImageModal(props) {
 
   return (
     <div>
-      <Button type="primary" className="modal-button" onClick={showModal}>
+      <Button type="primary" className="modal-button-upload" onClick={showModal}>
         <span className="desktop-view"><UploadOutlined /> Upload</span>
         <span className="mobile-view"><UploadOutlined /></span>
       </Button>

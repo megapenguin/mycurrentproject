@@ -112,7 +112,7 @@ function JeepneysInfoModal(props) {
   return (
     <div>
       <Space>
-        <Button type="primary" className="modal-button" onClick={showModal}>
+        <Button type="primary" className="modal-button-view" onClick={showModal}>
           <span className="desktop-view">
             <UnorderedListOutlined /> View
           </span>

@@ -8,16 +8,6 @@ body,
   width: 100%;
   font-family: "Roboto";
 }
-.ant-layout, .site-layout-background {
-  height: 100%;
-  width: 100%;
-}
-
-.ant-table-body  {
-  height: 220px;
-}
-
-
 
 
 
@@ -92,8 +82,27 @@ Button.form-button {
   border-color: #55c596;
 }
 
+div Button.modal-button-edit {
+  border-radius: 20px;
+  background-color: #0275d8;
+  border-color: #0275d8;
+}
+
+div Button.modal-button-upload {
+  border-radius: 20px;
+  background-color: #5bc0de;
+  border-color: #5bc0de;
+}
+
+
 div Button.modal-button {
   border-radius: 20px;
+}
+
+div Button.modal-button-view {
+  border-radius: 20px;
+  background-color: #5cb85c;
+  border-color: #5cb85c;
 }
 
 div Button.modal-button-add {
