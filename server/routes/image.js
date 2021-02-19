@@ -3,6 +3,7 @@ const Image = require("../models/Image");
 const randomString = require("randomstring");
 const path = require("path");
 const fs = require("fs");
+const sharp = require("sharp");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 const jwt = require("jsonwebtoken");
@@ -64,8 +65,9 @@ router.post("/save_image", (req, res) => {
 
 //Uploading Images
 router.post("/add_image", (req, res) => {
-  console.log(req.body);
+  //console.log(req.files.file);
   let { imageOwnerId, imageReferenceId } = req.body;
+
   if (req.files === null) {
     return res.status(400).json({ msg: "No image uploaded!" });
   }
@@ -73,27 +75,48 @@ router.post("/add_image", (req, res) => {
   const file = req.files.file;
   const randomFileName = randomString.generate(15);
   const splitFile = file.name.split(".");
-  //console.log(file)
-  file.mv(
-    `${__dirname}/../public/images/${randomFileName}.${splitFile[1]}`,
-    (err) => {
-      if (err) {
-        console.error(err);
-        return res.status(500).send(err);
-      }
-      const imagePath = `${randomFileName}.${splitFile[1]}`;
-      Image.create({ imageOwnerId, imageReferenceId, imagePath })
-        .then((response) => {
-          res.json(response);
-        })
-        .catch((error) => console.log(error));
+  let inputBuffer = Buffer.from(file.data, "base64");
+  try {
+    sharp(inputBuffer)
+      .resize(300, 200)
+      .png({ compressionLevel: 9, adaptiveFiltering: true, force: true })
+      .toFile(
+        `${__dirname}/../public/images/${randomFileName}.${splitFile[1]}`,
+        (err, info) => {
+          if (err) throw err;
+          console.log(info);
+          const imagePath = `${randomFileName}.${splitFile[1]}`;
+          Image.create({ imageOwnerId, imageReferenceId, imagePath })
+            .then((response) => {
+              res.json(response);
+            })
+            .catch((error) => console.log(error));
+        }
+      );
+  } catch (err) {
+    console.log(err);
+  }
 
-      // res.json({
-      //   fileName: file.name,
-      //   filePath: `${randomFileName}.${splitFile[1]}`,
-      // });
-    }
-  );
+  // file.mv(
+  //   `${__dirname}/../public/images/${randomFileName}.${splitFile[1]}`,
+  //   (err) => {
+  //     if (err) {
+  //       console.error(err);
+  //       return res.status(500).send(err);
+  //     }
+  //     const imagePath = `${randomFileName}.${splitFile[1]}`;
+  //     Image.create({ imageOwnerId, imageReferenceId, imagePath })
+  //       .then((response) => {
+  //         res.json(response);
+  //       })
+  //       .catch((error) => console.log(error));
+
+  //     // res.json({
+  //     //   fileName: file.name,
+  //     //   filePath: `${randomFileName}.${splitFile[1]}`,
+  //     // });
+  //   }
+  // );
 
   //  console.log(filePath);
 });
