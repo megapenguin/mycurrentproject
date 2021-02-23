@@ -76,49 +76,58 @@ router.post("/add_image", (req, res) => {
   const randomFileName = randomString.generate(15);
   const splitFile = file.name.split(".");
   let inputBuffer = Buffer.from(file.data, "base64");
+  console.log("file data", file.data);
   try {
-    sharp(inputBuffer)
-      .resize(300, 200)
+    sharp(file.data)
+      .resize(1000, 445)
       .png({ compressionLevel: 9, adaptiveFiltering: true, force: true })
       .toFile(
-        `${__dirname}/../public/images/${randomFileName}.${splitFile[1]}`,
+        `${__dirname}/../public/images/${randomFileName}-lg.${splitFile[1]}`,
         (err, info) => {
           if (err) throw err;
-          console.log(info);
-          const imagePath = `${randomFileName}.${splitFile[1]}`;
-          Image.create({ imageOwnerId, imageReferenceId, imagePath })
-            .then((response) => {
-              res.json(response);
-            })
-            .catch((error) => console.log(error));
+
+          sharp(file.data)
+            .resize(640, 320)
+            .png({ compressionLevel: 9, adaptiveFiltering: true, force: true })
+            .toFile(
+              `${__dirname}/../public/images/${randomFileName}-md.${splitFile[1]}`,
+              (err, info) => {
+                if (err) throw err;
+                sharp(file.data)
+                  .resize(200, 100)
+                  .png({
+                    compressionLevel: 9,
+                    adaptiveFiltering: true,
+                    force: true,
+                  })
+                  .toFile(
+                    `${__dirname}/../public/images/${randomFileName}-sm.${splitFile[1]}`,
+                    (err, info) => {
+                      if (err) throw err;
+                      console.log(info);
+                      const imagePath = `${randomFileName}-lg.${splitFile[1]}`;
+                      const smImagePath = `${randomFileName}-sm.${splitFile[1]}`;
+                      const mdImagePath = `${randomFileName}-md.${splitFile[1]}`;
+                      Image.create({
+                        imageOwnerId,
+                        imageReferenceId,
+                        imagePath,
+                        smImagePath,
+                        mdImagePath,
+                      })
+                        .then((response) => {
+                          res.json(response);
+                        })
+                        .catch((error) => console.log(error));
+                    }
+                  );
+              }
+            );
         }
       );
   } catch (err) {
     console.log(err);
   }
-
-  // file.mv(
-  //   `${__dirname}/../public/images/${randomFileName}.${splitFile[1]}`,
-  //   (err) => {
-  //     if (err) {
-  //       console.error(err);
-  //       return res.status(500).send(err);
-  //     }
-  //     const imagePath = `${randomFileName}.${splitFile[1]}`;
-  //     Image.create({ imageOwnerId, imageReferenceId, imagePath })
-  //       .then((response) => {
-  //         res.json(response);
-  //       })
-  //       .catch((error) => console.log(error));
-
-  //     // res.json({
-  //     //   fileName: file.name,
-  //     //   filePath: `${randomFileName}.${splitFile[1]}`,
-  //     // });
-  //   }
-  // );
-
-  //  console.log(filePath);
 });
 
 function saveImageToDatabase() {
@@ -131,14 +140,19 @@ function saveImageToDatabase() {
 
 router.delete("/delete_folder_image", (req, res) => {
   let { fileName, fileId } = req.query;
-  console.log(fileName);
+
   const imagePath = path.resolve("public", "images", fileName);
 
   Image.destroy({ where: { id: fileId } })
     .then((response) => {
+      const splitFile = fileName.split("-");
+      const imageName = splitFile[0];
+      const fileExtension = splitFile[1].split(".")[1];
+      console.log(splitFile);
       if (require("fs").existsSync(imagePath)) {
-        console.log(imagePath);
-        fs.unlinkSync(`public/images/${fileName}`);
+        fs.unlinkSync(`public/images/${imageName}-lg.${fileExtension}`);
+        fs.unlinkSync(`public/images/${imageName}-md.${fileExtension}`);
+        fs.unlinkSync(`public/images/${imageName}-sm.${fileExtension}`);
       } else {
         console.log("ERROR");
       }
