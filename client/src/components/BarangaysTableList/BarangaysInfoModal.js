@@ -42,6 +42,7 @@ function BarangaysInfoModal(props) {
         //setImagePath(imagesCopy.imagePath);
       })
       .catch((error) => console.log(error));
+    //console.log(images);
   };
 
   const handleOk = () => {
@@ -54,12 +55,12 @@ function BarangaysInfoModal(props) {
     }, 2000);
   };
 
-  const handleDeleteImage = (id) => {
+  const handleDeleteImage = (id, imagePath) => {
     axios
-      .delete("/api/v1/images/delete_image", {
+      .delete("/api/v1/images/delete_folder_image", {
         params: {
-          id,
-          referenceId: 1,
+          fileName: imagePath,
+          fileId: id,
         },
       })
       .then((res) => {
@@ -167,7 +168,10 @@ function BarangaysInfoModal(props) {
                 />
                 <Row>
                   <br></br>
-                  <Button onClick={() => handleDeleteImage(image.id)} danger>
+                  <Button
+                    onClick={() => handleDeleteImage(image.id, image.imagePath)}
+                    danger
+                  >
                     Delete
                   </Button>
                 </Row>

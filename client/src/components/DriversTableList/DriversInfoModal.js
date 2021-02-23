@@ -22,14 +22,6 @@ function DriversInfoModal(props) {
       .then((res) => {
         let data = res.data;
         setImages(data);
-        //console.log("images", images);
-        // let imagesCopy = [...images];
-        // imagesCopy = imagesCopy.find(
-        //   (imagesCopy) =>
-        //     imagesCopy.imageOwnerId === props.info.id &&
-        //     imagesCopy.imageReferenceId === 1
-        // );
-        //setImagePath(imagesCopy.imagePath);
       })
       .catch((error) => console.log(error));
   };
@@ -52,42 +44,45 @@ function DriversInfoModal(props) {
       setIsModalVisible(false);
       setConfirmLoading(false);
     }, 2000);
+    Modal.success({
+      content: "Still in development",
+    });
     //console.log(id);
-    axios
-      .delete("/api/v1/images/delete_image", {
-        params: {
-          id,
-          referenceId: 1,
-        },
-      })
-      .then((res) => {
-        let imagesCopy = [...images];
-        imagesCopy = imagesCopy.filter(
-          (imagesCopy) =>
-            imagesCopy.imageOwnerId !== id && imagesCopy.imageReferenceId === 2
-        );
-        setImages(imagesCopy);
-        console.log(imagesCopy);
-      })
-      .catch((error) => console.log(error));
+    // axios
+    //   .delete("/api/v1/images/delete_image", {
+    //     params: {
+    //       id,
+    //       referenceId: 1,
+    //     },
+    //   })
+    //   .then((res) => {
+    //     let imagesCopy = [...images];
+    //     imagesCopy = imagesCopy.filter(
+    //       (imagesCopy) =>
+    //         imagesCopy.imageOwnerId !== id && imagesCopy.imageReferenceId === 2
+    //     );
+    //     setImages(imagesCopy);
+    //     //console.log(imagesCopy);
+    //   })
+    //   .catch((error) => console.log(error));
 
-    axios
-      .delete("/api/v1/drivers/delete_driver", {
-        params: {
-          id,
-        },
-      })
-      .then((res) => {
-        let driversCopy = [...drivers];
-        driversCopy = driversCopy.filter((driver) => driver.id !== id);
-        setDrivers(driversCopy);
-        //console.log(driversCopy);
+    // axios
+    //   .delete("/api/v1/drivers/delete_driver", {
+    //     params: {
+    //       id,
+    //     },
+    //   })
+    //   .then((res) => {
+    //     let driversCopy = [...drivers];
+    //     driversCopy = driversCopy.filter((driver) => driver.id !== id);
+    //     setDrivers(driversCopy);
+    //     //console.log(driversCopy);
 
-        Modal.success({
-          content: "Driver has been Removed",
-        });
-      })
-      .catch((error) => console.log(error));
+    //     Modal.success({
+    //       content: "Driver has been Removed",
+    //     });
+    //   })
+    //   .catch((error) => console.log(error));
   };
 
   const handleCancel = () => {
@@ -101,12 +96,12 @@ function DriversInfoModal(props) {
     }
   };
 
-  const handleDeleteImage = (id) => {
+  const handleDeleteImage = (id, imagePath) => {
     axios
-      .delete("/api/v1/images/delete_image", {
+      .delete("/api/v1/images/delete_folder_image", {
         params: {
-          id,
-          referenceId: 1,
+          fileName: imagePath,
+          fileId: id,
         },
       })
       .then((res) => {
@@ -182,7 +177,10 @@ function DriversInfoModal(props) {
                 />
                 <Row>
                   <br></br>
-                  <Button onClick={() => handleDeleteImage(image.id)} danger>
+                  <Button
+                    onClick={() => handleDeleteImage(image.id, image.imagePath)}
+                    danger
+                  >
                     Delete
                   </Button>
                 </Row>

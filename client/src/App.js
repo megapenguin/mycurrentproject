@@ -25,6 +25,7 @@ import DriversTableListContent from "./views/DriversTableListContent";
 import JeepneysTableListContent from "./views/JeepneysTableListContent";
 import UsersTableListContent from "./views/UsersTableListContent";
 import AssignJeepneyDriverDashboard from "./views/AssignJeepneyDriverDashboard";
+import FunFactsTableListContents from "./views/FunFactsTableListContents";
 
 function App() {
   let Auth = useContext(AuthContext);
@@ -79,6 +80,13 @@ function App() {
               layout={AdminLayout}
               path="/users-list"
               component={UsersTableListContent}
+              exact
+            />
+            <MainProtectedRoutes
+              Auth={Auth}
+              layout={AdminLayout}
+              path="/funfacts-list"
+              component={FunFactsTableListContents}
               exact
             />
             <LoginProtectedRoutes

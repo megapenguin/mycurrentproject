@@ -20,7 +20,11 @@ function JeepneysTableList() {
       .then((res) => {
         let data = res.data;
         data = data.map((d) => {
-          return { ...d, barangayName: d.barangay.barangayName };
+          if (d.barangay === null) {
+            return { ...d, barangayName: "None Assigned" };
+          } else {
+            return { ...d, barangayName: d.barangay.barangayName };
+          }
         });
 
         setJeepneys(data);
@@ -35,7 +39,11 @@ function JeepneysTableList() {
         console.log(_res);
         let data = _res.data;
         data = data.map((d) => {
-          return { ...d, barangayName: d.barangay.barangayName };
+          if (d.barangay === null) {
+            return { ...d, barangayName: "None Assigned" };
+          } else {
+            return { ...d, barangayName: d.barangay.barangayName };
+          }
         });
 
         setJeepneys(data);
@@ -50,7 +58,11 @@ function JeepneysTableList() {
     axios.get("/api/v1/jeepneys/").then((res) => {
       let data = res.data;
       data = data.map((d) => {
-        return { ...d, barangayName: d.barangay.barangayName };
+        if (d.barangay === null) {
+          return { ...d, barangayName: "None Assigned" };
+        } else {
+          return { ...d, barangayName: d.barangay.barangayName };
+        }
       });
 
       setJeepneys(data);

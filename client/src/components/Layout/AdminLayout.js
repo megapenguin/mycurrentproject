@@ -6,6 +6,7 @@ import {
   CarOutlined,
   LogoutOutlined,
   HomeOutlined,
+  FundViewOutlined,
 } from "@ant-design/icons";
 import Imaged from "../../views/Imaged";
 import { Link } from "react-router-dom";
@@ -60,14 +61,21 @@ function AdminLayout({ children }) {
           <Menu.Item key="6" icon={<UserOutlined />}>
             <Link to="/users-list"> Users List</Link>
           </Menu.Item>
+          <Menu.Item key="7" icon={<FundViewOutlined />}>
+            <Link to="/funfacts-list"> Fun Facts List</Link>
+          </Menu.Item>
         </Menu>
       </Sider>
       <Layout>
         <Header
           className="site-layout-sub-header-background"
-          style={{ padding: 0, textAlign: "center" ,backgroundColor: "rgb(2, 19, 46)"}}
+          style={{
+            padding: 0,
+            textAlign: "center",
+            backgroundColor: "rgb(2, 19, 46)",
+          }}
         >
-          <h1 style={{ color: "white" , backgroundColor: "#001529"}}>
+          <h1 style={{ color: "white", backgroundColor: "#001529" }}>
             Retrack Admin
             <Button
               onClick={logout}
@@ -96,7 +104,6 @@ function AdminLayout({ children }) {
         </Footer>
       </Layout>
     </Layout>
-     
   );
 }
 

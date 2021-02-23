@@ -42,42 +42,45 @@ function JeepneysInfoModal(props) {
       setIsModalVisible(false);
       setConfirmLoading(false);
     }, 2000);
-    axios
-      .delete("/api/v1/images/delete_image", {
-        params: {
-          id,
-          referenceId: 3,
-        },
-      })
-      .then((res) => {
-        let imagesCopy = [...images];
-        imagesCopy = imagesCopy.filter(
-          (imagesCopy) =>
-            imagesCopy.imageOwnerId !== id && imagesCopy.imageReferenceId === 3
-        );
-        setImages(imagesCopy);
-        console.log(imagesCopy);
-      })
-      .catch((error) => console.log(error));
+    Modal.success({
+      content: "Still in development",
+    });
+    // axios
+    //   .delete("/api/v1/images/delete_image", {
+    //     params: {
+    //       id,
+    //       referenceId: 3,
+    //     },
+    //   })
+    //   .then((res) => {
+    //     let imagesCopy = [...images];
+    //     imagesCopy = imagesCopy.filter(
+    //       (imagesCopy) =>
+    //         imagesCopy.imageOwnerId !== id && imagesCopy.imageReferenceId === 3
+    //     );
+    //     setImages(imagesCopy);
+    //     console.log(imagesCopy);
+    //   })
+    //   .catch((error) => console.log(error));
 
-    axios
-      .delete("/api/v1/jeepneys/delete_jeep", {
-        params: {
-          id,
-        },
-      })
-      .then((res) => {
-        let jeepneysCopy = [...jeepneys];
+    // axios
+    //   .delete("/api/v1/jeepneys/delete_jeep", {
+    //     params: {
+    //       id,
+    //     },
+    //   })
+    //   .then((res) => {
+    //     let jeepneysCopy = [...jeepneys];
 
-        jeepneysCopy = jeepneysCopy.filter((jeepney) => jeepney.id !== id);
-        setJeepneys(jeepneysCopy);
+    //     jeepneysCopy = jeepneysCopy.filter((jeepney) => jeepney.id !== id);
+    //     setJeepneys(jeepneysCopy);
 
-        console.log(jeepneysCopy);
-        Modal.success({
-          content: "Jeepney has been Removed",
-        });
-      })
-      .catch((error) => console.log(error));
+    //     console.log(jeepneysCopy);
+    //     Modal.success({
+    //       content: "Jeepney has been Removed",
+    //     });
+    //   })
+    //   .catch((error) => console.log(error));
   };
 
   const handleCancel = () => {
@@ -91,12 +94,12 @@ function JeepneysInfoModal(props) {
     }
   };
 
-  const handleDeleteImage = (id) => {
+  const handleDeleteImage = (id, imagePath) => {
     axios
-      .delete("/api/v1/images/delete_image", {
+      .delete("/api/v1/images/delete_folder_image", {
         params: {
-          id,
-          referenceId: 1,
+          fileName: imagePath,
+          fileId: id,
         },
       })
       .then((res) => {
@@ -104,15 +107,31 @@ function JeepneysInfoModal(props) {
         imagesCopy = imagesCopy.filter((image) => image.id !== id);
         setImages(imagesCopy);
         Modal.success({
-          content: "Barangay image has been removed",
+          content: "Jeepney image has been removed",
         });
       })
       .catch((error) => console.log(error));
+
+    // axios
+    //   .delete("/api/v1/images/delete_image", {
+    //     params: {
+    //       id,
+    //       referenceId: 1,
+    //     },
+    //   })
+    //   .then((res) => {
+    //
+    //   })
+    //   .catch((error) => console.log(error));
   };
   return (
     <div>
       <Space>
-        <Button type="primary" className="modal-button-view" onClick={showModal}>
+        <Button
+          type="primary"
+          className="modal-button-view"
+          onClick={showModal}
+        >
           <span className="desktop-view">
             <UnorderedListOutlined /> View
           </span>
@@ -170,7 +189,10 @@ function JeepneysInfoModal(props) {
                 />
                 <Row>
                   <br></br>
-                  <Button onClick={() => handleDeleteImage(image.id)} danger>
+                  <Button
+                    onClick={() => handleDeleteImage(image.id, image.imagePath)}
+                    danger
+                  >
                     Delete
                   </Button>
                 </Row>

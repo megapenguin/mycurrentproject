@@ -1,5 +1,5 @@
-const Sequelize = require("sequelize")
-const db = require("../database/database")
+const Sequelize = require("sequelize");
+const db = require("../database/database");
 
 const Image = db.define("images", {
   id: {
@@ -23,6 +23,15 @@ const Image = db.define("images", {
     type: Sequelize.STRING,
     allowNull: false,
   },
+  smImagePath: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+
+  mdImagePath: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
 
   createdAt: {
     type: Sequelize.DATE,
@@ -32,6 +41,6 @@ const Image = db.define("images", {
     type: Sequelize.DATE,
     allowNull: false,
   },
-})
+});
 
-module.exports = Image
+module.exports = Image;

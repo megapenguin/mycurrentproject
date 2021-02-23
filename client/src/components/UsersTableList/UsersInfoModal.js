@@ -22,14 +22,6 @@ function UsersInfoModal(props) {
       .then((res) => {
         let data = res.data;
         setImages(data);
-        //console.log("images", images);
-        // let imagesCopy = [...images];
-        // imagesCopy = imagesCopy.find(
-        //   (imagesCopy) =>
-        //     imagesCopy.imageOwnerId === props.info.id &&
-        //     imagesCopy.imageReferenceId === 1
-        // );
-        //setImagePath(imagesCopy.imagePath);
       })
       .catch((error) => console.log(error));
   };

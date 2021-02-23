@@ -34,7 +34,11 @@ function AssignJeepneyDriver() {
     axios.get("/api/v1/jeepneys/").then((res) => {
       let data = res.data;
       data = data.map((d) => {
-        return { ...d, barangayName: d.barangay.barangayName };
+        if (d.barangay === null) {
+          return { ...d, barangayName: "None Assigned" };
+        } else {
+          return { ...d, barangayName: d.barangay.barangayName };
+        }
       });
 
       setJeepneys(data);
@@ -68,7 +72,6 @@ function AssignJeepneyDriver() {
       .catch((error) => console.log(error));
   }, []);
 
-  
   const plateColumns = [
     {
       title: "Plate Number",
@@ -77,12 +80,10 @@ function AssignJeepneyDriver() {
     {
       title: "Barangay",
       dataIndex: "barangayName",
-      
     },
     {
       title: "Jeep Capacity",
       dataIndex: "jeepCapacity",
-     
     },
     {
       title: "Status",
@@ -109,7 +110,7 @@ function AssignJeepneyDriver() {
       dataIndex: "middleName",
     },
     { title: "Lastname", dataIndex: "lastName" },
-    { 
+    {
       title: "Jeep",
       dataIndex: "plateNumber",
     },
@@ -125,10 +126,10 @@ function AssignJeepneyDriver() {
               className="modal-button-view"
             >
               <span className="desktop-view">
-              <CheckOutlined /> Assign Driver
+                <CheckOutlined /> Assign Driver
               </span>
               <span className="mobile-view">
-              <CheckOutlined />
+                <CheckOutlined />
               </span>
             </Button>
           ) : (
@@ -138,10 +139,10 @@ function AssignJeepneyDriver() {
               className="modal-button"
             >
               <span className="desktop-view">
-              <CloseOutlined />  Remove Driver
+                <CloseOutlined /> Remove Driver
               </span>
               <span className="mobile-view">
-              <CloseOutlined />
+                <CloseOutlined />
               </span>
             </Button>
           )}
@@ -300,20 +301,19 @@ function AssignJeepneyDriver() {
           <Title level={4}>Assign Drivers</Title>
         </Divider>
         <Col flex="auto">
-            <Card bordered={false}>
-              <Title level={5}>Availabe Jeepneys</Title>
-              <Table
-                bordered={true}
-                rowSelection={{
-                  type: "radio",
-                  ...rowSelection,
-                }}
-                columns={plateColumns}
-                dataSource={jeepData}
-                scroll={{ x: 300, y: 500 }}
-              />
-              
-            </Card>
+          <Card bordered={false}>
+            <Title level={5}>Availabe Jeepneys</Title>
+            <Table
+              bordered={true}
+              rowSelection={{
+                type: "radio",
+                ...rowSelection,
+              }}
+              columns={plateColumns}
+              dataSource={jeepData}
+              scroll={{ x: 300, y: 500 }}
+            />
+          </Card>
         </Col>
         {/* <Col flex="auto">
           <Card>
@@ -345,7 +345,6 @@ function AssignJeepneyDriver() {
           </Card>
         </Col>
       </Row>
-     
     </div>
   );
 }
