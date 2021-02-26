@@ -6,6 +6,9 @@ function Dashboard() {
   return (
     <div>
       <Divider>
+        <Title level={4}>Dashboard</Title>
+      </Divider>
+      <Divider>
         <Title level={4}>Welcome</Title>
       </Divider>
     </div>

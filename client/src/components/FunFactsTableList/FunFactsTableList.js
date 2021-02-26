@@ -1,12 +1,34 @@
-import React, { useState, useEffect } from "react";
-import { Divider, Row, Col, Typography, Image, Button, Modal } from "antd";
+import React, { useState, useEffect, useRef } from "react";
+import { Carousel,Divider, Row, Col, Typography, Image, Button, Modal, Space } from "antd";
 import axios from "axios";
 import AddFunfactsModal from "./AddFunfactsModal";
+import { RightOutlined,LeftOutlined, DeleteOutlined    } from "@ant-design/icons";
 
 function FunFactsTableList() {
   const { Title } = Typography;
 
   const [images, setImages] = useState([]);
+  const sliderRef = useRef();
+
+  const handlePrev = () => sliderRef.current.prev();
+  const handleNext = () => sliderRef.current.next();
+
+
+  const contentStyle = {
+    color: '#fff',
+    background: '#001529',
+    height: "100%",
+    maxWidth: "100%",
+    maxheight: "100%",
+    lineHeight: "100px",
+  };
+
+  
+  const imageStyle = {
+    height: "400px",
+    lineHeight: "160px",
+    width: "500px", 
+  };
 
   useEffect(() => {
     axios
@@ -14,6 +36,7 @@ function FunFactsTableList() {
       .then((res) => {
         let data = res.data;
         setImages(data);
+        console.log(data);
       })
       .catch((error) => console.log(error));
   }, []);
@@ -50,28 +73,51 @@ function FunFactsTableList() {
       <Divider>
         <Title level={4}>Fun Facts</Title>
       </Divider>
+     
       <AddFunfactsModal afterClosing={modalClosed} />
-      <Row>
-        {images.map((image, index) => (
-          <Col key={index} md={{ span: 6 }}>
+       
+      
+      
+      <Carousel 
+       ref={sliderRef}
+       style={contentStyle}
+       swipeToSlide={true}
+       draggable >
+      {images.map((image, index) => (
+          <Col key={index} span={24}>
+             
             <Image
-              height={100}
-              width={100}
+              style={imageStyle}
+              // height={200}
+              // width={200}
               src={`/api/v1/funfacts/${
                 image.lgImagePath ? image.lgImagePath : "logo.png"
               }`}
             />
-            <Row>
-              <Button
-                onClick={() => handleDeleteImage(image.id, image.lgImagePath)}
-                danger
-              >
-                Delete
-              </Button>
+           <Col>
+           <Row>
+            <Col span={12}>
+            <LeftOutlined    onClick={handlePrev}/>
+            </Col>
+            <Col span={12}>
+            <RightOutlined onClick={handleNext}/>
+            </Col>
             </Row>
+           
+           <DeleteOutlined  onClick={() => handleDeleteImage(image.id, image.lgImagePath)}
+            danger/>
+          
+            </Col>
+            
           </Col>
+          
+          
+           
         ))}
-      </Row>
+         
+      </Carousel>
+     
+      
     </div>
   );
 }
