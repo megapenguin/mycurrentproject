@@ -6,7 +6,7 @@ import {
   Col,
   Typography,
   Image,
-  Button,
+  Card,
   Modal,
   Space,
 } from "antd";
@@ -24,12 +24,7 @@ function FunFactsTableList() {
   const handleNext = () => sliderRef.current.next();
 
   const contentStyle = {
-    // color: "#fff",
-    // background: "#001529",
-    // height: "100%",
-    // maxWidth: "100%",
-    // maxheight: "100%",
-    // lineHeight: "100px",
+    maxWidth: "350px",
   };
 
   const imageStyle = {
@@ -78,46 +73,54 @@ function FunFactsTableList() {
 
   return (
     <div>
+      <Row>
+        <Col span={20}>
+        </Col>
+        <Col span={4}>
+        <AddFunfactsModal afterClosing={modalClosed} />
+        </Col>
+      </Row>
       <Divider>
         <Title level={4}>Fun Facts</Title>
       </Divider>
-
-      <AddFunfactsModal afterClosing={modalClosed} />
-
-      <Carousel
-        ref={sliderRef}
-        style={contentStyle}
-        swipeToSlide={true}
-        draggable
-      >
-        {images.map((image, index) => (
-          <Col key={index} span={24}>
-            <Image
-              style={imageStyle}
-              // height={200}
-              // width={200}
-              src={`/api/v1/funfacts/${
-                image.lgImagePath ? image.lgImagePath : "logo.png"
-              }`}
-            />
-            <Col>
+      <Row>
+    
+        <Col span={24} align="center">
+          <Carousel
+            ref={sliderRef}
+            style={contentStyle}
+            swipeToSlide={true}
+            dots={false}
+            draggable
+          >
+            {images.map((image, index) => (
               <Row>
-                <Col span={12}>
-                  <LeftOutlined onClick={handlePrev} />
-                </Col>
-                <Col span={12}>
-                  <RightOutlined onClick={handleNext} />
-                </Col>
+                <Col key={index} span={24}>
+                    <Card
+                        style={{ width: 350 }}
+                        cover={
+                          <Image
+                            src={`/api/v1/funfacts/${
+                              image.lgImagePath ? image.lgImagePath : "logo.png"
+                            }`}
+                          />
+                        }
+                        actions={[
+                          <LeftOutlined onClick={handlePrev} />,
+                          <DeleteOutlined
+                          onClick={() => handleDeleteImage(image.id, image.lgImagePath)}
+                          danger
+                        />,
+                        <RightOutlined onClick={handleNext} />
+                        ]}
+                      >
+                    </Card>
+                  </Col>
               </Row>
-
-              <DeleteOutlined
-                onClick={() => handleDeleteImage(image.id, image.lgImagePath)}
-                danger
-              />
-            </Col>
-          </Col>
-        ))}
-      </Carousel>
+            ))}
+          </Carousel>
+        </Col>
+      </Row>
     </div>
   );
 }

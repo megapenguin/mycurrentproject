@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Divider, Row, Typography } from "antd";
+import { Divider, Row, Typography, Col, Card, Space } from "antd";
+import { SnippetsOutlined,
+  UserOutlined,
+  CarOutlined,
+  LogoutOutlined,
+  HomeOutlined,
+  FundViewOutlined, } from "@ant-design/icons";
 import axios from "axios";
 
 function Dashboard() {
@@ -51,10 +57,48 @@ function Dashboard() {
       <Divider>
         <Title level={4}>Dashboard</Title>
       </Divider>
-      <Row>Total Barangays: {barangays.length}</Row>
-      <Row>Total Drivers: {drivers.length}</Row>
-      <Row>Total Jeepneys: {jeepneys.length}</Row>
-      <Row>Total Users: {users.length}</Row>
+      <Row>
+        <Col span={6}>
+          <Card
+              style={{ width: "auto" }}
+              cover={
+                <SnippetsOutlined style={{ fontSize: '80px'}} />
+              }
+            >
+             <Title level={5}>No. of Barangays: {barangays.length} </Title>
+          </Card>
+        </Col>
+        <Col span={6}>
+          <Card
+              style={{ width:  "auto" }}
+              cover={
+                <UserOutlined style={{ fontSize: '80px'}} />
+              }
+            >
+             <Title level={5}>No. of Drivers: {drivers.length} </Title>
+          </Card>
+        </Col>
+        <Col span={6}>
+          <Card
+              style={{ width:  "auto" }}
+              cover={
+                <CarOutlined style={{ fontSize: '80px'}} />
+              }
+            >
+             <Title level={5}>No. of Jeepneys: {jeepneys.length} </Title>
+          </Card>
+        </Col>
+        <Col span={6}>
+          <Card
+              style={{ width:  "auto" }}
+              cover={
+                <UserOutlined style={{ fontSize: '80px'}} />
+              }
+            >
+             <Title level={5}>No. of Users: {users.length} </Title>
+          </Card>
+        </Col>
+      </Row>
       <Divider>
         <Title level={4}>Welcome</Title>
       </Divider>

@@ -1,7 +1,7 @@
 import React from "react";
 import { Layout, Menu, Button } from "antd";
 import {
-  UploadOutlined,
+  SnippetsOutlined,
   UserOutlined,
   CarOutlined,
   LogoutOutlined,
@@ -55,7 +55,7 @@ function AdminLayout({ children }) {
             </Menu.Item>
           </SubMenu>
 
-          <Menu.Item key="5" icon={<UploadOutlined />}>
+          <Menu.Item key="5" icon={<SnippetsOutlined />}>
             <Link to="/barangay-list"> Barangay List</Link>
           </Menu.Item>
           <Menu.Item key="6" icon={<UserOutlined />}>
