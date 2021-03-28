@@ -64,9 +64,15 @@ function EditDriverModal(props) {
           ifChanged
             ? Modal.success({
                 content: "Successfully Updated Driver Info",
+                okButtonProps: {
+                  style: {borderRadius: '50px'}
+                },
               })
             : Modal.success({
                 content: "Driver Info is up to date",
+                okButtonProps: {
+                  style: {borderRadius: '50px'}
+                },
               });
         }
       })
@@ -78,6 +84,9 @@ function EditDriverModal(props) {
   const onFinishFailed = (errorInfo) => {
     Modal.error({
       content: "Failure to Update Driver Info",
+      okButtonProps: {
+        style: {borderRadius: '50px'}
+      },
     });
     setTimeout(() => {
       setIsModalVisible(true);

@@ -80,6 +80,7 @@ div.icons-list {
 Button.form-button {
   background-color: #55c596;
   border-color: #55c596;
+  width: 300px;
 }
 
 div Button.modal-button-edit {

@@ -47,7 +47,7 @@ function Register({ history }) {
                   { required: true, message: "Please input your First Name!" },
                 ]}
               >
-                <Input />
+                <Input placeholder="Firstname"/>
               </Form.Item>
 
               <Form.Item
@@ -60,7 +60,7 @@ function Register({ history }) {
                   },
                 ]}
               >
-                <Input />
+                <Input placeholder="Lastname"/>
               </Form.Item>
 
               <Form.Item
@@ -74,7 +74,7 @@ function Register({ history }) {
                   { required: true, message: "Please input your email!" },
                 ]}
               >
-                <Input />
+                <Input placeholder="Email"/>
               </Form.Item>
 
               <Form.Item
@@ -88,7 +88,7 @@ function Register({ history }) {
                 ]}
                 hasFeedback
               >
-                <Input.Password />
+                <Input.Password placeholder="Password"/>
               </Form.Item>
 
               <Form.Item
@@ -113,7 +113,7 @@ function Register({ history }) {
                   }),
                 ]}
               >
-                <Input.Password />
+                <Input.Password placeholder="Confirm Password"/>
               </Form.Item>
 
               <Form.Item>

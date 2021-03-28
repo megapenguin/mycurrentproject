@@ -59,9 +59,15 @@ function EditBarangayModal(props) {
           ifChanged
             ? Modal.success({
                 content: "Successfully Updated Barangay",
+                okButtonProps: {
+                  style: {borderRadius: '50px'}
+                },
               })
             : Modal.success({
                 content: "Barangay Info is up to date",
+                okButtonProps: {
+                  style: {borderRadius: '50px'}
+                },
               });
         }
       })
@@ -73,6 +79,9 @@ function EditBarangayModal(props) {
   const onFinishFailed = (errorInfo) => {
     Modal.error({
       content: "Failure to Update Barangay Info",
+      okButtonProps: {
+        style: {borderRadius: '50px'}
+      },
     });
     setTimeout(() => {
       setIsModalVisible(true);

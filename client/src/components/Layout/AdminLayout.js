@@ -30,14 +30,15 @@ function AdminLayout({ children }) {
           console.log(collapsed, type);
         }}
       >
-        <div className="logo" />
+        <div className="logo"/>
+        <Imaged/>
         <Menu
           className="sidebar"
           theme="dark"
           mode="inline"
           defaultSelectedKeys={[""]}
         >
-          <Imaged />
+          
 
           <Menu.Item key="1" icon={<HomeOutlined />}>
             <Link to="/">Dashboard</Link>

@@ -69,6 +69,9 @@ function BarangaysInfoModal(props) {
         setImages(imagesCopy);
         Modal.success({
           content: "Barangay image has been removed",
+          okButtonProps: {
+            style: {borderRadius: '50px'}
+          },
         });
       })
       .catch((error) => console.log(error));
@@ -82,6 +85,9 @@ function BarangaysInfoModal(props) {
     }, 2000);
     Modal.success({
       content: "Still in development",
+      okButtonProps: {
+        style: {borderRadius: '50px'}
+      },
     });
 
     // axios

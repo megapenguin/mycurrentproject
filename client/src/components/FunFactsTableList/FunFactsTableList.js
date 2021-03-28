@@ -58,6 +58,9 @@ function FunFactsTableList() {
         setImages(imagesCopy);
         Modal.success({
           content: "Fun fact image has been removed",
+          okButtonProps: {
+            style: {borderRadius: '50px'}
+          },
         });
       })
       .catch((error) => console.log(error));

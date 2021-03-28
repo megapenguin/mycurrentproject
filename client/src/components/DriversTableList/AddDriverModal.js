@@ -64,6 +64,9 @@ function AddDriverModal(props) {
         // setFilename(file);
         Modal.success({
           content: "Successfully Added New Driver",
+          okButtonProps: {
+            style: {borderRadius: '50px'}
+          },
         });
         // setUploadedImagePath(filename.file.response.filePath);
         // //console.log(uploadedImagePath);
@@ -79,6 +82,9 @@ function AddDriverModal(props) {
   const onFinishFailed = (errorInfo) => {
     Modal.error({
       content: "Failure to Add New Driver",
+      okButtonProps: {
+        style: {borderRadius: '50px'}
+      },
     });
     setTimeout(() => {
       setIsModalVisible(true);
@@ -134,7 +140,7 @@ function AddDriverModal(props) {
               { required: true, message: "Please input your Firstname!" },
             ]}
           >
-            <Input />
+            <Input placeholder="Firstname"/>
           </Form.Item>
 
           <Form.Item
@@ -144,7 +150,7 @@ function AddDriverModal(props) {
               { required: true, message: "Please input your Middlename!" },
             ]}
           >
-            <Input />
+            <Input placeholder="Middlename"/>
           </Form.Item>
 
           <Form.Item
@@ -152,7 +158,7 @@ function AddDriverModal(props) {
             name="lastName"
             rules={[{ required: true, message: "Please input your Lastname!" }]}
           >
-            <Input />
+            <Input placeholder="Lastname"/>
           </Form.Item>
 
           <Form.Item
@@ -160,7 +166,7 @@ function AddDriverModal(props) {
             name="address"
             rules={[{ required: true, message: "Please input your Address!" }]}
           >
-            <Input />
+            <Input placeholder="Address"/>
           </Form.Item>
 
           <Form.Item
@@ -170,7 +176,7 @@ function AddDriverModal(props) {
               { required: true, message: "Please input your Contact Number!" },
             ]}
           >
-            <Input />
+            <Input placeholder="Contact No."/>
           </Form.Item>
 
           <Form.Item
@@ -178,7 +184,7 @@ function AddDriverModal(props) {
             name="generatePassword"
             rules={[{ required: true, message: "Please input your password!" }]}
           >
-            <Input />
+            <Input type="password" placeholder="Password"/>
           </Form.Item>
 
           <Form.Item
@@ -192,23 +198,8 @@ function AddDriverModal(props) {
               },
             ]}
           >
-            <Input />
+            <Input placeholder="Email"/>
           </Form.Item>
-          {/* <Upload
-            action="/api/v1/images/add_image"
-            listType="picture"
-            maxCount={1}
-            file={file}
-            onChange={checking}
-            onRemove={unchecking}
-          >
-            <Button>Choose Image (Max: 1)</Button>
-          </Upload>
-          <Space>
-            <Button onClick={viewFile} icon={<UploadOutlined />}>
-              Upload
-            </Button>
-          </Space> */}
         </Form>
       </Modal>
     </div>

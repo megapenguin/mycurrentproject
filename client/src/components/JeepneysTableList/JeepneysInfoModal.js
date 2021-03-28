@@ -44,6 +44,9 @@ function JeepneysInfoModal(props) {
     }, 2000);
     Modal.success({
       content: "Still in development",
+      okButtonProps: {
+        style: {borderRadius: '50px'}
+      },
     });
     // axios
     //   .delete("/api/v1/images/delete_image", {
@@ -108,6 +111,9 @@ function JeepneysInfoModal(props) {
         setImages(imagesCopy);
         Modal.success({
           content: "Jeepney image has been removed",
+          okButtonProps: {
+            style: {borderRadius: '50px'}
+          },
         });
       })
       .catch((error) => console.log(error));

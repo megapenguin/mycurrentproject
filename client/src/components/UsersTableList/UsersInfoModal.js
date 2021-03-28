@@ -46,6 +46,9 @@ function UsersInfoModal(props) {
     }, 2000);
     Modal.success({
       content: "Still in development",
+      okButtonProps: {
+        style: {borderRadius: '50px'}
+      },
     });
 
     //console.log(id);

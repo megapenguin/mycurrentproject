@@ -52,6 +52,9 @@ function AddBarangayModal(props) {
         // setBarangays(barangaysCopy);
         Modal.success({
           content: "Successfully Added New Barangay",
+          okButtonProps: {
+            style: {borderRadius: '50px'}
+          },
         });
 
         // axios.post("/api/v1/images/save_image", {
@@ -66,6 +69,9 @@ function AddBarangayModal(props) {
   const onFinishFailed = (errorInfo) => {
     Modal.error({
       content: "Failure to Add New Barangay",
+      okButtonProps: {
+        style: {borderRadius: '50px'}
+      },
     });
     setTimeout(() => {
       setIsModalVisible(true);

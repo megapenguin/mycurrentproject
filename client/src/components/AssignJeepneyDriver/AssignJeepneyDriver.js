@@ -206,6 +206,9 @@ function AssignJeepneyDriver() {
             setDrivers(data);
             Modal.success({
               content: "Successfully Assigned Driver",
+              okButtonProps: {
+                style: {borderRadius: '50px'}
+              }, 
             });
           });
           axios.get("/api/v1/jeepneys/").then((res) => {
@@ -221,6 +224,9 @@ function AssignJeepneyDriver() {
     } else {
       Modal.error({
         content: "Select from available jeepneys",
+        okButtonProps: {
+          style: {borderRadius: '50px'}
+        },
       });
     }
   };
@@ -256,6 +262,9 @@ function AssignJeepneyDriver() {
           setDrivers(data);
           Modal.success({
             content: "Successfully Removed Driver from Assigned Jeepney",
+            okButtonProps: {
+              style: {borderRadius: '50px'}
+            },
           });
         });
         axios.get("/api/v1/jeepneys/").then((res) => {

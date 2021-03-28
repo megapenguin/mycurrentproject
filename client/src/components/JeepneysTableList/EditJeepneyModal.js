@@ -76,9 +76,15 @@ function EditJeepneyModal(props) {
           ifChanged
             ? Modal.success({
                 content: "Successfully Updated Jeepney",
+                okButtonProps: {
+                  style: {borderRadius: '50px'}
+                },
               })
             : Modal.success({
                 content: "Jeepney Info is up to date",
+                okButtonProps: {
+                  style: {borderRadius: '50px'}
+                },
               });
         }
       })
@@ -90,6 +96,9 @@ function EditJeepneyModal(props) {
   const onFinishFailed = (errorInfo) => {
     Modal.error({
       content: "Failure to Update Jeepney Info",
+      okButtonProps: {
+        style: {borderRadius: '50px'}
+      },
     });
     setTimeout(() => {
       setIsModalVisible(true);

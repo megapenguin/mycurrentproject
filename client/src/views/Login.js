@@ -58,7 +58,7 @@ function Login({ history }) {
                     { required: true, message: "Please input your Email!" },
                   ]}
                 >
-                  <Input />
+                  <Input placeholder="Email"/>
                 </Form.Item>
                 <Form.Item
                   label="Password:"
@@ -67,7 +67,7 @@ function Login({ history }) {
                     { required: true, message: "Please input your password!" },
                   ]}
                 >
-                  <Input.Password />
+                  <Input.Password placeholder="Password" />
                 </Form.Item>
                 <Form.Item>
                   <a style={{ float: "right" }} href="/register">

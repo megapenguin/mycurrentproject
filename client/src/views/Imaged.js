@@ -5,7 +5,7 @@ function Imaged() {
   return (
     <Image
       preview={false}
-      height={100}
+      width={120}
       src ={logo}
       style ={{borderColor: 'white', border: '10px', borderRadius: '50%'}}
     />

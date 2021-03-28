@@ -64,6 +64,9 @@ function AddJeepneyModal(props) {
         // console.log(filename.file.response);
         Modal.success({
           content: "Successfully Added New Jeepney",
+          okButtonProps: {
+            style: {borderRadius: '50px'}
+          },
         });
 
         axios.post("/api/v1/images/save_image", {
@@ -78,6 +81,9 @@ function AddJeepneyModal(props) {
   const onFinishFailed = (errorInfo) => {
     Modal.error({
       content: "Failure to Add New Jeepney",
+      okButtonProps: {
+        style: {borderRadius: '50px'}
+      },
     });
     setTimeout(() => {
       setIsModalVisible(true);
@@ -160,7 +166,7 @@ function AddJeepneyModal(props) {
               { required: true, message: "Please input the Plate Number!" },
             ]}
           >
-            <Input />
+            <Input placeholder="Plate Number"/>
           </Form.Item>
 
           <Form.Item
@@ -170,7 +176,7 @@ function AddJeepneyModal(props) {
               { required: true, message: "Please input the Jeep Capacity!" },
             ]}
           >
-            <Input />
+            <Input placeholder="Jeep Capacity"/>
           </Form.Item>
           {/* <Upload
             action="/api/v1/images/add_image"

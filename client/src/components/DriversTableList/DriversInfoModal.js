@@ -46,6 +46,9 @@ function DriversInfoModal(props) {
     }, 2000);
     Modal.success({
       content: "Still in development",
+      okButtonProps: {
+        style: {borderRadius: '50px'}
+      },
     });
     //console.log(id);
     // axios
@@ -110,6 +113,9 @@ function DriversInfoModal(props) {
         setImages(imagesCopy);
         Modal.success({
           content: "Driver image has been removed",
+          okButtonProps: {
+            style: {borderRadius: '50px'}
+          },
         });
       })
       .catch((error) => console.log(error));
