@@ -20,14 +20,10 @@ db.authenticate()
 app.use(fileUpload());
 
 app.use("/api/v1/auths", require("./routes/auth"));
-app.use("/api/v1/drivers", require("./routes/driver"));
-app.use("/api/v1/jeepneys", require("./routes/jeepney"));
-app.use("/api/v1/barangays", require("./routes/barangay"));
 app.use("/api/v1/images", require("./routes/image"));
-app.use("/api/v1/funfacts", require("./routes/funfact"));
 app.use("/api/v1/users", require("./routes/user"));
-app.use("/api/v1/admins", require("./routes/admin"));
-app.use("/api/v1/jeepneydrivers", require("./routes/jeepneydriver"));
+app.use("/api/v1/titles", require("./routes/title"));
+app.use("/api/v1/instructions", require("./routes/instruction"));
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("./build"));

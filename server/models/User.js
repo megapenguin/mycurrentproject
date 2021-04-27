@@ -9,9 +9,10 @@ const User = db.define("users", {
     allowNull: false,
   },
 
-  provider: {
+  email: {
     type: Sequelize.STRING,
     allowNull: false,
+    unique: true,
   },
 
   firstName: {
@@ -23,13 +24,18 @@ const User = db.define("users", {
     type: Sequelize.STRING,
     allowNull: false,
   },
-  email: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    unique: true,
-  },
 
   password: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+
+  profilePicture: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+
+  status: {
     type: Sequelize.STRING,
     allowNull: false,
   },

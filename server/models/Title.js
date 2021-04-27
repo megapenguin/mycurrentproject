@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 const db = require("../database/database");
 
-const Funfact = db.define("funfacts", {
+const Title = db.define("titles", {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
@@ -9,21 +9,15 @@ const Funfact = db.define("funfacts", {
     allowNull: false,
   },
 
-  smImagePath: {
-    type: Sequelize.STRING,
+  userId: {
+    type: Sequelize.INTEGER,
     allowNull: false,
   },
 
-  mdImagePath: {
+  title: {
     type: Sequelize.STRING,
     allowNull: false,
   },
-
-  lgImagePath: {
-    type: Sequelize.STRING,
-    allowNull: false,
-  },
-
   createdAt: {
     type: Sequelize.DATE,
     allowNull: false,
@@ -34,4 +28,4 @@ const Funfact = db.define("funfacts", {
   },
 });
 
-module.exports = Funfact;
+module.exports = Title;

@@ -64,42 +64,35 @@ router.post("/login", (req, res) => {
 
 router.post("/register", (req, res) => {
   let { id } = req.query;
-  let { provider, firstName, lastName, email, password } = req.body;
+  let {
+    email,
+    firstName,
+    lastName,
+    password,
+    profilePicture,
+    status,
+  } = req.body;
 
-  if (provider != "normal") {
-    User.create({
-      provider,
-      firstName,
-      lastName,
-      email,
-      password: "",
-    })
-      .then((_res) => {
-        res.json(_res);
-        //console.log(_res)
+  bcrypt.genSalt(10, function (err, salt) {
+    bcrypt.hash(password, salt, function (err, hash) {
+      // Store hash in your password DB.
+      if (err) return res.sendStatus(500);
+
+      User.create({
+        email,
+        firstName,
+        lastName,
+        password: hash,
+        profilePicture,
+        status,
       })
-      .catch((error) => console.log(error));
-  } else {
-    bcrypt.genSalt(10, function (err, salt) {
-      bcrypt.hash(password, salt, function (err, hash) {
-        // Store hash in your password DB.
-        if (err) return res.sendStatus(500);
-
-        User.create({
-          provider,
-          firstName,
-          lastName,
-          email,
-          password: hash,
+        .then((_res) => {
+          res.json(_res);
+          //console.log(_res)
         })
-          .then((_res) => {
-            res.json(_res);
-            //console.log(_res)
-          })
-          .catch((error) => console.log(error));
-      });
+        .catch((error) => console.log(error));
     });
-  }
+  });
 });
 
 router.post("/search_user", (req, res) => {
@@ -143,6 +136,42 @@ router.post("/search_user", (req, res) => {
       },
     ],
   })
+    .then((_res) => {
+      res.json(_res);
+    })
+    .catch((error) => console.log(error));
+});
+
+router.post("/search_current_user", (req, res) => {
+  let { value } = req.body;
+
+  User.findAll({
+    where: {
+      id: {
+        [Op.like]: value,
+      },
+    },
+  })
+    .then((_res) => {
+      res.json(_res);
+    })
+    .catch((error) => console.log(error));
+});
+
+router.post("/update_user", (req, res) => {
+  let { id, firstName, lastName, email } = req.body;
+
+  User.update({ firstName, lastName, email }, { where: { id } })
+    .then((_res) => {
+      res.json(_res);
+    })
+    .catch((error) => console.log(error));
+});
+
+router.post("/update_profile_picture", (req, res) => {
+  let { id, profilePicture } = req.body;
+
+  User.update({ profilePicture }, { where: { id } })
     .then((_res) => {
       res.json(_res);
     })

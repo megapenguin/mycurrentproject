@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 const db = require("../database/database");
 
-const Admin = db.define("admins", {
+const Instruction = db.define("instructions", {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
@@ -9,24 +9,20 @@ const Admin = db.define("admins", {
     allowNull: false,
   },
 
-  firstName: {
-    type: Sequelize.STRING,
+  titleId: {
+    type: Sequelize.INTEGER,
     allowNull: false,
   },
 
-  lastName: {
-    type: Sequelize.STRING,
+  stepNumber: {
+    type: Sequelize.INTEGER,
     allowNull: false,
   },
-  email: {
-    type: Sequelize.STRING,
+
+  stepInstruction: {
+    type: Sequelize.TEXT("long"),
     allowNull: false,
     unique: true,
-  },
-
-  password: {
-    type: Sequelize.STRING,
-    allowNull: false,
   },
 
   createdAt: {
@@ -39,4 +35,4 @@ const Admin = db.define("admins", {
   },
 });
 
-module.exports = Admin;
+module.exports = Instruction;
