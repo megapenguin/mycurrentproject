@@ -1,18 +1,21 @@
 import { Row, Col, Card, Typography, Form, Input, Button } from "antd";
+
 import axios from "axios";
 import { withRouter } from "react-router-dom";
+
+import Imaged from "./Imaged";
 
 const { Title } = Typography;
 
 function Register({ history }) {
   const onFinish = (values) => {
-    values["provider"] = "ADMIN";
-    console.log(values);
-    console.log(values);
+    values["status"] = "user";
+    values["profilePicture"] = "";
+
     axios
-      .post("/api/v1/admins/register_admin", values)
+      .post("/api/v1/users/register", values)
       .then((res) => {
-        history.push("/login");
+        history.push("/");
       })
       .catch((error) => console.log(error));
   };
@@ -27,7 +30,7 @@ function Register({ history }) {
       <Row type="flex" justify="center">
         <Col>
           <Card
-            title={<Title level={2}>Retrack ADMIN</Title>}
+            title={<Title level={4}>O.I.M.S</Title>}
             className="registerCardStyle"
           >
             <Form
@@ -38,7 +41,7 @@ function Register({ history }) {
               onFinishFailed={onFinishFailed}
             >
               <h3>
-                <b>Admin Account Registration</b>
+                <b>Account Registration</b>
               </h3>
               <Form.Item
                 label="First Name:"
@@ -47,7 +50,7 @@ function Register({ history }) {
                   { required: true, message: "Please input your First Name!" },
                 ]}
               >
-                <Input placeholder="Firstname"/>
+                <Input placeholder="Firstname" />
               </Form.Item>
 
               <Form.Item
@@ -60,9 +63,8 @@ function Register({ history }) {
                   },
                 ]}
               >
-                <Input placeholder="Lastname"/>
+                <Input placeholder="Lastname" />
               </Form.Item>
-
               <Form.Item
                 label="Email:"
                 name="email"
@@ -74,7 +76,7 @@ function Register({ history }) {
                   { required: true, message: "Please input your email!" },
                 ]}
               >
-                <Input placeholder="Email"/>
+                <Input placeholder="Email" />
               </Form.Item>
 
               <Form.Item
@@ -88,9 +90,8 @@ function Register({ history }) {
                 ]}
                 hasFeedback
               >
-                <Input.Password placeholder="Password"/>
+                <Input.Password placeholder="Password" />
               </Form.Item>
-
               <Form.Item
                 name="confirm"
                 label="Confirm Password:"
@@ -113,16 +114,11 @@ function Register({ history }) {
                   }),
                 ]}
               >
-                <Input.Password placeholder="Confirm Password"/>
+                <Input.Password placeholder="Confirm Password" />
               </Form.Item>
 
               <Form.Item>
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  shape="round"
-                  className="form-button"
-                >
+                <Button type="primary" htmlType="submit">
                   REGISTER
                 </Button>
               </Form.Item>

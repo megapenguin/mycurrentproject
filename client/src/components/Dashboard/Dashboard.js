@@ -1,109 +1,156 @@
-import React, { useEffect, useState } from "react";
-import { Divider, Row, Typography, Col, Card, Space } from "antd";
-import { SnippetsOutlined,
-  UserOutlined,
-  CarOutlined,
-  LogoutOutlined,
-  HomeOutlined,
-  FundViewOutlined, } from "@ant-design/icons";
-import axios from "axios";
+import React, { useEffect, useContext, useState } from "react";
+import { Divider, Row, Col, Typography, List, Button, Image, Card } from "antd";
+import {
+  MailTwoTone,
+  SmileTwoTone,
+  QuestionOutlined,
+  CloseOutlined,
+} from "@ant-design/icons";
 
-function Dashboard() {
+import axios from "axios";
+import { withRouter, Link } from "react-router-dom";
+import { AuthContext } from "../GlobalContext/AuthContext";
+import { DataContext } from "../GlobalContext/DataContext";
+
+import AddInstructionModal from "./AddInstructionModal";
+
+let initialState = {};
+
+function Dashboard({ history }) {
+  let Auth = useContext(AuthContext);
+  let Data = useContext(DataContext);
+
   const { Title } = Typography;
-  const [barangays, setBarangays] = useState([]);
-  const [drivers, setDrivers] = useState([]);
-  const [jeepneys, setJeepneys] = useState([]);
-  const [users, setUsers] = useState([]);
+  const [userInfo, setUserInfo] = useState(Auth.state.userData);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [listData, setListData] = useState([]);
+  const [images, setImages] = useState(null);
 
   useEffect(() => {
-    axios.get("/api/v1/barangays/search_all_barangays").then((res) => {
-      // console.log(res);
-
-      let data = res.data;
-      setBarangays(data);
-    });
-
-    axios.get("/api/v1/drivers/").then((res) => {
-      // console.log(res);
-      let data = res.data;
-      setDrivers(data);
-    });
-
-    axios.get("/api/v1/jeepneys/").then((res) => {
-      let data = res.data;
-      data = data.map((d) => {
-        if (d.barangay === null) {
-          return { ...d, barangayName: "None Assigned" };
-        } else {
-          return { ...d, barangayName: d.barangay.barangayName };
-        }
-      });
-
-      setJeepneys(data);
-    });
-
     axios
-      .get("/api/v1/users/")
+      .post("/api/v1/users/search_current_user", {
+        value: userInfo.id,
+      })
+      .then((res) => {
+        let data = res.data;
+        setCurrentUser(data);
+        console.log(userInfo);
+      });
+    axios
+      .post("/api/v1/titles/search_titles", { value: userInfo.id })
       .then((res) => {
         // console.log(res);
-
         let data = res.data;
-        setUsers(data);
+        setListData(data);
       })
       .catch((error) => console.log(error));
   }, []);
+
+  const modalClosed = () => {
+    console.log(images);
+    axios
+      .post("/api/v1/titles/search_titles", { value: userInfo.id })
+      .then((res) => {
+        // console.log(res);
+        let data = res.data;
+        setListData(data);
+      })
+      .catch((error) => console.log(error));
+  };
+
+  const viewInstruction = (instructionInfo) => {
+    Data.passData(instructionInfo);
+  };
+
+  const deleteInstruction = (id) => {
+    axios
+      .delete("/api/v1/titles/delete_title", {
+        params: {
+          id: id,
+        },
+      })
+      .then((res) => {
+        axios
+          .post("/api/v1/titles/search_titles", { value: userInfo.id })
+          .then((res) => {
+            // console.log(res);
+            let data = res.data;
+            setListData(data);
+          });
+      })
+      .catch((error) => console.log(error));
+  };
   return (
     <div>
       <Divider>
-        <Title level={4}>Dashboard</Title>
+        <Title level={2}>Instruction List</Title>
       </Divider>
-      <Row>
-        <Col span={6}>
-          <Card
-              style={{ width: "auto" }}
-              cover={
-                <SnippetsOutlined style={{ fontSize: '80px'}} />
-              }
-            >
-             <Title level={5}>No. of Barangays: {barangays.length} </Title>
-          </Card>
-        </Col>
-        <Col span={6}>
-          <Card
-              style={{ width:  "auto" }}
-              cover={
-                <UserOutlined style={{ fontSize: '80px'}} />
-              }
-            >
-             <Title level={5}>No. of Drivers: {drivers.length} </Title>
-          </Card>
-        </Col>
-        <Col span={6}>
-          <Card
-              style={{ width:  "auto" }}
-              cover={
-                <CarOutlined style={{ fontSize: '80px'}} />
-              }
-            >
-             <Title level={5}>No. of Jeepneys: {jeepneys.length} </Title>
-          </Card>
-        </Col>
-        <Col span={6}>
-          <Card
-              style={{ width:  "auto" }}
-              cover={
-                <UserOutlined style={{ fontSize: '80px'}} />
-              }
-            >
-             <Title level={5}>No. of Users: {users.length} </Title>
-          </Card>
-        </Col>
+      {/* <Row>
+        <Image
+          height={100}
+          width={120}
+          src={`/api/v1/images/${
+            currentUser == null ? "logo.png" : currentUser[0].profilePicture
+          }`}
+        />
       </Row>
-      <Divider>
-        <Title level={4}>Welcome</Title>
-      </Divider>
+      <Row>
+        <Title level={4}>
+          <SmileTwoTone />{" "}
+          {currentUser == null
+            ? ""
+            : currentUser[0].firstName + " " + currentUser[0].lastName}
+        </Title>
+      </Row>
+      <Row>
+        <Title level={4}>
+          <MailTwoTone /> {userInfo.email}
+        </Title>
+      </Row> */}
+
+      <Row>
+        <AddInstructionModal info={userInfo} afterClosing={modalClosed} />
+      </Row>
+      <Divider></Divider>
+      <List
+        size="large"
+        dataSource={listData}
+        renderItem={(item) => (
+          <List.Item>
+            <List.Item.Meta title={<Title level={4}>{item.title}</Title>} />
+
+            <Col>
+              <Link to={`/instructions/${item.id}`}>
+                <Button
+                  style={{ background: "dimgray", color: "white" }}
+                  onClick={() => viewInstruction(item)}
+                >
+                  <span className="desktop-view">
+                    <QuestionOutlined />
+                    View
+                  </span>
+                  <span className="mobile-view">
+                    <QuestionOutlined />
+                  </span>
+                </Button>
+              </Link>
+              <Button type="danger" onClick={() => deleteInstruction(item.id)}>
+                <span className="desktop-view">
+                  <CloseOutlined />
+                  Delete
+                </span>
+                <span className="mobile-view">
+                  <CloseOutlined />
+                </span>
+              </Button>
+            </Col>
+          </List.Item>
+        )}
+      />
+
+      <Divider></Divider>
     </div>
   );
 }
 
-export default Dashboard;
+export default withRouter(Dashboard);

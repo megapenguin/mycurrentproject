@@ -1,16 +1,9 @@
-import React, { useState, useEffect, useContext, Component } from "react";
-import logo from "./logo.svg";
+import React, { useContext } from "react";
+
 import "./App.css";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  ProtectedRoute,
-  Link,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import LoginProtectedRoutes from "./components/ProtectedRoutes/LoginProtectedRoutes";
-import AdminProtectedRoutes from "./components/ProtectedRoutes/AdminProtectedRoutes";
 import MainProtectedRoutes from "./components/ProtectedRoutes/MainProtectedRoutes";
 
 import { AuthContext } from "./components/GlobalContext/AuthContext";
@@ -20,15 +13,13 @@ import Login from "./views/Login";
 import Register from "./views/Register";
 import AdminLayout from "./components/Layout/AdminLayout";
 import AdminDashboard from "./views/AdminDashboard";
-import BarangaysTableListContent from "./views/BarangaysTableListContent";
-import DriversTableListContent from "./views/DriversTableListContent";
-import JeepneysTableListContent from "./views/JeepneysTableListContent";
-import UsersTableListContent from "./views/UsersTableListContent";
-import AssignJeepneyDriverDashboard from "./views/AssignJeepneyDriverDashboard";
-import FunFactsTableListContents from "./views/FunFactsTableListContents";
+
+import InstructionListContent from "./views/InstructionListContent";
+import ProfileContent from "./views/ProfileContent";
 
 function App() {
   let Auth = useContext(AuthContext);
+
   return (
     <React.Fragment>
       {!Auth.state.isLoading && (
@@ -36,59 +27,34 @@ function App() {
           <Switch>
             <LoginProtectedRoutes
               Auth={Auth}
-              path="/login"
+              path="/"
               component={Login}
               exact
             />
             <MainProtectedRoutes
               Auth={Auth}
-              path="/"
+              path="/instructions"
               layout={AdminLayout}
               component={AdminDashboard}
               exact
             />
+
             <MainProtectedRoutes
               Auth={Auth}
               layout={AdminLayout}
-              path="/barangay-list"
-              component={BarangaysTableListContent}
+              path="/instructions/:id"
+              component={InstructionListContent}
               exact
             />
+
             <MainProtectedRoutes
               Auth={Auth}
               layout={AdminLayout}
-              path="/driver-list"
-              component={DriversTableListContent}
+              path="/profile"
+              component={ProfileContent}
               exact
             />
-            <MainProtectedRoutes
-              Auth={Auth}
-              layout={AdminLayout}
-              path="/jeepney-list"
-              component={JeepneysTableListContent}
-              exact
-            />
-            <MainProtectedRoutes
-              Auth={Auth}
-              layout={AdminLayout}
-              path="/assigned-driver"
-              component={AssignJeepneyDriverDashboard}
-              exact
-            />
-            <MainProtectedRoutes
-              Auth={Auth}
-              layout={AdminLayout}
-              path="/users-list"
-              component={UsersTableListContent}
-              exact
-            />
-            <MainProtectedRoutes
-              Auth={Auth}
-              layout={AdminLayout}
-              path="/funfacts-list"
-              component={FunFactsTableListContents}
-              exact
-            />
+
             <LoginProtectedRoutes
               Auth={Auth}
               path="/register"

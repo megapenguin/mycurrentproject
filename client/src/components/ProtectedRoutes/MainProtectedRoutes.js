@@ -5,22 +5,20 @@ function MainProtectedRoutes({
   layout: Layout,
   component: Component,
   Auth,
-  history,
   res,
 }) {
   return (
     <Route
       {...res}
       render={(props) =>
-        Auth.state.isAuthenticated &&
-        Auth.state.userData.myStatus == "admin" ? (
+        Auth.state.isAuthenticated && Auth.state.userData.myStatus == "user" ? (
           <Layout>
             <Component />
           </Layout>
         ) : (
           <Redirect
             to={{
-              pathname: "/login",
+              pathname: "/",
               state: { from: props.location },
             }}
           />
@@ -30,4 +28,4 @@ function MainProtectedRoutes({
   );
 }
 
-export default withRouter(MainProtectedRoutes);
+export default MainProtectedRoutes;

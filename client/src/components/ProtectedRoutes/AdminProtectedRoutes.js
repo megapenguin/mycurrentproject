@@ -12,7 +12,7 @@ function AdminProtectedRoute({ component: Component, Auth, history, res }) {
         ) : (
           <Redirect
             to={{
-              pathname: "/login",
+              pathname: "/",
               state: { from: props.location },
             }}
           />

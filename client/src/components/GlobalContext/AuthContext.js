@@ -48,7 +48,7 @@ function AuthContextProvider({ children }) {
 
   const authenticate = async (userInfo) => {
     let res = await axios
-      .post("/api/v1/auths/auth_admin_login", {
+      .post("/api/v1/auths/auth_login", {
         ...userInfo,
       })
       .catch((error) => error.response);

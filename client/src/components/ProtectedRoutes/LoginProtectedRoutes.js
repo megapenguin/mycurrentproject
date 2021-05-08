@@ -10,7 +10,7 @@ function LoginProtectedRoutes({ component: Component, Auth, history, res }) {
         Auth.state.userData.myStatus == "admin" ? (
           <Redirect
             to={{
-              pathname: `/`,
+              pathname: "/",
               state: { from: props.location },
             }}
           />

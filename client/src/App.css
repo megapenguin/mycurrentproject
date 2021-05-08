@@ -9,8 +9,6 @@ body,
   font-family: "Roboto";
 }
 
-
-
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -23,7 +21,7 @@ body,
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #fdfdff;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -47,7 +45,7 @@ body,
 }
 #components-layout-demo-responsive .logo {
   height: 32px;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgb(255, 255, 255);
   margin: 16px;
 }
 
@@ -60,13 +58,11 @@ body,
 }
 
 div.loginCardStyle {
-  border-radius: 20px;
   box-shadow: rgba(0, 0, 0, 0.1) 0 0 6px;
   text-align: center;
   width: 360px;
 }
 div.registerCardStyle {
-  border-radius: 20px;
   box-shadow: rgba(0, 0, 0, 0.1) 0 0 6px;
   width: 360px;
   height: 620px;
@@ -84,33 +80,28 @@ Button.form-button {
 }
 
 div Button.modal-button-edit {
-  border-radius: 20px;
   background-color: #0275d8;
   border-color: #0275d8;
 }
 
 div Button.modal-button-upload {
-  border-radius: 20px;
   background-color: #5bc0de;
   border-color: #5bc0de;
 }
 
-
-div Button.modal-button {
-  border-radius: 20px;
-}
+/* div Button.modal-button {
+} */
 
 div Button.modal-button-view {
-  border-radius: 20px;
-  background-color: #5cb85c;
+  background-color: #1b2aff;
   border-color: #5cb85c;
 }
 
-div Button.modal-button-add {
+/* div Button.modal-button-add {
   border-radius: 20px;
   background-color: #55c596;
   border-color: #55c596;
-}
+} */
 
 Button span.mobile-view {
   display: none;
@@ -126,5 +117,9 @@ Button span.mobile-view {
 }
 
 .sidebar {
-  height: 100%;
+  height: 100vh;
+}
+
+.site-button-ghost-wrapper {
+  background: rgb(190, 200, 200);
 }

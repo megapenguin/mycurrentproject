@@ -3,6 +3,7 @@ import { Form, Input, Button, Card, Row, Col, Typography, Modal } from "antd";
 import { withRouter } from "react-router-dom";
 import { AuthContext } from ".././components/GlobalContext/AuthContext";
 import Imaged from "./Imaged";
+
 const { Title } = Typography;
 
 function Login({ history }) {
@@ -19,6 +20,7 @@ function Login({ history }) {
             content: "Email or Password is incorrect!",
           });
     }
+    history.push("/instructions");
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -35,7 +37,11 @@ function Login({ history }) {
       >
         <Col>
           <Card
-            title={<Title level={2}>Retrack ADMIN</Title>}
+            title={
+              <Title style={{ color: "dimgray" }} level={2}>
+                O.I.M.S
+              </Title>
+            }
             className="loginCardStyle"
           >
             <cardBody>
@@ -58,7 +64,7 @@ function Login({ history }) {
                     { required: true, message: "Please input your Email!" },
                   ]}
                 >
-                  <Input placeholder="Email"/>
+                  <Input placeholder="Email" />
                 </Form.Item>
                 <Form.Item
                   label="Password:"
@@ -70,15 +76,16 @@ function Login({ history }) {
                   <Input.Password placeholder="Password" />
                 </Form.Item>
                 <Form.Item>
-                  <a style={{ float: "right" }} href="/register">
+                  <a
+                    style={{ color: "dimgray", float: "right" }}
+                    href="/register"
+                  >
                     Create an Account?
                   </a>
                 </Form.Item>
                 <Button
-                  type="primary"
+                  style={{ background: "dimgray", color: "white" }}
                   htmlType="submit"
-                  shape="round"
-                  className="form-button"
                 >
                   LOGIN
                 </Button>
