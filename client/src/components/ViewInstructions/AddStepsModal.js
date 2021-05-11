@@ -11,6 +11,7 @@ function AddStepsModal(props) {
   const [filename, setFilename] = useState("Choose file");
   const [uploadedImagePath, setUploadedImagePath] = useState();
   const [lastStep, setLastStep] = useState("0");
+  const [addedStep, setAddedStep] = useState();
 
   useEffect(() => {
     if (props.stepInfo === null) {
@@ -49,7 +50,7 @@ function AddStepsModal(props) {
   };
 
   const handleClose = () => {
-    props.afterClosing();
+    props.afterClosing(addedStep);
   };
 
   const onFinish = (values) => {
@@ -67,6 +68,8 @@ function AddStepsModal(props) {
     axios
       .post("/api/v1/instructions/add_instruction", values)
       .then((res) => {
+        let data = res.data;
+        setAddedStep(data);
         Modal.success({
           content: "Successfully added instruction",
           okButtonProps: {},

@@ -46,7 +46,7 @@ function UpdateStepsModal(props) {
   };
 
   const handleClose = () => {
-    props.afterClosing();
+    // props.afterClosing();
   };
 
   const onFinish = (values) => {

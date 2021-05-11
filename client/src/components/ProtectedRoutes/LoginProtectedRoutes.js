@@ -6,11 +6,10 @@ function LoginProtectedRoutes({ component: Component, Auth, history, res }) {
     <Route
       {...res}
       render={(props) =>
-        Auth.state.isAuthenticated &&
-        Auth.state.userData.myStatus == "admin" ? (
+        Auth.state.isAuthenticated ? (
           <Redirect
             to={{
-              pathname: "/",
+              pathname: "/instructions",
               state: { from: props.location },
             }}
           />

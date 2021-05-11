@@ -35,16 +35,9 @@ function ViewInstructions({ history }) {
       .catch((error) => console.log(error));
   }, []);
 
-  const modalClosed = () => {
-    console.log("modal closed");
-    axios
-      .post("/api/v1/instructions/search_instructions", { value: dataInfo.id })
-      .then((res) => {
-        // console.log(res);
-        let data = res.data;
-        setStepsData(data);
-      })
-      .catch((error) => console.log(error));
+  const modalClosed = (addedStep) => {
+    console.log("addedStep", addedStep);
+    setStepsData((stepsData) => [...stepsData, addedStep]);
     console.log(stepsData);
   };
 
@@ -56,20 +49,16 @@ function ViewInstructions({ history }) {
         },
       })
       .then((res) => {
-        axios
-          .post("/api/v1/instructions/search_instructions", {
-            value: dataInfo.id,
-          })
-          .then((res) => {
-            // console.log(res);
-            let data = res.data;
-            setStepsData(data);
-          });
+        let stepsCopy = [...stepsData];
+        stepsCopy = stepsCopy.filter((user) => user.id !== id);
+        setStepsData(stepsCopy);
       })
       .catch((error) => console.log(error));
   };
 
-  const goBack = () => {};
+  const goBack = () => {
+    let stepsCopy = [...stepsData];
+  };
   return (
     <div>
       <Row>
@@ -98,7 +87,7 @@ function ViewInstructions({ history }) {
         <AddStepsModal
           info={dataInfo}
           stepInfo={stepsData}
-          afterClosing={modalClosed}
+          afterClosing={(addedStep) => modalClosed(addedStep)}
         />
       </Row>
 
@@ -114,11 +103,7 @@ function ViewInstructions({ history }) {
             <Col>{item.stepNumber}</Col>
             <Col flex="auto">{item.stepInstruction}</Col>
             <Col>
-              <UpdateStepsModal
-                info={dataInfo}
-                stepInfo={item}
-                afterClosing={modalClosed}
-              />
+              <UpdateStepsModal info={dataInfo} stepInfo={item} />
             </Col>
             <Col>
               <Button type="danger" onClick={() => deleteInstruction(item.id)}>

@@ -46,16 +46,12 @@ function Dashboard({ history }) {
       .catch((error) => console.log(error));
   }, []);
 
-  const modalClosed = () => {
-    console.log(images);
-    axios
-      .post("/api/v1/titles/search_titles", { value: userInfo.id })
-      .then((res) => {
-        // console.log(res);
-        let data = res.data;
-        setListData(data);
-      })
-      .catch((error) => console.log(error));
+  const modalClosed = (addedData) => {
+    console.log("addedData", addedData);
+    //let prevItems = listData
+    setListData((listData) => [...listData, addedData]);
+
+    console.log("newlist", listData);
   };
 
   const viewInstruction = (instructionInfo) => {
@@ -70,13 +66,9 @@ function Dashboard({ history }) {
         },
       })
       .then((res) => {
-        axios
-          .post("/api/v1/titles/search_titles", { value: userInfo.id })
-          .then((res) => {
-            // console.log(res);
-            let data = res.data;
-            setListData(data);
-          });
+        let listCopy = [...listData];
+        listCopy = listCopy.filter((user) => user.id !== id);
+        setListData(listCopy);
       })
       .catch((error) => console.log(error));
   };
@@ -85,31 +77,12 @@ function Dashboard({ history }) {
       <Divider>
         <Title level={2}>Instruction List</Title>
       </Divider>
-      {/* <Row>
-        <Image
-          height={100}
-          width={120}
-          src={`/api/v1/images/${
-            currentUser == null ? "logo.png" : currentUser[0].profilePicture
-          }`}
-        />
-      </Row>
-      <Row>
-        <Title level={4}>
-          <SmileTwoTone />{" "}
-          {currentUser == null
-            ? ""
-            : currentUser[0].firstName + " " + currentUser[0].lastName}
-        </Title>
-      </Row>
-      <Row>
-        <Title level={4}>
-          <MailTwoTone /> {userInfo.email}
-        </Title>
-      </Row> */}
 
       <Row>
-        <AddInstructionModal info={userInfo} afterClosing={modalClosed} />
+        <AddInstructionModal
+          info={userInfo}
+          afterClosing={(addedData) => modalClosed(addedData)}
+        />
       </Row>
       <Divider></Divider>
       <List

@@ -10,6 +10,7 @@ function AddInstructionModal(props) {
 
   const [filename, setFilename] = useState("Choose file");
   const [uploadedImagePath, setUploadedImagePath] = useState();
+  const [addedData, setAddedData] = useState();
 
   const checking = (file) => {
     setFilename(file);
@@ -38,7 +39,7 @@ function AddInstructionModal(props) {
   };
 
   const handleClose = () => {
-    props.afterClosing();
+    props.afterClosing(addedData);
   };
 
   const onFinish = (values) => {
@@ -54,6 +55,8 @@ function AddInstructionModal(props) {
     axios
       .post("/api/v1/titles/add_title", values)
       .then((res) => {
+        let data = res.data;
+        setAddedData(data);
         Modal.success({
           content: "Successfully added title instruction",
           okButtonProps: {},

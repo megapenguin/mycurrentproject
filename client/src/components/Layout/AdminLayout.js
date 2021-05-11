@@ -7,6 +7,9 @@ import {
   Typography,
   Dropdown,
   Image,
+  Row,
+  Col,
+  Divider,
 } from "antd";
 import {
   SnippetsOutlined,
@@ -18,27 +21,47 @@ import {
   DownOutlined,
 } from "@ant-design/icons";
 import Imaged from "../../views/Imaged";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 
 import { AuthContext } from "../GlobalContext/AuthContext";
 
 const { Header, Content, Footer, Sider } = Layout;
-const text = <span>Title</span>;
-const content = (
-  <div>
-    <p>Content</p>
-    <p>Content</p>
-  </div>
-);
 
-function AdminLayout({ children }) {
+function AdminLayout({ children, history }) {
   const { Title } = Typography;
   let Auth = useContext(AuthContext);
 
   const [userInfo, setUserInfo] = useState(Auth.state.userData);
-
+  const text = (
+    <span>
+      <Title level={5}>
+        {userInfo.firstName} {userInfo.lastName}
+      </Title>
+    </span>
+  );
+  const content = (
+    <div>
+      <p>
+        <Link to="/instructions" style={{ color: "dimgray" }}>
+          <HomeOutlined /> <Divider type="vertical" /> Home
+        </Link>
+      </p>
+      <p>
+        <Link to="/profile" style={{ color: "dimgray" }}>
+          <UserOutlined /> <Divider type="vertical" /> Profile
+        </Link>
+      </p>
+      <p onClick={() => logout()}>
+        <Link to="/" style={{ color: "red" }}>
+          <LogoutOutlined /> <Divider type="vertical" /> Log Out
+        </Link>
+      </p>
+    </div>
+  );
   const logout = () => {
     localStorage.clear();
+    Auth.state.isAuthenticated = false;
+    console.log(Auth);
   };
   return (
     <Layout>
@@ -74,15 +97,15 @@ function AdminLayout({ children }) {
           mode="inline"
           defaultSelectedKeys={[""]}
         >
-          <Menu.Item key="1" icon={<HomeOutlined />}>
+          {/* <Menu.Item key="1" icon={<HomeOutlined />}>
             <Link to="/instructions">Home</Link>
-          </Menu.Item>
-          <Menu.Item key="2" icon={<UserOutlined />}>
+          </Menu.Item> */}
+          {/* <Menu.Item key="2" icon={<UserOutlined />}>
             <Link to="/profile">My Profile</Link>
-          </Menu.Item>
-          <Menu.Item key="3" icon={<LogoutOutlined />} onClick={() => logout()}>
+          </Menu.Item> */}
+          {/* <Menu.Item key="3" icon={<LogoutOutlined />} onClick={() => logout()}>
             <Link to="/">Log Out</Link>
-          </Menu.Item>
+          </Menu.Item> */}
         </Menu>
       </Sider>
       <Layout>
@@ -99,14 +122,14 @@ function AdminLayout({ children }) {
           <Title
             level={5}
             style={{
-              color: "black",
+              color: "dimgray",
               backgroundColor: "white",
             }}
           >
             {userInfo.email}
             {"   "}
             <Popover
-              placement="bottom"
+              placement="bottomRight"
               title={text}
               content={content}
               trigger="click"
@@ -138,4 +161,4 @@ function AdminLayout({ children }) {
   );
 }
 
-export default AdminLayout;
+export default withRouter(AdminLayout);
