@@ -87,7 +87,9 @@ function AdminLayout({ children, history }) {
           }}
           width={120}
           src={`/api/v1/images/${
-            userInfo == null ? "logo.png" : userInfo.profilePicture
+            Auth.state.userData.profilePicture == null
+              ? "logo.png"
+              : Auth.state.userData.profilePicture
           }`}
         />
         <Menu
@@ -97,12 +99,12 @@ function AdminLayout({ children, history }) {
           mode="inline"
           defaultSelectedKeys={[""]}
         >
-          {/* <Menu.Item key="1" icon={<HomeOutlined />}>
+          <Menu.Item key="1" icon={<HomeOutlined />}>
             <Link to="/instructions">Home</Link>
-          </Menu.Item> */}
-          {/* <Menu.Item key="2" icon={<UserOutlined />}>
+          </Menu.Item>
+          <Menu.Item key="2" icon={<UserOutlined />}>
             <Link to="/profile">My Profile</Link>
-          </Menu.Item> */}
+          </Menu.Item>
           {/* <Menu.Item key="3" icon={<LogoutOutlined />} onClick={() => logout()}>
             <Link to="/">Log Out</Link>
           </Menu.Item> */}

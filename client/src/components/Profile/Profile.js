@@ -62,6 +62,9 @@ function Profile({ history }) {
     axios
       .post("/api/v1/users/update_user", values)
       .then((res) => {
+        Auth.state.userData.firstName = values.firstName;
+        Auth.state.userData.lastName = values.lastName;
+        Auth.state.userData.email = values.email;
         Modal.success({
           content: "Successfully updated profile info",
           okButtonProps: {},
@@ -138,6 +141,9 @@ function Profile({ history }) {
         profilePicture: imagePath,
       })
       .then((res) => {
+        Auth.state.userData.profilePicture = imagePath;
+        console.log(Auth.state.userData);
+
         Modal.success({
           content: "Succesfully selected profile picture",
           okButtonProps: {},

@@ -34,7 +34,6 @@ function Dashboard({ history }) {
       .then((res) => {
         let data = res.data;
         setCurrentUser(data);
-        console.log(userInfo);
       });
     axios
       .post("/api/v1/titles/search_titles", { value: userInfo.id })
@@ -47,11 +46,14 @@ function Dashboard({ history }) {
   }, []);
 
   const modalClosed = (addedData) => {
-    console.log("addedData", addedData);
+    //console.log("addedData", addedData);
     //let prevItems = listData
-    setListData((listData) => [...listData, addedData]);
+    if (addedData) {
+      setListData((listData) => [...listData, addedData]);
+    } else {
+    }
 
-    console.log("newlist", listData);
+    //console.log("newlist", listData);
   };
 
   const viewInstruction = (instructionInfo) => {

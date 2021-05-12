@@ -10,6 +10,7 @@ function UpdateStepsModal(props) {
 
   const [filename, setFilename] = useState("Choose file");
   const [uploadedImagePath, setUploadedImagePath] = useState();
+  const [updatedStep, setUpdatedStep] = useState();
 
   const [form] = Form.useForm();
 
@@ -46,7 +47,7 @@ function UpdateStepsModal(props) {
   };
 
   const handleClose = () => {
-    // props.afterClosing();
+    props.afterClosing(updatedStep);
   };
 
   const onFinish = (values) => {
@@ -61,8 +62,9 @@ function UpdateStepsModal(props) {
     axios
       .post("/api/v1/instructions/update_instruction", values)
       .then((res) => {
+        setUpdatedStep(values);
         Modal.success({
-          content: "Successfully updated instruction",
+          content: "Successfully updated step",
           okButtonProps: {},
         });
       })

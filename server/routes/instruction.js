@@ -56,8 +56,8 @@ router.post("/update_instruction", (req, res) => {
     { titleId, stepNumber, stepInstruction },
     { where: { id } }
   )
-    .then((_res) => {
-      res.json(_res);
+    .then((response) => {
+      res.json(response);
     })
     .catch((error) => console.log(error));
 });
