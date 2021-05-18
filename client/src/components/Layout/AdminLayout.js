@@ -5,22 +5,11 @@ import {
   Popover,
   Button,
   Typography,
-  Dropdown,
   Image,
-  Row,
-  Col,
   Divider,
 } from "antd";
-import {
-  SnippetsOutlined,
-  UserOutlined,
-  CarOutlined,
-  LogoutOutlined,
-  HomeOutlined,
-  FundViewOutlined,
-  DownOutlined,
-} from "@ant-design/icons";
-import Imaged from "../../views/Imaged";
+import { UserOutlined, LogoutOutlined, HomeOutlined } from "@ant-design/icons";
+
 import { Link, withRouter } from "react-router-dom";
 
 import { AuthContext } from "../GlobalContext/AuthContext";
@@ -32,6 +21,7 @@ function AdminLayout({ children, history }) {
   let Auth = useContext(AuthContext);
 
   const [userInfo, setUserInfo] = useState(Auth.state.userData);
+
   const text = (
     <span>
       <Title level={5}>
@@ -52,7 +42,7 @@ function AdminLayout({ children, history }) {
         </Link>
       </p>
       <p onClick={() => logout()}>
-        <Link to="/" style={{ color: "red" }}>
+        <Link to="/" style={{ color: "red", fontWeight: "bold" }}>
           <LogoutOutlined /> <Divider type="vertical" /> Log Out
         </Link>
       </p>
@@ -66,7 +56,10 @@ function AdminLayout({ children, history }) {
   return (
     <Layout>
       <Sider
-        style={{ backgroundColor: "dimgray" }}
+        style={{
+          backgroundColor: "dimgray",
+          fontWeight: "bold",
+        }}
         breakpoint="lg"
         collapsedWidth="0"
         onBreakpoint={(broken) => {
@@ -81,20 +74,19 @@ function AdminLayout({ children, history }) {
         <Image
           preview={false}
           style={{
+            padding: 10,
             borderColor: "black",
-            border: "20px",
-            marginTop: "15px",
+            borderRadius: "25px",
           }}
-          width={120}
           src={`/api/v1/images/${
-            Auth.state.userData.profilePicture == null
+            Auth.state.userData.profilePicture == ""
               ? "logo.png"
               : Auth.state.userData.profilePicture
           }`}
         />
         <Menu
-          style={{ backgroundColor: "dimgray" }}
           className="sidebar"
+          style={{ backgroundColor: "dimgray", paddingTop: 20 }}
           theme="dark"
           mode="inline"
           defaultSelectedKeys={[""]}
@@ -116,7 +108,7 @@ function AdminLayout({ children, history }) {
             padding: 0,
             textAlign: "right",
             backgroundColor: "white",
-            height: "70px",
+
             paddingTop: 20,
             paddingRight: 30,
           }}
@@ -126,6 +118,7 @@ function AdminLayout({ children, history }) {
             style={{
               color: "dimgray",
               backgroundColor: "white",
+              paddingTop: 10,
             }}
           >
             {userInfo.email}
@@ -150,7 +143,7 @@ function AdminLayout({ children, history }) {
         <Content style={{ margin: "24px 16px 0" }}>
           <div
             className="site-layout-background"
-            style={{ padding: 24, minHeight: 500 }}
+            style={{ padding: 24, minHeight: 550 }}
           >
             {children}
           </div>

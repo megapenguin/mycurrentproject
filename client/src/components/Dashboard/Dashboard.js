@@ -43,6 +43,7 @@ function Dashboard({ history }) {
         setListData(data);
       })
       .catch((error) => console.log(error));
+    console.log(Auth.state.userData);
   }, []);
 
   const modalClosed = (addedData) => {
@@ -77,7 +78,9 @@ function Dashboard({ history }) {
   return (
     <div>
       <Divider>
-        <Title level={2}>Instruction List</Title>
+        <Title style={{ fontWeight: "bold", color: "dimgray" }} level={1}>
+          Instruction List
+        </Title>
       </Divider>
 
       <Row>
@@ -97,22 +100,33 @@ function Dashboard({ history }) {
             <Col>
               <Link to={`/instructions/${item.id}`}>
                 <Button
-                  style={{ background: "dimgray", color: "white" }}
+                  style={{
+                    background: "dimgray",
+                    color: "white",
+                    fontWeight: "bold",
+                    borderRadius: "25px",
+                  }}
                   onClick={() => viewInstruction(item)}
                 >
                   <span className="desktop-view">
-                    <QuestionOutlined />
-                    View
+                    <QuestionOutlined /> View
                   </span>
                   <span className="mobile-view">
                     <QuestionOutlined />
                   </span>
                 </Button>
               </Link>
-              <Button type="danger" onClick={() => deleteInstruction(item.id)}>
+              <Button
+                type="danger"
+                style={{
+                  color: "white",
+                  fontWeight: "bold",
+                  borderRadius: "25px",
+                }}
+                onClick={() => deleteInstruction(item.id)}
+              >
                 <span className="desktop-view">
-                  <CloseOutlined />
-                  Delete
+                  <CloseOutlined /> Delete
                 </span>
                 <span className="mobile-view">
                   <CloseOutlined />

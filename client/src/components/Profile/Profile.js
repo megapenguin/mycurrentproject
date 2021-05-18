@@ -20,6 +20,7 @@ import {
   LeftOutlined,
   CloseOutlined,
   SaveOutlined,
+  FormOutlined,
 } from "@ant-design/icons";
 
 import axios from "axios";
@@ -111,10 +112,11 @@ function Profile({ history }) {
     data: { imageOwnerId: userInfo.id, imageReferenceId: 1 },
     onChange(info) {
       if (info.file.status !== "uploading") {
-        console.log("uploading", info.file, info.fileList);
+        //console.log("uploading", info.file, info.fileList);
       }
       if (info.file.status === "done") {
         message.success(`${info.file.name} file uploaded Successfully.`);
+        console.log("picture", picture);
       } else if (info.file.status === "error") {
         message.error(`${info.file.name} file upload Failed.`);
       }
@@ -142,7 +144,6 @@ function Profile({ history }) {
       })
       .then((res) => {
         Auth.state.userData.profilePicture = imagePath;
-        console.log(Auth.state.userData);
 
         Modal.success({
           content: "Succesfully selected profile picture",
@@ -164,6 +165,21 @@ function Profile({ history }) {
         let imagesCopy = [...picture];
         imagesCopy = imagesCopy.filter((image) => image.id !== id);
         setPicture(imagesCopy);
+        if (
+          imagesCopy.length === 0 ||
+          Auth.state.userData.profilePicture === imagePath
+        ) {
+          axios
+            .post("/api/v1/users/update_profile_picture", {
+              id: userInfo.id,
+              profilePicture: "",
+            })
+            .then((res) => {
+              Auth.state.userData.profilePicture = "";
+            })
+            .catch((error) => console.log(error));
+        } else {
+        }
         Modal.success({
           content: "Image has been removed",
           okButtonProps: {},
@@ -176,7 +192,14 @@ function Profile({ history }) {
     <div>
       <Row>
         <Link to="/instructions">
-          <Button style={{ background: "dimgray", color: "white" }}>
+          <Button
+            style={{
+              background: "dimgray",
+              color: "white",
+              fontWeight: "bold",
+              borderRadius: "25px",
+            }}
+          >
             <span className="desktop-view">
               <LeftOutlined /> Back to Home
             </span>
@@ -187,9 +210,69 @@ function Profile({ history }) {
         </Link>
       </Row>
       <Divider>
-        <Title level={2}>My Profile Account</Title>
+        <Title style={{ color: "dimgrey" }} level={1}>
+          Account Information
+        </Title>
       </Divider>
-      <Row>
+
+      <Form
+        style={{ fontWeight: "bold" }}
+        layout="vertical"
+        name="basic"
+        form={form}
+        initialValues={{ remember: true }}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        id="myForm"
+      >
+        <Row style={{ paddingTop: 25, paddingBottom: 25 }}>
+          <Col>
+            <Form.Item label="Id:" name="id">
+              <Input disabled={true} bordered={false} />
+            </Form.Item>
+          </Col>
+          <Col flex="auto" style={{ padding: 5, fontWeight: "bold" }}>
+            <Form.Item label="First Name: " name="firstName">
+              <Input style={{ border: 0, borderBottom: "2px solid black" }} />
+            </Form.Item>
+          </Col>
+          <Col flex="auto" style={{ padding: 5 }}>
+            <Form.Item label="Last Name:" name="lastName">
+              <Input style={{ border: 0, borderBottom: "2px solid black" }} />
+            </Form.Item>
+          </Col>
+          <Col flex="auto" style={{ padding: 5 }}>
+            <Form.Item label="Email:" name="email">
+              <Input style={{ border: 0, borderBottom: "2px solid black" }} />
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row>
+          <Button
+            style={{
+              background: "dimgray",
+              color: "white",
+              fontWeight: "bold",
+              borderRadius: "25px",
+            }}
+            htmlType="submit"
+            onClick={() => onFinish}
+          >
+            <span className="desktop-view">
+              <SaveOutlined /> Save
+            </span>
+            <span className="mobile-view">
+              <SaveOutlined />
+            </span>
+          </Button>
+        </Row>
+      </Form>
+      <Divider>
+        <Title style={{ color: "dimgrey" }} level={1}>
+          Photos
+        </Title>
+      </Divider>
+      <Row style={{ paddingTop: 25, paddingBottom: 25 }}>
         <Col span={6}>
           <Upload
             {...uploadFile}
@@ -200,11 +283,11 @@ function Profile({ history }) {
           >
             <Space>
               <UploadOutlined />
-              Upload Picture
+              Upload Photo
             </Space>
           </Upload>
         </Col>
-        <Col span={16}>
+        <Col flex="auto">
           <Radio.Group name="radiogroup">
             <Row gutter={[16, 24]}>
               {picture == null
@@ -222,9 +305,10 @@ function Profile({ history }) {
                         Select
                       </Radio>
                       <Button
+                        style={{ borderRadius: "25px" }}
                         icon={<CloseOutlined />}
                         danger
-                        onClick={() => deleteImage(pic.id, pic.smImagePath)}
+                        onClick={() => deleteImage(pic.id, pic.imagePath)}
                       ></Button>
                     </Col>
                   ))}
@@ -232,42 +316,6 @@ function Profile({ history }) {
           </Radio.Group>
         </Col>
       </Row>
-      <Form
-        layout="vertical"
-        name="basic"
-        form={form}
-        initialValues={{ remember: true }}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-        id="myForm"
-      >
-        <Form.Item label="Id:" name="id">
-          <Input disabled={true} bordered={false} />
-        </Form.Item>
-        <Form.Item label="First Name: " name="firstName">
-          <Input />
-        </Form.Item>
-        <Form.Item label="Last Name:" name="lastName">
-          <Input />
-        </Form.Item>
-        <Form.Item label="Email:" name="email">
-          <Input />
-        </Form.Item>
-        <Row>
-          <Button
-            style={{ background: "dimgray", color: "white" }}
-            htmlType="submit"
-            onClick={() => onFinish}
-          >
-            <span className="desktop-view">
-              <SaveOutlined /> Save
-            </span>
-            <span className="mobile-view">
-              <SaveOutlined />
-            </span>
-          </Button>
-        </Row>
-      </Form>
     </div>
   );
 }

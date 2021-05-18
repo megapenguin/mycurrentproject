@@ -38,7 +38,7 @@ function Login({ history }) {
         <Col>
           <Card
             title={
-              <Title style={{ color: "dimgray" }} level={2}>
+              <Title style={{ color: "dimgray", fontWeight: "bold" }} level={1}>
                 O.I.M.S
               </Title>
             }
@@ -54,6 +54,7 @@ function Login({ history }) {
                 onFinishFailed={onFinishFailed}
               >
                 <Form.Item
+                  style={{ fontWeight: "bold" }}
                   label="Email:"
                   name="email"
                   rules={[
@@ -64,16 +65,23 @@ function Login({ history }) {
                     { required: true, message: "Please input your Email!" },
                   ]}
                 >
-                  <Input placeholder="Email" />
+                  <Input
+                    style={{ border: 0, borderBottom: "2px solid black" }}
+                    placeholder="Email"
+                  />
                 </Form.Item>
                 <Form.Item
+                  style={{ fontWeight: "bold" }}
                   label="Password:"
                   name="password"
                   rules={[
                     { required: true, message: "Please input your password!" },
                   ]}
                 >
-                  <Input.Password placeholder="Password" />
+                  <Input.Password
+                    style={{ border: 0, borderBottom: "2px solid black" }}
+                    placeholder="Password"
+                  />
                 </Form.Item>
                 <Form.Item>
                   <a
@@ -84,7 +92,12 @@ function Login({ history }) {
                   </a>
                 </Form.Item>
                 <Button
-                  style={{ background: "dimgray", color: "white" }}
+                  style={{
+                    background: "dimgray",
+                    color: "white",
+                    fontWeight: "bold",
+                    borderRadius: "25px",
+                  }}
                   htmlType="submit"
                 >
                   LOGIN

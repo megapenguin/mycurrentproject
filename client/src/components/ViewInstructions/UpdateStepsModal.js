@@ -88,7 +88,12 @@ function UpdateStepsModal(props) {
   return (
     <div>
       <Button
-        style={{ background: "dimgray", color: "white" }}
+        style={{
+          background: "dimgray",
+          color: "white",
+          fontWeight: "bold",
+          borderRadius: "25px",
+        }}
         className="modal-button-add"
         onClick={showModal}
       >
@@ -109,7 +114,13 @@ function UpdateStepsModal(props) {
         afterClose={handleClose}
         destroyOnClose={true}
         footer={[
-          <Button key="back" className="modal-button" onClick={handleCancel}>
+          <Button
+            type="danger"
+            style={{ borderRadius: "25px" }}
+            key="back"
+            className="modal-button"
+            onClick={handleCancel}
+          >
             Cancel
           </Button>,
           <Button
@@ -119,7 +130,11 @@ function UpdateStepsModal(props) {
             className="modal-button"
             loading={confirmLoading}
             onClick={onFinish}
-            style={{ background: "dimgray", color: "white" }}
+            style={{
+              background: "dimgray",
+              color: "white",
+              borderRadius: "25px",
+            }}
           >
             Update
           </Button>,

@@ -32,7 +32,7 @@ body,
 }
 
 .App-link {
-  color: #61dafb;
+  color: #f7fbfc;
 }
 
 @keyframes App-logo-spin {
@@ -94,7 +94,7 @@ div Button.modal-button-upload {
 
 div Button.modal-button-view {
   background-color: #1b2aff;
-  border-color: #5cb85c;
+  border-color: #fdfdfd;
 }
 
 /* div Button.modal-button-add {
@@ -122,4 +122,9 @@ Button span.mobile-view {
 
 .site-button-ghost-wrapper {
   background: rgb(190, 200, 200);
+}
+
+input {
+  border: 0;
+  border-bottom: 2px solid black;
 }

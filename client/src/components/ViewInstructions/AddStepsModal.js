@@ -9,19 +9,10 @@ function AddStepsModal(props) {
   const [ifCanceled, setIfCanceled] = useState(false);
 
   const [filename, setFilename] = useState("Choose file");
-  const [uploadedImagePath, setUploadedImagePath] = useState();
   const [lastStep, setLastStep] = useState("0");
   const [addedStep, setAddedStep] = useState();
 
-  useEffect(() => {
-    if (props.stepInfo === null) {
-      setLastStep("0");
-    } else {
-      props.stepInfo.map((d) => {
-        return setLastStep(d.stepNumber), console.log(lastStep);
-      });
-    }
-  }, [isModalVisible]);
+  useEffect(() => {}, [isModalVisible]);
 
   const checking = (file) => {
     setFilename(file);
@@ -35,7 +26,6 @@ function AddStepsModal(props) {
     if (filename == "Choose file") {
       //console.log("No image selected");
     } else {
-      setUploadedImagePath(filename.file.response.filePath);
       //console.log(filename.file.response);
     }
   };
@@ -54,9 +44,17 @@ function AddStepsModal(props) {
   };
 
   const onFinish = (values) => {
-    console.log(values);
-
-    values["titleId"] = props.info.id;
+    console.log(props.stepInfo);
+    if (props.stepInfo.length == 0) {
+      setLastStep(0);
+      console.log("no step");
+    } else {
+      props.stepInfo.map((d) => {
+        return setLastStep(d.stepNumber), console.log(lastStep);
+      });
+      console.log("has step");
+    }
+    values["titleId"] = props.info;
     values["stepNumber"] = lastStep + 1;
     setConfirmLoading(true);
     setIfCanceled(false);
@@ -95,7 +93,12 @@ function AddStepsModal(props) {
   return (
     <div>
       <Button
-        style={{ background: "dimgray", color: "white" }}
+        style={{
+          background: "dimgray",
+          color: "white",
+          fontWeight: "bold",
+          borderRadius: "25px",
+        }}
         className="modal-button-add"
         onClick={showModal}
       >
@@ -108,7 +111,7 @@ function AddStepsModal(props) {
       </Button>
 
       <Modal
-        title="Write Instructions"
+        title="Write Step"
         visible={isModalVisible}
         confirmLoading={confirmLoading}
         onOk={onFinish}
@@ -116,7 +119,13 @@ function AddStepsModal(props) {
         afterClose={handleClose}
         destroyOnClose={true}
         footer={[
-          <Button key="back" className="modal-button" onClick={handleCancel}>
+          <Button
+            type="danger"
+            style={{ borderRadius: "25px" }}
+            key="back"
+            className="modal-button"
+            onClick={handleCancel}
+          >
             Cancel
           </Button>,
           <Button
@@ -126,7 +135,11 @@ function AddStepsModal(props) {
             className="modal-button"
             loading={confirmLoading}
             onClick={onFinish}
-            style={{ background: "dimgray", color: "white" }}
+            style={{
+              background: "dimgray",
+              color: "white",
+              borderRadius: "25px",
+            }}
           >
             Add
           </Button>,
@@ -141,6 +154,7 @@ function AddStepsModal(props) {
           id="myForm"
         >
           <Form.Item
+            style={{ fontWeight: "bold" }}
             label="Instruction"
             name="stepInstruction"
             rules={[{ required: true, message: "Please input title!" }]}

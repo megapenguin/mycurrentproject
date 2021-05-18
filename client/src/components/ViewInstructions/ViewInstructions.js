@@ -12,7 +12,7 @@ import { withRouter, Link, useHistory } from "react-router-dom";
 function ViewInstructions({ history }) {
   let Data = useContext(DataContext);
   const { Title } = Typography;
-  let [dataInfo, setDataInfo] = useState(Data.dataState.dataHolder);
+  let [dataInfo, setDataInfo] = useState();
   const [stepsData, setStepsData] = useState([]);
   let [currentTitle, setCurrentTitle] = useState(null);
   let [value, setValue] = useState();
@@ -20,28 +20,34 @@ function ViewInstructions({ history }) {
 
   useEffect(() => {
     value = dataHistory.location.pathname.split("/instructions/");
-    axios.post("/api/v1/titles/title", { value: value[1] }).then((res) => {
-      // console.log(res);
-      let data = res.data;
-      setCurrentTitle(data);
-    });
+
     axios
-      .post("/api/v1/instructions/search_instructions", { value: value[1] })
+      .post("/api/v1/titles/title", { value: value[1] })
       .then((res) => {
         // console.log(res);
         let data = res.data;
-        setStepsData(data);
+        setCurrentTitle(data);
+        setDataInfo(value[1]);
+        axios
+          .post("/api/v1/instructions/search_instructions", { value: value[1] })
+          .then((res) => {
+            // console.log(res);
+            let data = res.data;
+            setStepsData(data);
+          });
       })
+
       .catch((error) => console.log(error));
+    console.log(stepsData);
   }, []);
 
   const modalClosed = (addedStep) => {
-    //console.log("addedStep", addedStep);
+    console.log("addedStep", addedStep);
     if (addedStep) {
       setStepsData((stepsData) => [...stepsData, addedStep]);
     } else {
     }
-    //console.log(stepsData);
+    console.log(stepsData);
   };
 
   const modalUpdate = (updatedStep) => {
@@ -81,7 +87,14 @@ function ViewInstructions({ history }) {
     <div>
       <Row>
         <Link to="/instructions">
-          <Button style={{ background: "dimgray", color: "white" }}>
+          <Button
+            style={{
+              background: "dimgray",
+              color: "white",
+              fontWeight: "bold",
+              borderRadius: "25px",
+            }}
+          >
             <span className="desktop-view">
               <LeftOutlined /> Back to Home
             </span>
@@ -93,7 +106,7 @@ function ViewInstructions({ history }) {
       </Row>
 
       <Divider>
-        <Title level={2}>
+        <Title level={1}>
           {currentTitle == null ? " " : currentTitle[0].title}
         </Title>
       </Divider>
@@ -107,7 +120,9 @@ function ViewInstructions({ history }) {
       </Row>
 
       <Divider>
-        <Title level={2}>Steps</Title>
+        <Title style={{ color: "dimgrey" }} level={2}>
+          Steps
+        </Title>
       </Divider>
 
       <List
@@ -115,8 +130,10 @@ function ViewInstructions({ history }) {
         dataSource={stepsData}
         renderItem={(item) => (
           <List.Item>
-            <Col>{item.stepNumber}</Col>
-            <Col flex="auto">{item.stepInstruction}</Col>
+            <Col style={{ fontSize: 15 }}>{item.stepNumber}</Col>
+            <Col flex="auto" style={{ fontSize: 15 }}>
+              {item.stepInstruction}
+            </Col>
             <Col>
               <UpdateStepsModal
                 info={dataInfo}
@@ -125,10 +142,17 @@ function ViewInstructions({ history }) {
               />
             </Col>
             <Col>
-              <Button type="danger" onClick={() => deleteInstruction(item.id)}>
+              <Button
+                type="danger"
+                style={{
+                  color: "white",
+                  fontWeight: "bold",
+                  borderRadius: "25px",
+                }}
+                onClick={() => deleteInstruction(item.id)}
+              >
                 <span className="desktop-view">
-                  <CloseOutlined />
-                  Delete
+                  <CloseOutlined /> Delete
                 </span>
                 <span className="mobile-view">
                   <CloseOutlined />

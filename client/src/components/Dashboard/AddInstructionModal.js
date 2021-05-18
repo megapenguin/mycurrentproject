@@ -82,7 +82,12 @@ function AddInstructionModal(props) {
   return (
     <div>
       <Button
-        style={{ background: "dimgray", color: "white" }}
+        style={{
+          background: "dimgray",
+          color: "white",
+          fontWeight: "bold",
+          borderRadius: "25px",
+        }}
         onClick={showModal}
       >
         <span className="desktop-view">
@@ -94,6 +99,7 @@ function AddInstructionModal(props) {
       </Button>
 
       <Modal
+        style={{ fontWeight: "bold" }}
         title="Add Intsruction"
         visible={isModalVisible}
         confirmLoading={confirmLoading}
@@ -102,7 +108,15 @@ function AddInstructionModal(props) {
         afterClose={handleClose}
         destroyOnClose={true}
         footer={[
-          <Button key="back" className="modal-button" onClick={handleCancel}>
+          <Button
+            type="danger"
+            style={{
+              borderRadius: "25px",
+            }}
+            key="back"
+            className="modal-button"
+            onClick={handleCancel}
+          >
             Cancel
           </Button>,
           <Button
@@ -113,7 +127,11 @@ function AddInstructionModal(props) {
             className="modal-button"
             loading={confirmLoading}
             onClick={onFinish}
-            style={{ background: "dimgray", color: "white" }}
+            style={{
+              background: "dimgray",
+              color: "white",
+              borderRadius: "25px",
+            }}
           >
             Add
           </Button>,
@@ -128,6 +146,7 @@ function AddInstructionModal(props) {
           id="myForm"
         >
           <Form.Item
+            style={{ fontWeight: "bold" }}
             label="Title"
             name="title"
             rules={[{ required: true, message: "Please input title!" }]}

@@ -5,9 +5,13 @@ function Imaged() {
   return (
     <Image
       preview={false}
-      width={120}
       src={logo}
-      style={{ borderColor: "white", border: "10px", marginTop: "15px" }}
+      style={{
+        borderColor: "white",
+        border: "10px",
+        marginTop: "15px",
+        padding: "10px",
+      }}
     />
   );
 }

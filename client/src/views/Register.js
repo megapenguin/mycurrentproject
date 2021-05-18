@@ -30,10 +30,15 @@ function Register({ history }) {
       <Row type="flex" justify="center">
         <Col>
           <Card
-            title={<Title level={4}>O.I.M.S</Title>}
+            title={
+              <Title style={{ color: "dimgrey" }} level={3}>
+                O.I.M.S
+              </Title>
+            }
             className="registerCardStyle"
           >
             <Form
+              style={{ fontWeight: "bold" }}
               layout="vertical"
               name="basic"
               initialValues={{ remember: true }}
@@ -41,7 +46,7 @@ function Register({ history }) {
               onFinishFailed={onFinishFailed}
             >
               <h3>
-                <b>Account Registration</b>
+                <b style={{ color: "dimgrey" }}>Account Registration</b>
               </h3>
               <Form.Item
                 label="First Name:"
@@ -50,7 +55,10 @@ function Register({ history }) {
                   { required: true, message: "Please input your First Name!" },
                 ]}
               >
-                <Input placeholder="Firstname" />
+                <Input
+                  style={{ border: 0, borderBottom: "2px solid black" }}
+                  placeholder="Firstname"
+                />
               </Form.Item>
 
               <Form.Item
@@ -63,7 +71,10 @@ function Register({ history }) {
                   },
                 ]}
               >
-                <Input placeholder="Lastname" />
+                <Input
+                  style={{ border: 0, borderBottom: "2px solid black" }}
+                  placeholder="Lastname"
+                />
               </Form.Item>
               <Form.Item
                 label="Email:"
@@ -76,7 +87,10 @@ function Register({ history }) {
                   { required: true, message: "Please input your email!" },
                 ]}
               >
-                <Input placeholder="Email" />
+                <Input
+                  style={{ border: 0, borderBottom: "2px solid black" }}
+                  placeholder="Email"
+                />
               </Form.Item>
 
               <Form.Item
@@ -90,7 +104,10 @@ function Register({ history }) {
                 ]}
                 hasFeedback
               >
-                <Input.Password placeholder="Password" />
+                <Input.Password
+                  style={{ border: 0, borderBottom: "2px solid black" }}
+                  placeholder="Password"
+                />
               </Form.Item>
               <Form.Item
                 name="confirm"
@@ -114,11 +131,22 @@ function Register({ history }) {
                   }),
                 ]}
               >
-                <Input.Password placeholder="Confirm Password" />
+                <Input.Password
+                  style={{ border: 0, borderBottom: "2px solid black" }}
+                  placeholder="Confirm Password"
+                />
               </Form.Item>
 
               <Form.Item>
-                <Button type="primary" htmlType="submit">
+                <Button
+                  style={{
+                    background: "dimgray",
+                    color: "white",
+                    fontWeight: "bold",
+                    borderRadius: "25px",
+                  }}
+                  htmlType="submit"
+                >
                   REGISTER
                 </Button>
               </Form.Item>
