@@ -1,10 +1,21 @@
 import React, { useEffect, useContext, useState } from "react";
-import { Divider, Row, Col, Typography, List, Button, Image, Card } from "antd";
+import {
+  Divider,
+  Row,
+  Col,
+  Typography,
+  List,
+  Button,
+  Image,
+  Card,
+  Modal,
+} from "antd";
 import {
   MailTwoTone,
   SmileTwoTone,
   QuestionOutlined,
   CloseOutlined,
+  OrderedListOutlined,
 } from "@ant-design/icons";
 
 import axios from "axios";
@@ -72,14 +83,19 @@ function Dashboard({ history }) {
         let listCopy = [...listData];
         listCopy = listCopy.filter((user) => user.id !== id);
         setListData(listCopy);
+        Modal.warning({
+          content: "Instruction has been removed!",
+          okButtonProps: {},
+        });
       })
       .catch((error) => console.log(error));
   };
   return (
     <div>
-      <Divider>
+      <Divider style={{ marginTop: 45 }}>
         <Title style={{ fontWeight: "bold", color: "dimgray" }} level={1}>
-          Instruction List
+          <OrderedListOutlined />{" "}
+          <span className="desktop-view">Instruction List</span>
         </Title>
       </Divider>
 
@@ -105,6 +121,7 @@ function Dashboard({ history }) {
                     color: "white",
                     fontWeight: "bold",
                     borderRadius: "25px",
+                    height: "40px",
                   }}
                   onClick={() => viewInstruction(item)}
                 >
@@ -122,6 +139,7 @@ function Dashboard({ history }) {
                   color: "white",
                   fontWeight: "bold",
                   borderRadius: "25px",
+                  height: "40px",
                 }}
                 onClick={() => deleteInstruction(item.id)}
               >

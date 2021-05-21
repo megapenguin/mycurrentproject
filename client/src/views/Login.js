@@ -1,5 +1,17 @@
 import React, { useContext } from "react";
-import { Form, Input, Button, Card, Row, Col, Typography, Modal } from "antd";
+import {
+  Form,
+  Input,
+  Button,
+  Card,
+  Row,
+  Col,
+  Typography,
+  Modal,
+  Divider,
+} from "antd";
+import { RobotFilled, LockFilled, UserOutlined } from "@ant-design/icons";
+
 import { withRouter } from "react-router-dom";
 import { AuthContext } from ".././components/GlobalContext/AuthContext";
 import Imaged from "./Imaged";
@@ -54,8 +66,10 @@ function Login({ history }) {
                 onFinishFailed={onFinishFailed}
               >
                 <Form.Item
-                  style={{ fontWeight: "bold" }}
-                  label="Email:"
+                  style={{
+                    fontWeight: "bold",
+                  }}
+                  label="Email Address"
                   name="email"
                   rules={[
                     {
@@ -65,23 +79,47 @@ function Login({ history }) {
                     { required: true, message: "Please input your Email!" },
                   ]}
                 >
-                  <Input
-                    style={{ border: 0, borderBottom: "2px solid black" }}
-                    placeholder="Email"
-                  />
+                  <Row>
+                    <Col flex="auto">
+                      <Input
+                        prefix={
+                          <UserOutlined
+                            className="site-form-item-icon"
+                            style={{ padding: 5 }}
+                          />
+                        }
+                        style={{
+                          padding: 10,
+                        }}
+                        placeholder="Email"
+                      />
+                    </Col>
+                  </Row>
                 </Form.Item>
                 <Form.Item
-                  style={{ fontWeight: "bold" }}
-                  label="Password:"
+                  style={{ fontWeight: "bold", color: "dimgrey" }}
+                  label="Password"
                   name="password"
                   rules={[
                     { required: true, message: "Please input your password!" },
                   ]}
                 >
-                  <Input.Password
-                    style={{ border: 0, borderBottom: "2px solid black" }}
-                    placeholder="Password"
-                  />
+                  <Row>
+                    <Col flex="auto">
+                      <Input.Password
+                        prefix={
+                          <LockFilled
+                            className="site-form-item-icon"
+                            style={{ padding: 5 }}
+                          />
+                        }
+                        style={{
+                          padding: 10,
+                        }}
+                        placeholder="Password"
+                      />
+                    </Col>
+                  </Row>
                 </Form.Item>
                 <Form.Item>
                   <a
@@ -91,17 +129,25 @@ function Login({ history }) {
                     Create an Account?
                   </a>
                 </Form.Item>
-                <Button
-                  style={{
-                    background: "dimgray",
-                    color: "white",
-                    fontWeight: "bold",
-                    borderRadius: "25px",
-                  }}
-                  htmlType="submit"
-                >
-                  LOGIN
-                </Button>
+                <Row>
+                  <Col flex="auto">
+                    <Button
+                      style={{
+                        background: "dimgray",
+                        color: "white",
+                        fontWeight: "bold",
+                        borderRadius: "25px",
+                        border: ".5px solid whitesmoke",
+                        boxShadow: "1px 5px whitesmoke",
+                        height: "50px",
+                      }}
+                      htmlType="submit"
+                      block
+                    >
+                      LOGIN
+                    </Button>
+                  </Col>
+                </Row>
               </Form>
             </cardBody>
           </Card>

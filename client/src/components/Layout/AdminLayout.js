@@ -116,9 +116,10 @@ function AdminLayout({ children, history }) {
           <Title
             level={5}
             style={{
-              color: "dimgray",
+              color: "dimgrey",
               backgroundColor: "white",
               paddingTop: 10,
+              fontWeight: "bold",
             }}
           >
             {userInfo.email}
@@ -128,12 +129,16 @@ function AdminLayout({ children, history }) {
               title={text}
               content={content}
               trigger="click"
-              style={{ color: "gainsboro", paddingRight: 20 }}
+              style={{ color: "dimgrey", paddingRight: 20 }}
             >
               <Button
                 type="link"
                 shape="circle"
-                style={{ background: "gainsboro", color: "dimgray" }}
+                style={{
+                  background: "dimgrey",
+                  color: "white",
+                  fontWeight: "bold",
+                }}
               >
                 <UserOutlined />
               </Button>

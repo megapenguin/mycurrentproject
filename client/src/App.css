@@ -114,6 +114,12 @@ Button span.mobile-view {
   Button span.mobile-view {
     display: inline-block;
   }
+  span.desktop-view {
+    display: none;
+  }
+  span.mobile-view {
+    display: inline-block;
+  }
 }
 
 .sidebar {

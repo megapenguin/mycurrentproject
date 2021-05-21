@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
-import { List, Button, Row, Col, Divider, Typography } from "antd";
-import { LeftOutlined, CloseOutlined } from "@ant-design/icons";
+import { List, Button, Row, Col, Divider, Typography, Modal } from "antd";
+import { LeftOutlined, CloseOutlined, FormOutlined } from "@ant-design/icons";
 
 import AddStepsModal from "./AddStepsModal";
 import UpdateStepsModal from "./UpdateStepsModal";
@@ -38,7 +38,6 @@ function ViewInstructions({ history }) {
       })
 
       .catch((error) => console.log(error));
-    console.log(stepsData);
   }, []);
 
   const modalClosed = (addedStep) => {
@@ -47,7 +46,6 @@ function ViewInstructions({ history }) {
       setStepsData((stepsData) => [...stepsData, addedStep]);
     } else {
     }
-    console.log(stepsData);
   };
 
   const modalUpdate = (updatedStep) => {
@@ -79,6 +77,10 @@ function ViewInstructions({ history }) {
         let stepsCopy = [...stepsData];
         stepsCopy = stepsCopy.filter((user) => user.id !== id);
         setStepsData(stepsCopy);
+        Modal.warning({
+          content: "Step has been deleted",
+          okButtonProps: {},
+        });
       })
       .catch((error) => console.log(error));
   };
@@ -93,6 +95,9 @@ function ViewInstructions({ history }) {
               color: "white",
               fontWeight: "bold",
               borderRadius: "25px",
+              border: ".5px solid whitesmoke",
+              boxShadow: "1px 5px whitesmoke",
+              height: "40px",
             }}
           >
             <span className="desktop-view">
@@ -104,10 +109,18 @@ function ViewInstructions({ history }) {
           </Button>
         </Link>
       </Row>
-
       <Divider>
-        <Title level={1}>
-          {currentTitle == null ? " " : currentTitle[0].title}
+        <Title
+          style={{
+            color: "dimgray",
+            fontWeight: "bold",
+          }}
+          level={1}
+        >
+          <FormOutlined />
+          <span className="desktop-view">
+            {currentTitle == null ? " " : currentTitle[0].title}
+          </span>
         </Title>
       </Divider>
 
@@ -131,33 +144,37 @@ function ViewInstructions({ history }) {
         renderItem={(item) => (
           <List.Item>
             <Col style={{ fontSize: 15 }}>{item.stepNumber}</Col>
-            <Col flex="auto" style={{ fontSize: 15 }}>
+            <Col flex="auto" style={{ fontSize: 15, fontWeight: "bold" }}>
               {item.stepInstruction}
             </Col>
             <Col>
-              <UpdateStepsModal
-                info={dataInfo}
-                stepInfo={item}
-                afterClosing={(updatedStep) => modalUpdate(updatedStep)}
-              />
-            </Col>
-            <Col>
-              <Button
-                type="danger"
-                style={{
-                  color: "white",
-                  fontWeight: "bold",
-                  borderRadius: "25px",
-                }}
-                onClick={() => deleteInstruction(item.id)}
-              >
-                <span className="desktop-view">
-                  <CloseOutlined /> Delete
-                </span>
-                <span className="mobile-view">
-                  <CloseOutlined />
-                </span>
-              </Button>
+              <Row>
+                {stepsData.length == item.stepNumber ? (
+                  <Button
+                    type="danger"
+                    style={{
+                      color: "white",
+                      fontWeight: "bold",
+                      borderRadius: "25px",
+                      height: "40px",
+                    }}
+                    onClick={() => deleteInstruction(item.id)}
+                  >
+                    <span className="desktop-view">
+                      <CloseOutlined /> Delete
+                    </span>
+                    <span className="mobile-view">
+                      <CloseOutlined />
+                    </span>
+                  </Button>
+                ) : (
+                  <UpdateStepsModal
+                    info={dataInfo}
+                    stepInfo={item}
+                    afterClosing={(updatedStep) => modalUpdate(updatedStep)}
+                  />
+                )}
+              </Row>
             </Col>
           </List.Item>
         )}

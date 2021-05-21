@@ -87,6 +87,9 @@ function AddInstructionModal(props) {
           color: "white",
           fontWeight: "bold",
           borderRadius: "25px",
+          border: ".5px solid whitesmoke",
+          boxShadow: "1px 5px whitesmoke",
+          height: "40px",
         }}
         onClick={showModal}
       >

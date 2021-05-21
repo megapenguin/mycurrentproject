@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Form, Input, Modal, Button } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined, EditOutlined } from "@ant-design/icons";
 import axios from "axios";
 
 function UpdateStepsModal(props) {
@@ -93,20 +93,21 @@ function UpdateStepsModal(props) {
           color: "white",
           fontWeight: "bold",
           borderRadius: "25px",
+          height: "40px",
         }}
         className="modal-button-add"
         onClick={showModal}
       >
         <span className="desktop-view">
-          <PlusOutlined /> Update
+          <EditOutlined /> Edit
         </span>
         <span className="mobile-view">
-          <PlusOutlined />
+          <EditOutlined />
         </span>
       </Button>
 
       <Modal
-        title="Edit Instructions"
+        title="Edit Step"
         visible={isModalVisible}
         confirmLoading={confirmLoading}
         onOk={onFinish}
@@ -159,11 +160,12 @@ function UpdateStepsModal(props) {
             <Input disabled={true} bordered={false} />
           </Form.Item>
           <Form.Item
+            style={{ fontWeight: "bold" }}
             label="Instruction"
             name="stepInstruction"
             rules={[{ required: true, message: "Please input title!" }]}
           >
-            <Input.TextArea />
+            <Input.TextArea style={{ height: "200px" }} />
           </Form.Item>
         </Form>
       </Modal>

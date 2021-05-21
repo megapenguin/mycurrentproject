@@ -144,8 +144,10 @@ function Register({ history }) {
                     color: "white",
                     fontWeight: "bold",
                     borderRadius: "25px",
+                    height: "50px",
                   }}
                   htmlType="submit"
+                  block
                 >
                   REGISTER
                 </Button>

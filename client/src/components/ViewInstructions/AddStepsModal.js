@@ -98,6 +98,9 @@ function AddStepsModal(props) {
           color: "white",
           fontWeight: "bold",
           borderRadius: "25px",
+          border: ".5px solid whitesmoke",
+          boxShadow: "1px 5px whitesmoke",
+          height: "40px",
         }}
         className="modal-button-add"
         onClick={showModal}
@@ -111,7 +114,7 @@ function AddStepsModal(props) {
       </Button>
 
       <Modal
-        title="Write Step"
+        title="Add Step"
         visible={isModalVisible}
         confirmLoading={confirmLoading}
         onOk={onFinish}
@@ -155,11 +158,14 @@ function AddStepsModal(props) {
         >
           <Form.Item
             style={{ fontWeight: "bold" }}
-            label="Instruction"
+            label={`Step ${props.stepInfo.length + 1}`}
             name="stepInstruction"
             rules={[{ required: true, message: "Please input title!" }]}
           >
-            <Input.TextArea placeholder="Write instruction here..." />
+            <Input.TextArea
+              style={{ height: "200px" }}
+              placeholder="Write here..."
+            />
           </Form.Item>
         </Form>
       </Modal>

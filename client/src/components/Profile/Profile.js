@@ -21,6 +21,9 @@ import {
   CloseOutlined,
   SaveOutlined,
   FormOutlined,
+  CheckOutlined,
+  FileImageOutlined,
+  IdcardOutlined,
 } from "@ant-design/icons";
 
 import axios from "axios";
@@ -147,7 +150,6 @@ function Profile({ history }) {
 
         Modal.success({
           content: "Succesfully selected profile picture",
-          okButtonProps: {},
         });
       })
       .catch((error) => console.log(error));
@@ -180,7 +182,7 @@ function Profile({ history }) {
             .catch((error) => console.log(error));
         } else {
         }
-        Modal.success({
+        Modal.warning({
           content: "Image has been removed",
           okButtonProps: {},
         });
@@ -198,6 +200,9 @@ function Profile({ history }) {
               color: "white",
               fontWeight: "bold",
               borderRadius: "25px",
+              border: ".5px solid whitesmoke",
+              boxShadow: "1px 5px whitesmoke",
+              height: "40px",
             }}
           >
             <span className="desktop-view">
@@ -211,7 +216,8 @@ function Profile({ history }) {
       </Row>
       <Divider>
         <Title style={{ color: "dimgrey" }} level={1}>
-          Account Information
+          <IdcardOutlined />{" "}
+          <span className="desktop-view">Account Information</span>
         </Title>
       </Divider>
 
@@ -254,12 +260,15 @@ function Profile({ history }) {
               color: "white",
               fontWeight: "bold",
               borderRadius: "25px",
+              border: ".5px solid whitesmoke",
+              boxShadow: "1px 5px whitesmoke",
+              height: "40px",
             }}
             htmlType="submit"
             onClick={() => onFinish}
           >
             <span className="desktop-view">
-              <SaveOutlined /> Save
+              <SaveOutlined /> Save Changes
             </span>
             <span className="mobile-view">
               <SaveOutlined />
@@ -267,54 +276,72 @@ function Profile({ history }) {
           </Button>
         </Row>
       </Form>
-      <Divider>
+      <Divider style={{ marginTop: 50 }}>
         <Title style={{ color: "dimgrey" }} level={1}>
-          Photos
+          <FileImageOutlined />
+          <span className="desktop-view">Photo</span>
         </Title>
       </Divider>
-      <Row style={{ paddingTop: 25, paddingBottom: 25 }}>
-        <Col span={6}>
-          <Upload
-            {...uploadFile}
-            onRemove={removeImage}
-            listType="picture-card"
-            showUploadList={{ showPreviewIcon: false }}
-            maxCount={1}
-          >
-            <Space>
-              <UploadOutlined />
-              Upload Photo
-            </Space>
-          </Upload>
-        </Col>
-        <Col flex="auto">
-          <Radio.Group name="radiogroup">
-            <Row gutter={[16, 24]}>
-              {picture == null
-                ? "No Pictures"
-                : picture.map((pic, index) => (
-                    <Col key={index} span={6}>
-                      <Image
-                        key={index}
-                        src={`api/v1/images/${[pic.smImagePath]}`}
-                      />
-                      <Radio
-                        value={index}
-                        onClick={() => selectImage(pic.imagePath)}
-                      >
-                        Select
-                      </Radio>
-                      <Button
-                        style={{ borderRadius: "25px" }}
-                        icon={<CloseOutlined />}
-                        danger
-                        onClick={() => deleteImage(pic.id, pic.imagePath)}
-                      ></Button>
-                    </Col>
-                  ))}
-            </Row>
-          </Radio.Group>
-        </Col>
+      <Row style={{ marginBottom: 25 }}>
+        <Upload
+          {...uploadFile}
+          onRemove={removeImage}
+          listType="picture-card"
+          showUploadList={{ showPreviewIcon: false }}
+          maxCount={1}
+        >
+          <Title style={{ fontWeight: "bold" }} level={5}>
+            <UploadOutlined spin={true} /> Upload
+          </Title>
+        </Upload>
+      </Row>
+      <Row gutter={[16, 24]}>
+        {picture == null
+          ? "No Pictures"
+          : picture.map((pic, index) => (
+              <Col key={index} span={6}>
+                <Card
+                  style={{
+                    border: ".5px solid whitesmoke",
+                    boxShadow: "5px 10px whitesmoke",
+                  }}
+                >
+                  <Image key={index} src={`api/v1/images/${[pic.imagePath]}`} />
+                  <Button
+                    style={{
+                      background: "dimgray",
+                      color: "white",
+                      fontWeight: "bold",
+                      borderRadius: "25px",
+                    }}
+                    value={index}
+                    onClick={() => selectImage(pic.imagePath)}
+                  >
+                    <span className="desktop-view">
+                      <CheckOutlined /> Select
+                    </span>
+                    <span className="mobile-view">
+                      <CheckOutlined />
+                    </span>
+                  </Button>
+                  <Button
+                    type="danger"
+                    style={{
+                      fontWeight: "bold",
+                      borderRadius: "25px",
+                    }}
+                    onClick={() => deleteImage(pic.id, pic.imagePath)}
+                  >
+                    <span className="desktop-view">
+                      <CloseOutlined /> Delete
+                    </span>
+                    <span className="mobile-view">
+                      <CloseOutlined />
+                    </span>
+                  </Button>
+                </Card>
+              </Col>
+            ))}
       </Row>
     </div>
   );
