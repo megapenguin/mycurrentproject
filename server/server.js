@@ -6,6 +6,9 @@ const fileUpload = require("express-fileupload");
 const db = require("./database/database");
 
 require("dotenv").config();
+console.log("a");
+console.log("b");
+console.log("c");
 
 const PORT = process.env.PORT || 3001;
 
