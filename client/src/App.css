@@ -1,0 +1,136 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
+html,
+body,
+#root,
+.App {
+  text-align: center;
+  height: 100%;
+  width: 100%;
+  font-family: "Roboto";
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #fdfdff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #f7fbfc;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+#components-layout-demo-responsive .logo {
+  height: 32px;
+  background: rgb(255, 255, 255);
+  margin: 16px;
+}
+
+.site-layout-sub-header-background {
+  background: #fff;
+}
+
+.site-layout-background {
+  background: #fff;
+}
+
+div.loginCardStyle {
+  box-shadow: rgba(0, 0, 0, 0.1) 0 0 6px;
+  text-align: center;
+  width: 360px;
+}
+div.registerCardStyle {
+  box-shadow: rgba(0, 0, 0, 0.1) 0 0 6px;
+  width: 360px;
+  height: 620px;
+}
+
+div.icons-list {
+  text-align: center;
+  font-size: 40px;
+}
+
+Button.form-button {
+  background-color: #55c596;
+  border-color: #55c596;
+  width: 300px;
+}
+
+div Button.modal-button-edit {
+  background-color: #0275d8;
+  border-color: #0275d8;
+}
+
+div Button.modal-button-upload {
+  background-color: #5bc0de;
+  border-color: #5bc0de;
+}
+
+/* div Button.modal-button {
+} */
+
+div Button.modal-button-view {
+  background-color: #1b2aff;
+  border-color: #fdfdfd;
+}
+
+/* div Button.modal-button-add {
+  border-radius: 20px;
+  background-color: #55c596;
+  border-color: #55c596;
+} */
+
+Button span.mobile-view {
+  display: none;
+}
+
+@media screen and (max-width: 768px) {
+  Button span.desktop-view {
+    display: none;
+  }
+  Button span.mobile-view {
+    display: inline-block;
+  }
+  span.desktop-view {
+    display: none;
+  }
+  span.mobile-view {
+    display: inline-block;
+  }
+}
+
+.sidebar {
+  height: 100vh;
+}
+
+.site-button-ghost-wrapper {
+  background: rgb(190, 200, 200);
+}
+
+input {
+  border: 0;
+  border-bottom: 2px solid black;
+}
